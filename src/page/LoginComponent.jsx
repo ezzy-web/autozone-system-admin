@@ -1,43 +1,103 @@
-import React, { useEffect } from "react";
-import netlifyIdentity from "netlify-identity-widget";
+import React from "react";
+import { FormComponents as formElements } from "../components/forms/FormComponents.jsx";
+import httpClient from "../httpClient.js";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-export default function LoginComponent(state) {
-  useEffect(() => {
-    netlifyIdentity.init({});
+const Element = formElements();
+
+export default function LoginComponent(props) {
+  const schema = yup.object().shape({
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup
+      .string()
+      .min(8, "Atleast 8 Characters are required")
+      .required("Password is required"),
   });
+
+  const {
+    formState: { errors },
+    handleSubmit,
+    control
+  } = useForm({
+    reValidateMode: "onChange",
+    resolver: yupResolver(schema),
+  });
+
+  const submit = (data) => {
+    httpClient()
+      .post("/api/loginUser", data)
+      .then( res => {
+        const body = res.data
+        if (body.status) {
+          const user = body.content
+          props.setAdmin(user)
+          return;
+        }
+
+        const err = body.content
+        console.log(err)
+        // if (data.includes("user-not-found")) {
+
+        // }
+      })
+      .catch((err) => {
+        console.log(err)
+        
+      });
+  };
 
   return (
     <div id="authentication-component-container">
       <div className="container">
         <div className="card">
           <div className="card-body">
-            <div className="header-container">
-              <div className="image-container">
-                <img src="/" alt="" />
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit( data => submit(data))}>
+              <div className="my-5">
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Element.input
+                      id="email-input"
+                      label="Email"
+                      error={errors.email ? true : false}
+                      message={errors?.email?.message}
+                      name={"email"}
+                      type={"email"}
+                      value={value}
+                      onChange={onChange}
+                      required={true}
+                    />
+                  )}
+                />
               </div>
-              <h4>System Control</h4>
-            </div>
-            <div className="separator my-10"></div>
-            <div className="content-container">
-              <div className="btn-container">
-                <button
-                  className="btn btn-danger"
-                  onClick={() => {
-                    netlifyIdentity.open("login");
-                  }}
-                >
-                  Login
-                </button>
-                <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      netlifyIdentity.open("signup");
-                    }}
-                  >
-                    Sign Up
-                  </button>
+
+              <div className="my-5">
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Element.input
+                      id="password-input"
+                      label="Password"
+                      error={errors.password ? true : false}
+                      message={errors?.password?.message}
+                      name={"password"}
+                      type={"password"}
+                      value={value}
+                      onChange={onChange}
+                      required={true}
+                    />
+                  )}
+                />
               </div>
-            </div>
+
+              <Element.button content="Login" type="submit" />
+            </form>
+            <Element.button content="Back to home" type="button" link="#" variant="text" />
           </div>
         </div>
       </div>

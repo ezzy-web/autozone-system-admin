@@ -1,7 +1,6 @@
 
 
 type Activity {
-  id: ID!
   title: String!
   description: String
   timeStamp: Long!
@@ -9,16 +8,15 @@ type Activity {
 }
 
 type User {
-  id: ID!
   firstName: String!
   lastName: String!
   fullName: String!
   position: String!
   access_level: String!
   email: String!
-  recent_activities: [Activity]! 
   uid: String!
   added_by: User
+  recent_activities: [Activity]
 }
 
 type File {

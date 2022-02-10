@@ -4,120 +4,120 @@ import {
     Route,
     Routes
 } from "react-router-dom";
-
-
-
-// import axios from "axios";
-import netlifyIdentity from "netlify-identity-widget";
-
 import './styles/app.scss'
+import httpClient from './httpClient.js'
 
 
 const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))
+const Layout = React.lazy(() => import("./layout/Layout.jsx"))
 
-const INVENTORY_MANAGEMENT_PATH = "/management/inventory";
-const REQUEST_MANAGEMENT_PATH = "/management/requests";
-const USER_MANAGEMENT_PATH = "/management/users";
-const PROFILE_PATH = "/profile";
-const ADMIN_DASHBOARD_PATH = "/dashboard";
-const VEHICLE_PAGE_PATH = "/management/inventory/vehicle";
-const GENERATE_INVOICE_PATH = "/management/generate/invoice";
-const INVOICES_TABLE_PATH = "/management/invoices";
-const VIEW_INVOICE_PAGE = "/management/invoices/view";
+const UserPage = React.lazy(() => import("./page/Users"))
 
-function AdministrativePages() {
+const INVENTORY_MANAGEMENT_PATH = "/admin/management/inventory";
+const REQUEST_MANAGEMENT_PATH = "/admin/management/requests";
+const USER_MANAGEMENT_PATH = "/admin/management/users";
+const PROFILE_PATH = "/admin/profile";
+const ADMIN_DASHBOARD_PATH = "/admin/dashboard";
+const VEHICLE_PAGE_PATH = "/admin/management/inventory/vehicle";
+const GENERATE_INVOICE_PATH = "/admin/management/generate/invoice";
+const INVOICES_TABLE_PATH = "/admin/management/invoices";
+const VIEW_INVOICE_PAGE = "/admin/management/invoices/view";
+
+
+
+function AdministrativePages(props) {
     return (
         <>
-            <Router>
-                <Routes>
-                    <Route exact path={VEHICLE_PAGE_PATH} element={<>Vehicle Page</>} />
-                    <Route
-                        exact
+            <Suspense fallback={<></>} >
+                <Layout state={props.state} render={() => {
+                    return (
+                    <Routes>
+                        <Route path={VEHICLE_PAGE_PATH} element={<>Vehicle Page</>} />
+                        <Route
                         path={INVENTORY_MANAGEMENT_PATH}
-                        element={<>Inventory Page</>}
-                    />
-                    <Route
-                        exact
-                        path={REQUEST_MANAGEMENT_PATH}
-                        element={<>Request Page</>}
-                    />
-                    <Route exact path={USER_MANAGEMENT_PATH} element={<>User Page</>} />
-                    <Route exact path={PROFILE_PATH} element={<>Profile Page</>} />
-                    <Route
-                        exact
-                        path={ADMIN_DASHBOARD_PATH}
-                        element={<>Dashboard Page</>}
-                    />
-                    <Route exact path={GENERATE_INVOICE_PATH} element={<>Gen Page</>} />
-                    <Route
-                        exact
-                        path={INVOICES_TABLE_PATH}
-                        element={<>Invoice Page</>}
-                    />
-                    <Route
-                        exact
-                        path={VIEW_INVOICE_PAGE}
-                        element={<>Invoice Edit Page</>}
-                    />
-                </Routes>
-            </Router>
+                            element={<>Inventory Page</>}
+                        />
+                        <Route
+                            path={REQUEST_MANAGEMENT_PATH}
+                            element={<>Request Page</>}
+                        />
+                        { props.state.access.includes('admin') ? (
+                            <Route path={USER_MANAGEMENT_PATH} element={<UserPage state={props.state} />} />
+                        ) : (
+                            <Route path={USER_MANAGEMENT_PATH} element={<>Not Allowed Administrator Only</>} />
+                        ) }
+                        
+                        <Route path={PROFILE_PATH} element={<>Profile Page</>} />
+                        <Route
+                            path={ADMIN_DASHBOARD_PATH}
+                            element={<>Dashboard Page</>}
+                        />
+                        <Route
+                            path="/"
+                            element={<>Dashboard Page</>}
+                        />
+                        <Route exact path={GENERATE_INVOICE_PATH} element={<>Gen Page</>} />
+                        <Route
+                            path={INVOICES_TABLE_PATH}
+                            element={<>Invoice Page</>}
+                        />
+                        <Route
+                            path={VIEW_INVOICE_PAGE}
+                            element={<>Invoice Edit Page</>}
+                        />
+                    </Routes>)}
+                } />
+            </Suspense>
         </>
     )
 }
 
 export default function App() {
     const [admin, setAdmin] = useState(null);
+    const [loaded, setLoad] = useState(false);
 
-    const verifyUser = () => {
-        const user = netlifyIdentity.currentUser()
-        console.log(user)
-        setAdmin(user)
+
+    const authState = () => {
+        httpClient().get("/api/authState")
+            .then(res => {
+                const body = res.data
+                if (body.status) {
+                    const user = body.content
+                    console.log(user)
+                    if (user !== "NO_USER") {
+                        setAdmin(user)
+                    }
+                }
+
+                setLoad(true)
+            })
+            .catch(err => { setLoad(true) })
     }
 
     useEffect(() => {
-        verifyUser()
+        authState()
     }, [])
 
-    if (admin === null) {
+    if (loaded) {
         return (
             <Router>
                 <Routes>
-                <Route
-                    exact
-                    path="/"
-                    element={
-                        <Suspense fallback={<></>}>
-                            <LoginComponent setAdmin={verifyUser} />
-                        </Suspense>
-                    }
-                />
-                </Routes>
-            </Router>
-        );
-    }
-
-    if (window.location.pathname === '/') {
-        return (
-            <Router>
-                <Routes>
-                <Route
-                    render={(props) => {
-                        return <AdministrativePages {...props} state={this} />;
-                    }}
-                />
+                    {admin === null ? (
+                        <Route path="/"
+                            element={
+                                <Suspense fallback={<></>}>
+                                    <LoginComponent setAdmin={setAdmin} />
+                                </Suspense>
+                            }
+                        />
+                    ) : (
+                        <Route path="/*" element={<AdministrativePages state={admin} />} />
+                    )}
                 </Routes>
             </Router>
         )
     }
-    return (
-        <Router>
-            <Routes>
-            <Route
-                render={(props) => {
-                    return <AdministrativePages {...props} state={this} />;
-                }}
-            />
-            </Routes>
-        </Router>
-    )
+
+    return <></>
+
 }

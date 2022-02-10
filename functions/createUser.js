@@ -1,36 +1,49 @@
-const { CREATE_USER } = require('./utils/querries')
-const sendQuery = require('./utils/sendQuery')
+
 const response = require('./utils/formattedResponse')
+const { register } = require("./utils/firebaseAuth")
+const { getUserManager } = require("./utils/firestore")
 
 
-function getVariables(data) {
-    const fullName = data.firstName + " " + data.lastName
-    const currentUserID = false
-    const uid = "USERID"
-    return {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName, 
-        fullName: fullName,
-        access_level: data.access_level,
-        uid: uid,
-        position: data.position,
-        recent_activities: [],
-        added_by: false ? { connect: currentUserID } : { disconnect: false }
-    }
+const db = getUserManager()
+
+function get_temp_password() {
+    return "JA-0000-0000"
 }
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
+    const { firstName, lastName, position, access, email } = JSON.parse(event.body)
+
+
     try {
-        const data = JSON.parse(event.body)
-        const variables = getVariables(data)
+        const user = await register(firstName, lastName, email, get_temp_password())
 
-        const res = await sendQuery(CREATE_USER, variables)
-        const { createUser: createdUser } = JSON.parse(res)
+        try {
 
-        return response(200, createdUser)
+
+            const data = {
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                fullName: user.displayName,
+                uid: user.uid,
+                emailVerified: user.emailVerified,
+                position: position,
+                access: access,
+                activities: []
+            }
+
+            console.log(data)
+
+            await db.createUser(data)
+            return response(200, user.uid)
+
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+
     } catch (error) {
         console.log(error)
-        return response(500, 'Something went wrong')
+        return response(500, error.code)
     }
 }

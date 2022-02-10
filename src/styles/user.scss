@@ -1,0 +1,9 @@
+#new-user-card {
+    padding: 20px 30px;
+    margin: 40px 0;
+    .content {
+        display: grid;
+        justify-content: left;
+        align-items: center;
+    }
+}

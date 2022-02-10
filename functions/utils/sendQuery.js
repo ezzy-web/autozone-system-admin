@@ -11,12 +11,13 @@ module.exports = async (query, variables) => {
             Authorization: `Bearer ${process.env.FAUNA_SECRET_KEY}`
         },
         data: {
-            query: query,
-            variables: variables
+            query,
+            variables
         }
     })
 
     if (errors) {
+        console.log(errors)
         throw new Error(errors[0].message)
     }
     return {
