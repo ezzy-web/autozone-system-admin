@@ -74,7 +74,7 @@ export default function UserPage(props) {
   const getUsers = () => {
     setLoad(false);
     httpClient()
-      .get("/api/getAllUsers")
+      .get("/getAllUsers")
       .then((res) => {
         const body = res.data;
         if (body.status) {

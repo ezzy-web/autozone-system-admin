@@ -35,6 +35,16 @@ const register = async (firstName, lastName, email, password) => {
 
 }
 
+const deleteUser = async (id) => {
+  try {
+
+    await admin.auth().deleteUser(id)
+    return true
+  } catch (error) {
+    throw error
+  }
+}
+
 const login = async (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
 }
@@ -47,7 +57,8 @@ module.exports = {
   register,
   login,
   logout,
-  auth
+  auth,
+   deleteUser
 }
 
 

@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const config = require("./javvy-s-autozone-7c590-firebase-adminsdk-s6wt8-41becb683e.json")
+const config = require("./../../firebaseConfig.json")
 
 module.exports = {
     app,

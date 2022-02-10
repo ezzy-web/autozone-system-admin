@@ -38,7 +38,7 @@ export default function LoginComponent(props) {
     setLoad(true);
     setError("");
     httpClient()
-      .post("/api/loginUser", data)
+      .post("/loginUser", data)
       .then((res) => {
         const body = res.data;
         if (body.status) {
@@ -53,12 +53,12 @@ export default function LoginComponent(props) {
         } else if (data.includes("password")) {
           setError("Check your password");
         } else {
-          setError("Check your connection or your credentials might be incorrect");
+          setError("Check your credentials or your connection");
         }
         setLoad(false);
       })
       .catch((err) => {
-        console.log(err);
+        setError("Check your connection");
         setLoad(false);
       });
   };

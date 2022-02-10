@@ -78,7 +78,7 @@ export default function App() {
 
 
     const authState = () => {
-        httpClient().get("/api/authState")
+        httpClient().get("/authState")
             .then(res => {
                 const body = res.data
                 if (body.status) {
@@ -103,7 +103,7 @@ export default function App() {
             <Router>
                 <Routes>
                     {admin === null ? (
-                        <Route path="/"
+                        <Route path="/*"
                             element={
                                 <Suspense fallback={<></>}>
                                     <LoginComponent setAdmin={setAdmin} />

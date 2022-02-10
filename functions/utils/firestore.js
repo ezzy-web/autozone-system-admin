@@ -8,7 +8,8 @@ const {
     serverTimestamp,
     updateDoc,
     getDoc,
-    getDocs
+    getDocs,
+    deleteDoc
 } = require("firebase/firestore")
 
 
@@ -28,7 +29,7 @@ class UserManager {
 
         await setDoc(userDoc, data).catch(err => {
             console.log(err)
-            throw new Error("Something went wrong")
+            throw err
         })
     }
 
@@ -38,7 +39,7 @@ class UserManager {
 
         await updateDoc(userDoc, data).catch(err => {
             console.log(err)
-            throw new Error("Something went wrong")
+            throw err
         })
     }
 
@@ -47,7 +48,7 @@ class UserManager {
 
         const snap = await getDoc(userDoc).catch(err => {
             console.log(err)
-            throw new Error("Something went wrong")
+            throw err
         })
 
         if (snap.exists()) {
@@ -60,9 +61,19 @@ class UserManager {
     async getAllUsers() {
         const docs = await getDocs(this.collection).catch(err => {
             console.log(err)
-            throw new Error("Something went wrong")
+            throw err
         })
         return docs.docs
+    }
+
+    async deleteUser(uid) {
+        const userDoc = doc(db, "Users", uid)
+        await deleteDoc(userDoc).catch( err => {
+            console.log(err)
+            throw err
+        })
+
+        return true
     }
 }
 

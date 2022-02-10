@@ -2,7 +2,7 @@ import axios from "axios"
 
 const httpClient = () => {
   return axios.create({
-      baseURL: window.location.origin
+      baseURL: window.location.origin + "/.netlify/functions"
   })
 }
 

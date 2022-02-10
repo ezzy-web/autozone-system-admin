@@ -32,7 +32,7 @@ export default function NewUserForm(props) {
 
   const registerUser = (data) => {
     httpClient()
-      .post("/api/createUser", data)
+      .post("/createUser", data)
       .then((res) => {
         const body = res.data
         if (body.status) {
