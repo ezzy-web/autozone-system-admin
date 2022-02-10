@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
             console.log(data)
 
             await db.createUser(data)
-            return response(200, user.uid)
+            return response(200, "OK")
 
         } catch (error) {
             console.log(error)
@@ -43,7 +43,6 @@ exports.handler = async (event, context) => {
         }
 
     } catch (error) {
-        console.log(error)
-        return response(500, error.code)
+        return response(200, error.code, false)
     }
 }

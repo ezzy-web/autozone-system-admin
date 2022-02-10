@@ -1,10 +1,7 @@
 
 const { initializeApp } = require("firebase/app")
+
 require('dotenv').config();
-
-
-console.log(process.env.FIREBASE_API)
-
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API,
     authDomain: "javvy-s-autozone-7c590.firebaseapp.com",
@@ -16,7 +13,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const config = require("./javvy-s-autozone-7c590-firebase-adminsdk-s6wt8-41becb683e.json")
 
 module.exports = {
-    app
+    app,
+    config
 }

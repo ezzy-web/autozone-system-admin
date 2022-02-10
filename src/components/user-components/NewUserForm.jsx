@@ -1,18 +1,18 @@
 import React from "react";
 
 import { Modal } from "react-bootstrap";
-import { Typography, Button, Divider } from "@material-ui/core";
+import { Typography, Button, Divider, TextField, MenuItem } from "@material-ui/core";
 
-import { FormComponents } from "../forms/FormComponents";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import httpClient from ".././../httpClient";
 
-const Element = FormComponents();
 
 export default function NewUserForm(props) {
+  const toggleModal = props.toggleModal
+
   const schema = yup.object().shape({
     firstName: yup.string().required("This field is required"),
     lastName: yup.string().required("This field is required"),
@@ -34,14 +34,16 @@ export default function NewUserForm(props) {
     httpClient()
       .post("/api/createUser", data)
       .then((res) => {
-        console.log(res);
+        const body = res.data
+        if (body.status) {
+          toggleModal(false)
+        } else {
+          // ERROR IMPLEMENTATION
+          console.log(body.content)
+        }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
-
-  console.log(errors);
   return (
     <>
       <Modal.Dialog>
@@ -68,15 +70,13 @@ export default function NewUserForm(props) {
                     name="firstName"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Element.input
-                        id="f-name-input"
-                        label="Frist Name"
+                      <TextField
+                        label="First Name"
+                        className="w-100"
                         error={errors.firstName ? true : false}
-                        message={errors?.firstName?.message}
-                        name={"firstName"}
+                        helperText={errors?.firstName?.message}
                         value={value}
                         onChange={onChange}
-                        required={true}
                       />
                     )}
                   />
@@ -87,15 +87,13 @@ export default function NewUserForm(props) {
                     name="lastName"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Element.input
-                        id="l-name-input"
+                      <TextField
                         label="Last Name"
+                        className="w-100"
                         error={errors.lastName ? true : false}
-                        message={errors?.lastName?.message}
-                        name={"lastName"}
+                        helperText={errors?.lastName?.message}
                         value={value}
                         onChange={onChange}
-                        required={true}
                       />
                     )}
                   />
@@ -108,16 +106,14 @@ export default function NewUserForm(props) {
                     name="email"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Element.input
-                        id="email-input"
+                      <TextField
                         label="Email"
+                        className="w-100"
                         error={errors.email ? true : false}
-                        message={errors?.email?.message}
-                        name={"email"}
+                        helperText={errors?.email?.message}
                         type={"email"}
                         value={value}
                         onChange={onChange}
-                        required={true}
                       />
                     )}
                   />
@@ -130,15 +126,13 @@ export default function NewUserForm(props) {
                     name="position"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Element.input
-                        id="position-input"
+                      <TextField
                         label="Position"
+                        className="w-100"
                         error={errors.position ? true : false}
-                        message={errors?.position?.message}
-                        name={"position"}
+                        helperText={errors?.position?.message}
                         value={value}
                         onChange={onChange}
-                        required={true}
                       />
                     )}
                   />
@@ -149,27 +143,29 @@ export default function NewUserForm(props) {
                     name="access"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Element.select
-                        id="access-input"
+                      <TextField
+                      select
                         label="User Access"
+                        className="w-100"
                         placeholder={"User Access Level"}
                         error={errors.access ? true : false}
-                        message={errors?.access?.message}
-                        name={"access"}
-                        options={[
-                          { value: "admin", label: "Administrator" },
-                          { value: "normal", label: "Normal" },
-                        ]}
+                        helperText={errors?.access?.message ? errors?.access?.message  : "This defines the member's level in the system"}
                         value={value}
                         defaultValue="normal"
                         onChange={onChange}
-                        helper="This defines the member's level in the system"
-                      />
+                      >
+                        {[{ value: "admin", label: "Administrator" }, { value: "normal", label: "Normal" } ].map( option => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+
+                      </TextField>
                     )}
                   />
                 </div>
                 <div className="my-5 d-block">
-                  <Element.button content={"Register User"} type="submit" />
+                  <Button variant="text" type="submit" className="w-100">Register User</Button>
                 </div>
               </div>
             </div>

@@ -1,4 +1,12 @@
-const { app } = require('./firebaseConfig')
+const { app, config }= require('./firebaseConfig')
+const admin = require("firebase-admin")
+
+
+admin.initializeApp({
+  credential: admin.credential.cert(config)
+})
+
+
 const {
   getAuth,
   createUserWithEmailAndPassword,
@@ -11,17 +19,20 @@ const auth = getAuth(app)
 
 
 const register = async (firstName, lastName, email, password) => {
-  try {
-    const credentials = await createUserWithEmailAndPassword(auth, email, password)
-    const user = credentials.user
-    await updateProfile(user, {
-      displayName: firstName + " " + lastName
-    })
 
-    return user
-  } catch (error) {
-    throw error
+  try {
+    const userRecord = await admin.auth().createUser({
+      email: email,
+      password: password,
+      displayName: firstName + " " + lastName,
+    })
+    console.log(userRecord)
+    return userRecord
+  } catch (err) {
+    console.log(err)
+    throw err
   }
+
 }
 
 const login = async (email, password) => {

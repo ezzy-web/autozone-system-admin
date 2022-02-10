@@ -8,8 +8,7 @@ import {
   AppBar,
   Button,
   Tooltip,
-  Avatar,
-  Typography,
+  Avatar
 } from "@material-ui/core";
 
 const drawerWidth = 40;

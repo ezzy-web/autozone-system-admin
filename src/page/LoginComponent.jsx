@@ -1,13 +1,22 @@
 import React from "react";
-import { FormComponents as formElements } from "../components/forms/FormComponents.jsx";
+import {
+  Button,
+  TextField,
+  Paper,
+  Avatar,
+  Backdrop,
+  CircularProgress,
+  Typography,
+} from "@material-ui/core";
 import httpClient from "../httpClient.js";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const Element = formElements();
-
 export default function LoginComponent(props) {
+  const [loaded, setLoad] = React.useState(false);
+  const [errorMsg, setError] = React.useState("");
+
   const schema = yup.object().shape({
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup
@@ -19,88 +28,110 @@ export default function LoginComponent(props) {
   const {
     formState: { errors },
     handleSubmit,
-    control
+    control,
   } = useForm({
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
 
   const submit = (data) => {
+    setLoad(true);
+    setError("");
     httpClient()
       .post("/api/loginUser", data)
-      .then( res => {
-        const body = res.data
+      .then((res) => {
+        const body = res.data;
         if (body.status) {
-          const user = body.content
-          props.setAdmin(user)
+          const user = body.content;
+          props.setAdmin(user);
           return;
         }
 
-        const err = body.content
-        console.log(err)
-        // if (data.includes("user-not-found")) {
-
-        // }
+        const data = body.content;
+        if (data.includes("user-not-found")) {
+          setError("User doesn't exist");
+        } else if (data.includes("password")) {
+          setError("Check your password");
+        } else {
+          setError("Check your connection or your credentials might be incorrect");
+        }
+        setLoad(false);
       })
       .catch((err) => {
-        console.log(err)
-        
+        console.log(err);
+        setLoad(false);
       });
   };
 
   return (
     <div id="authentication-component-container">
-      <div className="container">
-        <div className="card">
-          <div className="card-body">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit( data => submit(data))}>
-              <div className="my-5">
+      <div className="row container">
+        <div className="col-md-6 col-sm-12">
+          <Paper className="login-container">
+            <div className="d-flex w-100">
+              <Avatar className="mx-3" />
+              <h2>Login</h2>
+            </div>
+
+            <form onSubmit={handleSubmit((data) => submit(data))}>
+              <div className="my-4">
                 <Controller
                   name="email"
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Element.input
-                      id="email-input"
+                    <TextField
                       label="Email"
+                      className="w-100"
                       error={errors.email ? true : false}
-                      message={errors?.email?.message}
+                      helperText={errors?.email?.message}
                       name={"email"}
                       type={"email"}
                       value={value}
+                      defaultValue=""
                       onChange={onChange}
-                      required={true}
                     />
                   )}
                 />
               </div>
 
-              <div className="my-5">
+              <div className="my-4">
                 <Controller
                   name="password"
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Element.input
-                      id="password-input"
+                    <TextField
                       label="Password"
+                      className="w-100"
                       error={errors.password ? true : false}
-                      message={errors?.password?.message}
+                      helperText={errors?.password?.message}
                       name={"password"}
                       type={"password"}
+                      defaultValue=""
                       value={value}
                       onChange={onChange}
-                      required={true}
                     />
                   )}
                 />
               </div>
 
-              <Element.button content="Login" type="submit" />
+              <Button disabled={loaded} className="w-100" type="submit">
+                Login
+              </Button>
+
+              <Typography color="error" variant="caption">
+                {errorMsg}
+              </Typography>
             </form>
-            <Element.button content="Back to home" type="button" link="#" variant="text" />
-          </div>
+            <Button className="w-100 my-4" size="small" variant="text">
+              Back to Website
+            </Button>
+          </Paper>
         </div>
       </div>
+
+      <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loaded}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 }

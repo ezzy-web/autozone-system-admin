@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import {
+  CircularProgress,
   Toolbar,
   Typography,
   Container,
   Card,
   Avatar,
   Button,
-  Box,
+  Badge
 } from "@material-ui/core";
 import httpClient from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
@@ -16,9 +17,9 @@ const NewUserForm = React.lazy(() =>
   import("../components/user-components/NewUserForm.jsx")
 );
 
-function Expanded(props) {
-  return <></>;
-}
+const Expanded = React.lazy(() =>
+  import("../components/user-components/UserExpand")
+);
 
 export default function UserPage(props) {
   const currentUser = props.state;
@@ -41,12 +42,9 @@ export default function UserPage(props) {
         if (row.uid === currentUser.uid) {
           return (
             <>
-              <b className="text-muted">
-                <span>
-                <b><i className="lni lni-arrow-right-circle mx-1"></i></b>  
-                </span>{" "}
-                {row.fullName}
-              </b>
+              <Badge color="secondary" variant="dot">
+                <b className="text-muted">{row.fullName}</b>
+              </Badge>
             </>
           );
         }
@@ -98,11 +96,16 @@ export default function UserPage(props) {
       <Container>
         <Toolbar>
           <Typography variant="h5" component={"h1"}>
-            User Management
+            User Management{" "}
+            <Button variant="text" className="ml-4" onClick={getUsers}>
+              <small>Refresh Users</small>
+              <span className="mx-1">
+                <i className="lni lni-reload"></i>
+              </span>
+            </Button>
           </Typography>
         </Toolbar>
         <div className="row">
-          
           <div className="col-md-8 col-sm-12">
             <Card>
               {loaded ? (
@@ -116,9 +119,7 @@ export default function UserPage(props) {
                 />
               ) : (
                 <div className="table-loading">
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only"></span>
-                  </div>
+                  <CircularProgress />
                 </div>
               )}
             </Card>
@@ -136,9 +137,13 @@ export default function UserPage(props) {
                   <Avatar sx={{ width: "16px", height: "16px" }} />{" "}
                   <span className="mx-3">Add New Member</span>{" "}
                 </Button>
-                <Modal className="modal-containe" show={modal} onHide={closeModal}>
+                <Modal
+                  className="modal-containe"
+                  show={modal}
+                  onHide={closeModal}
+                >
                   <>
-                      <NewUserForm />
+                    <NewUserForm toggleModal={toggleModal} />
                   </>
                 </Modal>
               </div>
