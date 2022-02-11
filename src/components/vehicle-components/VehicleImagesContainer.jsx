@@ -1,11 +1,18 @@
 import React from "react";
-import { Box, Typography, List, ListItem, Button } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  Button,
+  Tooltip,
+} from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import {
   GridContextProvider,
   GridDropZone,
   GridItem,
-  swap
+  swap,
 } from "react-grid-drag";
 
 function FileUpload(props) {
@@ -85,6 +92,42 @@ function FileUpload(props) {
   );
 }
 
+function ImageComponent(props) {
+  const image = props?.image;
+
+  if (image) {
+    return (
+      <div className="dropzone-img-component">
+        <div className="dropzone-image-container">
+          <div className="image-box">
+            <img src={image} alt="" />
+          </div>
+          <div className="overlay-container">
+          <Tooltip title="Fullscreen" >
+            <div className="control-btn">
+              <span>
+                <i className="lni lni-full-screen"></i>
+              </span>
+            </div>
+
+
+          </Tooltip>
+            <Tooltip title="Delete Image" >
+              <div className="control-btn">
+                <span>
+                  <i className="lni lni-trash-can"></i>
+                </span>
+              </div>
+            </Tooltip>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <></>;
+}
+
 export default function VehicleImagesContainer(props) {
   const updateVehicle = props?.updateVehicle;
   const [images, setImages] = React.useState(props?.images);
@@ -92,26 +135,28 @@ export default function VehicleImagesContainer(props) {
   const handleChange = (sourceId, sourceIndex, targetIndex, targetId) => {
     const nextState = swap(images, sourceIndex, targetIndex);
     setImages(nextState);
-    updateVehicle({images: images})
+    updateVehicle({ images: images });
   };
   return (
     <div className="my-3">
       <Box>
         {(images?.length > 0) | images ? (
-          <>
+          <div className="img-dropzone-main-container">
             <GridContextProvider onChange={handleChange}>
               <GridDropZone
                 id="images-grid-container"
                 boxesPerRow={4}
-                rowHeight={80}
+                rowHeight={130}
                 style={{ minHeight: "70vh" }}
               >
                 {images.map((image) => (
-                  <GridItem key={image}>{image}</GridItem>
+                  <GridItem key={image}>
+                    <ImageComponent image={image} />
+                  </GridItem>
                 ))}
               </GridDropZone>
             </GridContextProvider>
-          </>
+          </div>
         ) : (
           <div className="table-loading">
             <Typography className="text-muted" variant="button">

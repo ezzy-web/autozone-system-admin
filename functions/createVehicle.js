@@ -1,5 +1,34 @@
+const { getInventoryManager } = require('./utils/firestore')
+const { auth } = require('./utils/firebaseAuth')
 const response = require('./utils/formattedResponse')
 
-exports.handler = async (event) => {
-    return response(200, "NOT_IMPLEMENTED")
+
+const db = getInventoryManager()
+
+exports.handler = async (event, context) => {
+    const user = auth.currentUser
+
+    if (user) {
+        var data = JSON.parse(event.body)
+        const arrival = data?.arrival ? data.arrival === "" ? null : data.arrival.split("-") : null
+        if (arrival) {
+            data.arrival = new Date().setFullYear(arrival[0], arrival[1], arrival[2])
+        }
+
+        try {
+            const stockNo = await db.createVehicle(data, {
+                fullName: user.displayName,
+                email: user.email,
+                uid: user.uid
+            })
+            
+            return response(200, stockNo)
+        } catch (error) {
+            console.log(error)
+            return response(200, error?.code, false)
+        }
+    }
+
+    console.log("\n\n auth/required \n\n")
+    return response(200, "auth/required", false)
 }

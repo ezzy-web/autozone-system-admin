@@ -75,7 +75,7 @@ function AdministrativePages(props) {
 }
 
 export default function App() {
-    const [admin, setAdmin] = useState({});
+    const [admin, setAdmin] = useState(null);
     const [loaded, setLoad] = useState(false);
 
 
@@ -85,7 +85,6 @@ export default function App() {
                 const body = res.data
                 if (body.status) {
                     const user = body.content
-                    console.log(user)
                     if (user !== "NO_USER") {
                         setAdmin(user)
                     }
@@ -97,8 +96,7 @@ export default function App() {
     }
 
     useEffect(() => {
-        // authState()
-        setLoad(true)
+        authState()
     }, [])
 
     if (loaded) {

@@ -1,13 +1,21 @@
 import React from "react";
 
 import { Modal } from "react-bootstrap";
-import { Divider, Button, Typography, TextField, MenuItem } from "@material-ui/core";
+import {
+  Divider,
+  Button,
+  Typography,
+  TextField,
+  MenuItem,
+  Checkbox,
+  FormControlLabel
+} from "@material-ui/core";
 
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-
+import httpClient from "../../httpClient";
 
 const options = {
   year: [
@@ -35,7 +43,7 @@ const options = {
     { value: "Bus", label: "Bus" },
   ],
 
-  location:  [
+  location: [
     { value: "Transit", label: "In Transit" },
     { value: "On Lot", label: "On Lot" },
   ],
@@ -54,10 +62,8 @@ const options = {
   price_cond: [
     { value: "Negotiable", label: "Negotiable" },
     { value: "Non-Negotiable", label: "Non-Negotiable" },
-  ]
-}
-
-
+  ],
+};
 
 export default function NewVehicleForm(props) {
   const toggleModal = props.toggleModal;
@@ -91,6 +97,31 @@ export default function NewVehicleForm(props) {
     resolver: yupResolver(schema),
   });
 
+  const submit = (data) => {
+    httpClient()
+      .post("/createVehicle", data)
+      .then((res) => {
+        
+        const body = res.data
+        if (body.status) {
+          toggleModal(false)
+
+          return;
+        }
+
+        const content = body.content
+        if (content.includes("auth/required")) {
+          window.location.reload()
+        }
+
+        console.log(content);
+      })
+      .catch((err) => {
+        
+            console.log(err);
+      });
+  };
+
   return (
     <div>
       <div className="container">
@@ -105,7 +136,7 @@ export default function NewVehicleForm(props) {
         />
 
         <Modal.Body>
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form onSubmit={handleSubmit((data) => submit(data))}>
             <Typography variant={"h6"} component={"h1"}>
               {" "}
               Add New Vehicle{" "}
@@ -185,9 +216,14 @@ export default function NewVehicleForm(props) {
                         helperText={errors?.year?.message}
                         value={value}
                         onChange={onChange}
-                      >{options.year.map( option => (
-                        <MenuItem value={option.value} key={option.value}> {option.label} </MenuItem>
-                      ))}</TextField>
+                      >
+                        {options.year.map((option) => (
+                          <MenuItem value={option.value} key={option.value}>
+                            {" "}
+                            {option.label}{" "}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     )}
                   />
                 </div>
@@ -207,9 +243,14 @@ export default function NewVehicleForm(props) {
                         helperText={errors?.body?.message}
                         value={value}
                         onChange={onChange}
-                      >{options.body.map( option => (
-                        <MenuItem value={option.value} key={option.value}> {option.label} </MenuItem>
-                      ))}</TextField>
+                      >
+                        {options.body.map((option) => (
+                          <MenuItem value={option.value} key={option.value}>
+                            {" "}
+                            {option.label}{" "}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     )}
                   />
                 </div>
@@ -245,9 +286,14 @@ export default function NewVehicleForm(props) {
                         helperText={errors?.location?.message}
                         value={value}
                         onChange={onChange}
-                      >{options.location.map( option => (
-                        <MenuItem value={option.value} key={option.value}> {option.label} </MenuItem>
-                      ))}</TextField>
+                      >
+                        {options.location.map((option) => (
+                          <MenuItem value={option.value} key={option.value}>
+                            {" "}
+                            {option.label}{" "}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     )}
                   />
                 </div>
@@ -327,9 +373,14 @@ export default function NewVehicleForm(props) {
                       helperText={errors?.history?.message}
                       value={value}
                       onChange={onChange}
-                    >{options.history.map( option => (
-                      <MenuItem value={option.value} key={option.value}> {option.label} </MenuItem>
-                    ))}</TextField>
+                    >
+                      {options.history.map((option) => (
+                        <MenuItem value={option.value} key={option.value}>
+                          {" "}
+                          {option.label}{" "}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   )}
                 />
               </div>
@@ -384,9 +435,14 @@ export default function NewVehicleForm(props) {
                       helperText={errors?.trans?.message}
                       value={value}
                       onChange={onChange}
-                    >{options.trans.map( option => (
-                      <MenuItem value={option.value} key={option.value}> {option.label} </MenuItem>
-                    ))}</TextField>
+                    >
+                      {options.trans.map((option) => (
+                        <MenuItem value={option.value} key={option.value}>
+                          {" "}
+                          {option.label}{" "}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   )}
                 />
               </div>
@@ -418,37 +474,48 @@ export default function NewVehicleForm(props) {
               </div>
 
               <div className="row">
-                <div className="col-6 p-2"><Controller
-                  name="price_cond"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      select
-                      label="Price Condition"
-                      className="w-100"
-                      error={errors.price_cond ? true : false}
-                      helperText={errors?.price_cond?.message}
-                      value={value}
-                      onChange={onChange}
-                    >{options.price_cond.map( option => (
-                      <MenuItem value={option.value} key={option.value}> {option.label} </MenuItem>
-                    ))}</TextField>
-                  )}
-                /></div>
-                <div className="col-6 p-2"><Controller
-                  name="price_visible"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      label="Visible Price"
-                      type="radio"
-                      error={errors.price_visible ? true : false}
-                      helperText={errors?.price_visible?.message}
-                      value={value}
-                      onChange={onChange}
-                    />
-                  )}
-                /></div>
+                <div className="col-6 p-2">
+                  <Controller
+                    name="price_cond"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <TextField
+                        select
+                        label="Price Condition"
+                        className="w-100"
+                        error={errors.price_cond ? true : false}
+                        helperText={errors?.price_cond?.message}
+                        value={value}
+                        onChange={onChange}
+                      >
+                        {options.price_cond.map((option) => (
+                          <MenuItem value={option.value} key={option.value}>
+                            {" "}
+                            {option.label}{" "}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    )}
+                  />
+                </div>
+                <div className="col-6 p-2">
+                  <Controller
+                    name="price_visible"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={onChange}
+                            checked={value}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label="Price Visible"
+                      />
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="my-5 d-flex">

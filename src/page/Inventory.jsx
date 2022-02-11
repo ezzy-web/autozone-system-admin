@@ -24,9 +24,9 @@ export default function UserPage(props) {
   const [search, setSearch] = useState("");
 
   const handleSearch = (e) => {
-      setSearch(e.target.value)
+    setSearch(e.target.value);
     //   EXECUTE CODE TO FILTER INVENTORY
-  }
+  };
 
   const handleToggleModal = () => {
     toggleModal(!modal);
@@ -38,9 +38,71 @@ export default function UserPage(props) {
 
   const columns = [
     {
-      name: "Name",
-      selector: (row) => row.id,
+      name: (
+        <>
+          <Typography variant="button">Stock No.</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+          <Typography variant="button">
+            <small>{row?.id}</small>
+          </Typography>
+        </div>
+      ),
     },
+    {
+      name: (
+        <>
+          <Typography variant="button">Name</Typography>
+        </>
+      ),
+      selector: (row) => {
+        var url = new URL(
+          "/admin/management/inventory/vehicle",
+          window.location.origin
+        );
+        url.searchParams.append("stck", row.id);
+        return (
+          <div className="d-flex flex-column">
+            <Typography variant="button" component={"a"} href={url.href}>
+              <small>{row?.title}</small>
+            </Typography>
+          </div>
+        );
+      },
+    },
+    {
+      name: (
+        <>
+          <Typography variant="button">Status</Typography>
+        </>
+      ),
+      selector: (row) => {
+        var status = row.isAvailable ? "Available" : "Sold";
+        return (
+          <Typography variant="button" component={"small"}>
+            {status}
+          </Typography>
+        );
+      },
+    },
+
+    {
+      name: (
+        <>
+          <Typography variant="button">Last Updated</Typography>
+        </>
+      ),
+      selector: (row) => {
+        var date = new Date(row?.lastUpdate?.nanoseconds);
+        return (
+          <Typography variant="caption" component={"small"}>
+            {date.toLocaleString("en-US")}
+          </Typography>
+        );
+      },
+    }
   ];
 
   const getInventory = () => {
@@ -60,18 +122,18 @@ export default function UserPage(props) {
   };
 
   useEffect(() => {
-    // getInventory();
+    getInventory();
   }, []);
 
   return (
     <>
       <Container>
-        <Toolbar>
+        <Toolbar className="my-2">
           <Typography variant="h5" component={"h1"}>
             Inventory Management{" "}
           </Typography>
           <TextField
-            className="mx-4"
+            className="mx-4 w-75"
             value={search}
             onChange={handleSearch}
             size="small"
@@ -92,17 +154,17 @@ export default function UserPage(props) {
           </div>
 
           <div className="col-md-4 col-sm-12">
-          <Button
-            size="small"
-            variant="text"
-            className="ml-4"
-            onClick={getInventory}
-          >
-            <small>Refresh</small>
-            <span className="mx-1">
-              <i className="lni lni-reload"></i>
-            </span>
-          </Button>
+            <Button
+              size="small"
+              variant="text"
+              className="ml-4"
+              onClick={getInventory}
+            >
+              <small>Refresh</small>
+              <span className="mx-1">
+                <i className="lni lni-reload"></i>
+              </span>
+            </Button>
             <Card id="new-object-card">
               <div className="content">
                 <Typography variant="h5" component={"h4"}>

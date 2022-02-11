@@ -8,11 +8,16 @@ import {
   Button,
   TextField,
   MenuItem,
+  Chip,
+  Box,
+  Switch,
+  Divider,
 } from "@material-ui/core";
 
-import { Tabs, Tab } from "@mui/material";
+import { Tabs, Tab, Skeleton } from "@mui/material";
 
 import { TabPanel, TabContext } from "@mui/lab";
+import httpClient from "../httpClient";
 
 const ContentContainer = React.lazy(() =>
   import("../components/vehicle-components/VehicleContentContainer")
@@ -93,13 +98,18 @@ function CardLoadState() {
   );
 }
 
-export default function VehiclePage(props) {
+export default function VehiclePage() {
   const [vehicle, setVehicle] = useState(null);
-  const [loaded, setLoad] = useState(true);
+  const [loaded, setLoad] = useState(false);
   const [changes, setChanges] = useState(false);
   const [editOptions, setEditOptions] = useState({});
   const [editModalCollapse, setEditModalCollapse] = useState(false);
   const [tabValue, setTab] = useState(0);
+
+  const [isVisible, setVisible] = useState(true);
+  const [isAvailable, setAvailable] = useState(true);
+  const [isFeatured, setFeatured] = useState(true);
+  const [priceVisible, setPriceVisible] = useState(true);
 
   const handleTabChange = (e, newVal) => {
     setTab(newVal);
@@ -111,29 +121,61 @@ export default function VehiclePage(props) {
   };
 
   const getVehicle = () => {
-    setVehicle({
-      images: [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 117, 23, 24, 25,
-        223, 123, 432,
-      ],
-    });
-    setLoad(false);
-    setLoad(true);
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get("stck");
+    if (id) {
+      httpClient()
+        .post("/getVehicle", { id: url.searchParams.get("stck") })
+        .then((res) => {
+          const body = res.data;
+          if (body.status) {
+            const data = body.content;
+            setVehicle(data);
+            setAvailable(data.isAvailable);
+            setVisible(data.isVisible);
+            setFeatured(data.isFeatured);
+            setPriceVisible(data.price_visible);
+          }
+          setLoad(true);
+        })
+        .catch((err) => {});
+    } else {
+      setLoad(true);
+      return;
+    }
   };
 
   const updateVehicle = (object) => {
     setChanges(true);
     setEditModalCollapse(false);
-    console.log(object?.value, object?.name);
-    object?.images
-      ? console.log(object?.images, vehicle?.images)
-      : console.log("Hello");
   };
 
   const saveChanges = () => {
     setLoad(false);
     setLoad(true);
     setChanges(false);
+  };
+
+  const handleStateChange = (event, name) => {
+    if (name === "isAvailable") {
+      updateVehicle({ name: "isAvailable", value: !isAvailable });
+      setAvailable(!isAvailable);
+    }
+
+    if (name === "isVisible") {
+      updateVehicle({ name: "isVisible", value: !isVisible });
+      setVisible(!isVisible);
+    }
+
+    if (name === "isFeatured") {
+      updateVehicle({ name: "isFeatured", value: !isFeatured });
+      setFeatured(!isFeatured);
+    }
+
+    if (name === "price_visible") {
+      updateVehicle({ name: "price_visible", value: !priceVisible });
+      setPriceVisible(!priceVisible);
+    }
   };
 
   useEffect(() => {
@@ -143,33 +185,202 @@ export default function VehiclePage(props) {
   return (
     <div>
       <Toolbar>
-        <Typography variant="h5" component={"h1"}>
-          {"Vehicle Title"}{" "}
-          <Button
-            className="mx-3"
-            disabled={!changes}
-            variant="text"
-            size="small"
-            onClick={saveChanges}
-          >
-            <small>Save Changes</small>
-            <span className="mx-1">
-              <i className="lni lni-save"></i>
-            </span>
-          </Button>
-        </Typography>
+        {loaded ? (
+          <Typography variant="h5" component={"h1"}>
+            {vehicle.title}{" "}
+            <Button
+              className="mx-3"
+              disabled={!changes}
+              variant="text"
+              size="small"
+              onClick={saveChanges}
+            >
+              <small>Save Changes</small>
+              <span className="mx-1">
+                <i className="lni lni-save"></i>
+              </span>
+            </Button>
+          </Typography>
+        ) : (
+          <>
+            <Skeleton className="w-25 my-1" variant="text" />
+          </>
+        )}
       </Toolbar>
       <div className="row">
         <div className="col-md-4 col-sm-12 my-5">
           <Card>
             {loaded ? (
               <>
-                <div className="container py-5"></div>
+                <div className="container my-5">
+                  <Toolbar>
+                    <Typography variant="h6">{vehicle?.title}</Typography>
+                    <Chip
+                      className="mx-2"
+                      size="small"
+                      label={isVisible ? "Visible" : "Not Visible"}
+                    />
+                  </Toolbar>
+
+                  <Box>
+                    <div className="my-3">
+                      <Typography className="my-1 mx-2" variant="subtitle2">
+                        <b className="text-muted mx-2">Stock No</b>
+                        {vehicle?.id}
+                      </Typography>
+                      <Typography className="my-1 mx-2" variant="subtitle2">
+                        <b className="text-muted mx-2">Status</b>
+                        {isAvailable ? "Available" : "Sold"}
+                      </Typography>
+                    </div>
+
+                    <div className="my-2">
+                      <Typography className="text-muted" variant="caption">
+                        Date Added
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {Date(vehicle?.timeStamp?.nanoseconds).toLocaleString()}
+                      </Typography>
+                    </div>
+
+                    <div className="my-2">
+                      <Typography className="text-muted" variant="caption">
+                        Added by
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {vehicle?.added_by?.fullName} <br />{" "}
+                        <div className="text-muted">
+                          {" "}
+                          {vehicle?.added_by?.email}{" "}
+                        </div>
+                      </Typography>
+                    </div>
+
+                    <div className="my-2">
+                      <Typography className="text-muted" variant="caption">
+                        Last Edited by
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {vehicle?.edited_by?.fullName} <br />{" "}
+                        <div className="text-muted">
+                          {" "}
+                          {vehicle?.edited_by?.email}{" "}
+                        </div>
+                      </Typography>
+                    </div>
+
+                    <div className="my-2">
+                      <Typography className="text-muted" variant="caption">
+                        Date Last Edited
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {Date(
+                          vehicle?.lastUpdate?.nanoseconds
+                        ).toLocaleString()}
+                      </Typography>
+                    </div>
+                  </Box>
+                </div>
               </>
             ) : (
               <CardLoadState />
             )}
           </Card>
+
+          <Card className="my-3">
+            {loaded ? (
+              <>
+                <Typography className="m-5" variant="h6" component={"b"}>
+                  Settings
+                </Typography>
+                <Divider />
+                <div className="container my-4">
+                  <Box>
+                    <div className="d-flex align-items-center space-between">
+                      <div className="my-2">
+                        <Typography variant="subtitle2">Public</Typography>
+                        <Typography className="text-muted" variant="caption">
+                          Make vehicle visible on website
+                        </Typography>
+                      </div>
+                      <div className="d-flex justify-content-right">
+                        <Switch
+                          onChange={(e) => handleStateChange(e, "isVisible")}
+                          checked={isVisible}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center space-between">
+                      <div className="my-2">
+                        <Typography variant="subtitle2">Featured</Typography>
+                        <Typography className="text-muted" variant="caption">
+                          Add Vehicle to featured list
+                        </Typography>
+                      </div>
+                      <div className="d-flex justify-content-right">
+                        <Switch
+                          onChange={(e) => handleStateChange(e, "isFeatured")}
+                          checked={isFeatured}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center space-between">
+                      <div className="my-2">
+                        <Typography variant="subtitle2">
+                          Price Public
+                        </Typography>
+                        <Typography className="text-muted" variant="caption">
+                          Make price public
+                        </Typography>
+                      </div>
+                      <div className="d-flex justify-content-right">
+                        <Switch
+                          onChange={(e) =>
+                            handleStateChange(e, "price_visible")
+                          }
+                          checked={priceVisible}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center space-between">
+                      <div className="my-2">
+                        <Typography variant="subtitle2">
+                          Change Vehicle Status
+                        </Typography>
+                        <Typography className="text-muted" variant="caption">
+                          Available / Sold
+                        </Typography>
+                      </div>
+                      <div className="d-flex justify-content-right">
+                        <Switch
+                          onChange={(e) => handleStateChange(e, "isAvailable")}
+                          checked={isAvailable}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      </div>
+                    </div>
+                  </Box>
+                </div>
+              </>
+            ) : (
+              <CardLoadState />
+            )}
+          </Card>
+          <Button
+            className="my-3 w-100"
+            variant="text"
+            size="small"
+            onClick={saveChanges}
+            color="secondary"
+          >
+            <small>Delete Vehicle</small>
+          </Button>
         </div>
         <div className="col-md-8 col-sm-12">
           <Card>
@@ -178,7 +389,8 @@ export default function VehiclePage(props) {
                 <Tabs
                   value={tabValue}
                   onChange={handleTabChange}
-                  variant="scrollable"
+                  centered
+                  textColor="secondary"
                 >
                   <Tab value={0} label="Specifications" />
                   <Tab value={1} label="Images" />
