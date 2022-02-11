@@ -46,8 +46,7 @@ export default function NewUserForm(props) {
   };
   return (
     <>
-      <Modal.Dialog>
-        <Modal.Header
+      <Modal.Header
           closeButton={
             <Button>
               <span>
@@ -171,7 +170,6 @@ export default function NewUserForm(props) {
             </div>
           </form>
         </Modal.Body>
-      </Modal.Dialog>
     </>
   );
 }

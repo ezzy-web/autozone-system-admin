@@ -39,7 +39,7 @@ export default function UserPage(props) {
     {
       name: "Name",
       selector: (row) => {
-        if (row.uid === currentUser.uid) {
+        if (row.uid === currentUser?.uid) {
           return (
             <>
               <Badge color="secondary" variant="dot">
@@ -126,7 +126,7 @@ export default function UserPage(props) {
           </div>
 
           <div className="col-md-4 col-sm-12">
-            <Card id="new-user-card">
+            <Card id="new-object-card">
               <div className="content">
                 <Typography variant="h5" component={"h4"}>
                   Add New Members

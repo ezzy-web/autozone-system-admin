@@ -1,9 +1,33 @@
-#new-user-card {
-    padding: 20px 30px;
-    margin: 40px 0;
-    .content {
+
+#user-expander-container {
+    h5 {
+        margin: 0;
+    }
+
+    .MuiAccordionSummary-content {
+        margin: 0;
+    }
+
+    .accordion-summary {
+        padding: 5px 20px;
+    }
+
+    .MuiAccordionDetails-root {
+        display: block;
+    }
+
+    .content-container { 
         display: grid;
-        justify-content: left;
-        align-items: center;
+        justify-content: space-between;
+        grid-template-columns: 50% 50%;
+        &.left {
+            display: flex;
+            justify-content: left;
+        }
+
+        &.right {
+            display: flex;
+            justify-content: right;
+        }
     }
 }

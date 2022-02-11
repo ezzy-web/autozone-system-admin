@@ -11,7 +11,7 @@ const ADMIN_DASHBOARD_PATH = "/admin/dashboard";
 
 export default function SidebarComponent(props) {
     const handleLogout= () => {
-        httpClient().post("/api/logout")
+        httpClient().post("/logout")
         .then( res => {
             window.location.replace("/")
         })
@@ -22,7 +22,7 @@ export default function SidebarComponent(props) {
         <ListItem className="side-item" component={"a"} href={ADMIN_DASHBOARD_PATH} >Dashboard</ListItem>
         <ListItem className="side-item" component={"a"} href={INVENTORY_MANAGEMENT_PATH}>Manage Inventory</ListItem>
         <ListItem className="side-item" component={"a"} href={REQUEST_MANAGEMENT_PATH}>Manage Request</ListItem>
-        { props.state.access.includes("admin") ? (
+        { props.state?.access?.includes("admin") ? (
             <ListItem className="side-item" component={"a"} href={USER_MANAGEMENT_PATH}>Manage Users</ListItem>
         ) : (
             <></>

@@ -16,7 +16,6 @@ exports.handler = async (event, context) => {
             return response(200, data)
         } catch (error) {
             console.log(error)
-            throw error
         }
     }
 

@@ -12,6 +12,8 @@ const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))
 const Layout = React.lazy(() => import("./layout/Layout.jsx"))
 
 const UserPage = React.lazy(() => import("./page/Users"))
+const InventoryPage = React.lazy(() => import("./page/Inventory"))
+const VehiclePage = React.lazy(() => import("./page/VehiclePage"))
 
 const INVENTORY_MANAGEMENT_PATH = "/admin/management/inventory";
 const REQUEST_MANAGEMENT_PATH = "/admin/management/requests";
@@ -32,16 +34,16 @@ function AdministrativePages(props) {
                 <Layout state={props.state} render={() => {
                     return (
                     <Routes>
-                        <Route path={VEHICLE_PAGE_PATH} element={<>Vehicle Page</>} />
+                        <Route path={VEHICLE_PAGE_PATH} element={<VehiclePage state={props.state} />} />
                         <Route
                         path={INVENTORY_MANAGEMENT_PATH}
-                            element={<>Inventory Page</>}
+                            element={<InventoryPage state={props.state} />}
                         />
                         <Route
                             path={REQUEST_MANAGEMENT_PATH}
                             element={<>Request Page</>}
                         />
-                        { props.state.access.includes('admin') ? (
+                        { props.state?.access?.includes('admin') ? (
                             <Route path={USER_MANAGEMENT_PATH} element={<UserPage state={props.state} />} />
                         ) : (
                             <Route path={USER_MANAGEMENT_PATH} element={<>Not Allowed Administrator Only</>} />
@@ -73,7 +75,7 @@ function AdministrativePages(props) {
 }
 
 export default function App() {
-    const [admin, setAdmin] = useState(null);
+    const [admin, setAdmin] = useState({});
     const [loaded, setLoad] = useState(false);
 
 
@@ -95,7 +97,8 @@ export default function App() {
     }
 
     useEffect(() => {
-        authState()
+        // authState()
+        setLoad(true)
     }, [])
 
     if (loaded) {

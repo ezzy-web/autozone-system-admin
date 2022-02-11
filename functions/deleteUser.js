@@ -17,7 +17,6 @@ exports.handler = async (event) => {
         return response(200, "OK")
 
     } catch (error) {
-        console.log(error)
         return response(200, error.code, false)
     }
 }

@@ -54,6 +54,7 @@ class UserManager {
         if (snap.exists()) {
             return snap.data()
         } else {
+            console.log("Data does't exist")
             throw new Error("Data doesn't Exist")
         }
     }

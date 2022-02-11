@@ -62,8 +62,8 @@ function Layout(props) {
               href={"/admin/profile"}
               variant="text"
             >
-              <Avatar sx={{ width: 32, height: 32 }}>{user.firstName.charAt(0).toUpperCase()}</Avatar>
-              <small  className=" text-muted mx-3"><b>{user.fullName}</b></small>
+              <Avatar sx={{ width: 32, height: 32 }}>{user?.firstName?.charAt(0)?.toUpperCase()}</Avatar>
+              <small  className=" text-muted mx-3"><b>{user?.fullName}</b></small>
             </Button>
           </Tooltip>
         </Toolbar>

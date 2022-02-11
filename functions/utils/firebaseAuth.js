@@ -1,23 +1,12 @@
-const { app, config }= require('./firebaseConfig')
-const admin = require("firebase-admin")
-
-
-admin.initializeApp({
-  credential: admin.credential.cert(config)
-})
-
+const { app, admin }= require('./firebaseConfig')
 
 const {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
   signOut,
-  onAuthStateChanged } = require("firebase/auth")
+  } = require("firebase/auth")
 
 const auth = getAuth(app)
-
-
 const register = async (firstName, lastName, email, password) => {
 
   try {
@@ -26,7 +15,6 @@ const register = async (firstName, lastName, email, password) => {
       password: password,
       displayName: firstName + " " + lastName,
     })
-    console.log(userRecord)
     return userRecord
   } catch (err) {
     console.log(err)
@@ -58,7 +46,7 @@ module.exports = {
   login,
   logout,
   auth,
-   deleteUser
+  deleteUser
 }
 
 
