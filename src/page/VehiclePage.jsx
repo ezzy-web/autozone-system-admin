@@ -148,6 +148,7 @@ export default function VehiclePage() {
   const updateVehicle = (object) => {
     setChanges(true);
     setEditModalCollapse(false);
+    console.log(object)
   };
 
   const saveChanges = () => {
@@ -261,10 +262,10 @@ export default function VehiclePage() {
                         Last Edited by
                       </Typography>
                       <Typography variant="subtitle2">
-                        {vehicle?.edited_by?.fullName} <br />{" "}
+                        {vehicle?.updated_by?.fullName} <br />{" "}
                         <div className="text-muted">
                           {" "}
-                          {vehicle?.edited_by?.email}{" "}
+                          {vehicle?.updated_by?.email}{" "}
                         </div>
                       </Typography>
                     </div>
@@ -404,6 +405,7 @@ export default function VehiclePage() {
                 </TabPanel>
                 <TabPanel value="1">
                   <ImageContent
+                    stock={vehicle?.id}
                     images={vehicle?.images}
                     updateVehicle={updateVehicle}
                   />

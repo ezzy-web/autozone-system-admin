@@ -101,6 +101,7 @@ class InventoryManager {
         data['isVisible'] = false
         data['isFeatured'] = false
         data['invoice'] = null
+        data['images'] = []
         
         const vehicleDoc = doc(db, "Inventory", data.id)
 

@@ -1,34 +1,196 @@
 import React from "react";
 import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  Button,
-  Tooltip,
-} from "@material-ui/core";
-import { useDropzone } from "react-dropzone";
-import {
   GridContextProvider,
   GridDropZone,
   GridItem,
   swap,
 } from "react-grid-drag";
 
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  Button,
+  Tooltip,
+  LinearProgress,
+} from "@material-ui/core";
+
+import { useDropzone } from "react-dropzone";
+import { getDownloadURL } from "firebase/storage";
+
+const { storage, ref, uploadBytesResumable } = require("../../util/config");
+
+const uploadFile = (file, path) => {
+  const storageRef = ref(storage, path);
+  const task = uploadBytesResumable(storageRef, file);
+  return task;
+};
+
+function FileComponent(props) {
+  const addImage = props?.addImage;
+  const upload = props?.upload;
+  const file = props?.file;
+  const path = props?.path;
+  const [paused, setResume] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const [cancel, setCancel] = React.useState(false);
+  const [completed, setComplete] = React.useState(false);
+  const [start, setStart] = React.useState(false);
+  const [task, setTask] = React.useState(null)
+
+  const handleSetTask = (newTask) => {
+    setTask(newTask)
+
+    newTask?.on(
+      "state_changed",
+      (snap) => {
+        const progress = (snap.bytesTransferred / snap.totalBytes) * 100;
+        setProgress(progress);
+        switch (snap.state) {
+          case "paused":
+            setResume(true);
+            break;
+          case "running":
+            setResume(false);
+            break;
+          default:
+            break;
+        }
+      },
+
+      (error) => {
+        setCancel(true);
+      },
+
+      () => {
+        setComplete(true);
+        getDownloadURL(task.snapshot.ref).then((downloadURL) => {
+          addImage({
+            url: downloadURL,
+            ref: task.snapshot.ref,
+          });
+        });
+      }
+    );
+  }
+
+  if (upload) {
+    if (!start) {
+      const event = uploadFile(file, path)
+      handleSetTask(event)
+      setStart(!start);
+    }
+  }
+
+  const handlePause = () => {
+    if (!cancel) {
+      task?.pause();
+    }
+  };
+  const handleResume = () => {
+    if (!cancel) {
+      task?.resume();
+    }
+  };
+  const handleCancel = () => {
+    if (paused) {
+      handleResume()
+    }
+    task?.cancel();
+  };
+
+  return (
+    <ListItem>
+      <div className="d-block my-2">
+        <small
+          className={
+            completed ? "text-success" : cancel ? "text-danger" : "text-muted"
+          }
+        >
+          {file.path} - {file.size} bytes
+        </small>
+        {upload ? (
+          <>
+            {completed | cancel ? (
+              <></>
+            ) : (
+              <>
+                <LinearProgress
+                  variant={paused ? "indeterminate" : "determinate"}
+                  value={progress}
+                />
+                <div className="d-flex space-between">
+                  <Button
+                    disabled={cancel ? true : !paused}
+                    onClick={handleResume}
+                  >
+                    <span className="lni lni-play"></span>
+                  </Button>
+                  <Button
+                    disabled={cancel ? true : paused}
+                    onClick={handlePause}
+                  >
+                    <span className="lni lni-pause"></span>
+                  </Button>
+                  <Button disabled={cancel} onClick={handleCancel}>
+                    <span className="lni lni-close"></span>
+                  </Button>
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
+    </ListItem>
+  );
+}
+
+var uploadedImages = [];
+var uploadCount = 0;
+
 function FileUpload(props) {
+  const id = props?.stock;
+  const addAcceptedImages = props?.addImage;
+
+  const [upload, setUpload] = React.useState(false);
   const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
     useDropzone({
       accept: "image/jpeg,image/png",
     });
 
-  const acceptedFileItems = acceptedFiles.map((file) => (
-    <ListItem key={file.path}>
-      <small className="text-muted">
-        {file.path} - {file.size} bytes
-      </small>
-    </ListItem>
-  ));
+  const addImage = (image, cancel = false) => {
+    if (cancel) {
+      uploadCount++;
+    }
+    if (uploadCount < acceptedFiles.length) {
+      uploadedImages.push(image);
+      uploadCount++;
+    }
+    if (upload && (uploadCount === acceptedFiles.length)) {
+      setUpload(false);
+      addAcceptedImages(uploadedImages);
+      uploadCount = 0;
+      uploadedImages = [];
+    }
+  };
 
+  const acceptedFileItems = acceptedFiles.map((file) => (
+    <FileComponent
+      addImage={addImage}
+      key={file.path}
+      file={file}
+      upload={upload}
+      path={
+        "vehicle/images/" +
+        id +
+        "/" +
+        (Math.random() + 1).toString(36).substring(7)
+      }
+    />
+  ));
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
@@ -45,10 +207,12 @@ function FileUpload(props) {
   return (
     <section className="container">
       <div
-        className="dropzone-container"
+        className={upload ? "dropzone-container d-none" : "dropzone-container"}
         {...getRootProps({ className: "dropzone" })}
       >
-        <input {...getInputProps()} />
+        <input
+          {...getInputProps()}
+        />
         <small className="text-muted">
           Drag and drop media files here, or click to select files <br />
           (Only *.jpeg and *.png images will be accepted)
@@ -82,9 +246,9 @@ function FileUpload(props) {
       </aside>
       <Button
         className="my-2"
-        disabled={!(acceptedFileItems.length > 0)}
+        disabled={upload ? true : acceptedFileItems.length === 0}
         variant="contained"
-        onClick={() => console.log(acceptedFileItems)}
+        onClick={() => setUpload(true)}
       >
         Upload Images
       </Button>
@@ -103,16 +267,14 @@ function ImageComponent(props) {
             <img src={image} alt="" />
           </div>
           <div className="overlay-container">
-          <Tooltip title="Fullscreen" >
-            <div className="control-btn">
-              <span>
-                <i className="lni lni-full-screen"></i>
-              </span>
-            </div>
-
-
-          </Tooltip>
-            <Tooltip title="Delete Image" >
+            <Tooltip title="Fullscreen">
+              <div className="control-btn">
+                <span>
+                  <i className="lni lni-full-screen"></i>
+                </span>
+              </div>
+            </Tooltip>
+            <Tooltip title="Delete Image">
               <div className="control-btn">
                 <span>
                   <i className="lni lni-trash-can"></i>
@@ -130,13 +292,20 @@ function ImageComponent(props) {
 
 export default function VehicleImagesContainer(props) {
   const updateVehicle = props?.updateVehicle;
-  const [images, setImages] = React.useState(props?.images);
+  const [images, setImages] = React.useState(props?.images ? props.image : []);
 
   const handleChange = (sourceId, sourceIndex, targetIndex, targetId) => {
     const nextState = swap(images, sourceIndex, targetIndex);
     setImages(nextState);
     updateVehicle({ images: images });
   };
+
+  const handleAddImage = (imageLst) => {
+    var lst = images?.slice();
+    lst = lst.concat(imageLst)
+    updateVehicle({ images: lst });
+  };
+
   return (
     <div className="my-3">
       <Box>
@@ -167,7 +336,7 @@ export default function VehicleImagesContainer(props) {
       </Box>
 
       <Box className="my-5">
-        <FileUpload />
+        <FileUpload stock={props?.stock} addImage={handleAddImage} />
       </Box>
     </div>
   );

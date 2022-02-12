@@ -1,10 +1,8 @@
-
 const { initializeApp } = require("firebase/app")
-const admin = require("firebase-admin")
+const { getStorage, ref, uploadBytesResumable } = require("firebase/storage")
 
-require('dotenv').config();
+
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API,
   authDomain: "javvy-s-autozone-7c590.firebaseapp.com",
   projectId: "javvy-s-autozone-7c590",
   storageBucket: "javvy-s-autozone-7c590.appspot.com",
@@ -14,14 +12,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const config = require("./../../firebaseConfig.json")
-
-admin.initializeApp({
-  credential: admin.credential.cert(config)
-})
+const storage = getStorage(app)
 
 module.exports = {
-  app,
-  config,
-  admin
+    app,
+    storage,
+    ref,
+    uploadBytesResumable
 }
