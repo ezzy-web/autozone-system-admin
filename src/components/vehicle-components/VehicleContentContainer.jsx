@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Divider, Typography } from "@material-ui/core";
+import numeral from "numeral";
 
 const options = {
   year: [
@@ -280,7 +281,7 @@ export default function VehicleContentContainer(props) {
               <small className="text-muted">Engine Size</small>
             </div>
             <small>
-              <b>{data?.engine_size} CC</b>
+              <b>{numeral(data?.engine_size).format("0,0")} CC</b>
             </small>
           </div>
           <div className="w-100 px-2">
@@ -307,7 +308,7 @@ export default function VehicleContentContainer(props) {
               <small className="text-muted">Mileage</small>
             </div>
             <small>
-              <b>{data?.mileage} MI</b>
+              <b>{numeral(data?.mileage).format("0,0")} MI</b>
             </small>
           </div>
           <div className="w-100 px-2">
@@ -469,7 +470,7 @@ export default function VehicleContentContainer(props) {
               <small className="text-muted">Asking Price</small>
             </div>
             <small>
-              <b>{data?.price}</b>
+              <b>{numeral(data?.price).format("$ 0,0.0")}</b>
             </small>
           </div>
           <div className="w-100 px-2">

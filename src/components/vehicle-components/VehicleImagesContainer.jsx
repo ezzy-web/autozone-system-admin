@@ -18,14 +18,23 @@ import {
 
 import { useDropzone } from "react-dropzone";
 import { getDownloadURL } from "firebase/storage";
+import FsLightbox from "fslightbox-react"
 
-const { storage, ref, uploadBytesResumable } = require("../../util/config");
+const { storage, ref, uploadBytesResumable, deleteObject } = require("../../util/config");
+
+
+const deleteFile = (url) => {
+  const storageRef = ref(storage, url)
+  deleteObject(storageRef)
+}
 
 const uploadFile = (file, path) => {
   const storageRef = ref(storage, path);
   const task = uploadBytesResumable(storageRef, file);
   return task;
-};
+}
+
+
 
 function FileComponent(props) {
   const addImage = props?.addImage;
@@ -61,14 +70,15 @@ function FileComponent(props) {
 
       (error) => {
         setCancel(true);
+        addImage(null, true)
       },
 
       () => {
         setComplete(true);
-        getDownloadURL(task.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(newTask.snapshot.ref).then((downloadURL) => {
           addImage({
             url: downloadURL,
-            ref: task.snapshot.ref,
+            ref: newTask.snapshot.ref,
           });
         });
       }
@@ -165,10 +175,14 @@ function FileUpload(props) {
     if (cancel) {
       uploadCount++;
     }
-    if (uploadCount < acceptedFiles.length) {
-      uploadedImages.push(image);
-      uploadCount++;
+
+    if (image) {
+      if (uploadCount < acceptedFiles.length) {
+        uploadedImages.push(image);
+        uploadCount++;
+      }
     }
+    
     if (upload && (uploadCount === acceptedFiles.length)) {
       setUpload(false);
       addAcceptedImages(uploadedImages);
@@ -246,7 +260,7 @@ function FileUpload(props) {
       </aside>
       <Button
         className="my-2"
-        disabled={upload ? true : acceptedFileItems.length === 0}
+        disabled={acceptedFileItems.length === 0 ? !upload : acceptedFileItems.length === uploadCount}
         variant="contained"
         onClick={() => setUpload(true)}
       >
@@ -258,24 +272,27 @@ function FileUpload(props) {
 
 function ImageComponent(props) {
   const image = props?.image;
+  const index = props?.index
+  const handleDelete = props?.handleDelete
+  const openLightBox = props.openLightBox
 
   if (image) {
     return (
       <div className="dropzone-img-component">
         <div className="dropzone-image-container">
           <div className="image-box">
-            <img src={image} alt="" />
+            <img src={image?.url} alt="" />
           </div>
           <div className="overlay-container">
             <Tooltip title="Fullscreen">
-              <div className="control-btn">
+              <div onClick={() => openLightBox(index)} className="control-btn">
                 <span>
                   <i className="lni lni-full-screen"></i>
                 </span>
               </div>
             </Tooltip>
             <Tooltip title="Delete Image">
-              <div className="control-btn">
+              <div onClick={handleDelete}  data-index={index} className="control-btn">
                 <span>
                   <i className="lni lni-trash-can"></i>
                 </span>
@@ -292,19 +309,38 @@ function ImageComponent(props) {
 
 export default function VehicleImagesContainer(props) {
   const updateVehicle = props?.updateVehicle;
-  const [images, setImages] = React.useState(props?.images ? props.image : []);
+  const [images, setImages] = React.useState(props.images);
+  const [toggle, setToggle] = React.useState({
+    srcIndex: 0,
+    toggler: false
+  })
 
   const handleChange = (sourceId, sourceIndex, targetIndex, targetId) => {
     const nextState = swap(images, sourceIndex, targetIndex);
-    setImages(nextState);
-    updateVehicle({ images: images });
+    updateVehicle({ images: nextState });
   };
 
   const handleAddImage = (imageLst) => {
-    var lst = images?.slice();
-    lst = lst.concat(imageLst)
-    updateVehicle({ images: lst });
+    updateVehicle({ appendImages: imageLst });
   };
+
+  const handleDeleteImage = (e) => {
+    const index = parseInt(e.currentTarget.getAttribute("data-index"))
+    deleteFile(images[index].url)
+
+    var updatedImages = images.slice()
+    updatedImages.splice(index,1)
+
+    updateVehicle({images: updatedImages})
+  }
+
+  const openLightBox = (index) => {
+    setToggle({srcIndex: index, toggler: !toggle.toggler})
+  }
+
+  React.useEffect(() => {
+    setImages(props?.images)
+  }, [props]);
 
   return (
     <div className="my-3">
@@ -316,11 +352,11 @@ export default function VehicleImagesContainer(props) {
                 id="images-grid-container"
                 boxesPerRow={4}
                 rowHeight={130}
-                style={{ minHeight: "70vh" }}
+                style={{ minHeight: "50vh" }}
               >
-                {images.map((image) => (
-                  <GridItem key={image}>
-                    <ImageComponent image={image} />
+                {images.map((image, index) => (
+                  <GridItem key={image?.ref?._location?.path_}>
+                    <ImageComponent image={image} index={index} handleDelete={handleDeleteImage} openLightBox={openLightBox} />
                   </GridItem>
                 ))}
               </GridDropZone>
@@ -338,6 +374,15 @@ export default function VehicleImagesContainer(props) {
       <Box className="my-5">
         <FileUpload stock={props?.stock} addImage={handleAddImage} />
       </Box>
+
+      <FsLightbox 
+        toggler={toggle.toggler}
+        sources={images.map( image => {
+          return image.url
+        })}
+        sourceIndex={toggle.srcIndex}
+        type="image"
+      />
     </div>
   );
 }

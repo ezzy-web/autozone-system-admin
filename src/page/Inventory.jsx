@@ -17,7 +17,7 @@ const NewVehicleForm = React.lazy(() =>
   import("../components/inventory-components/NewVehicleForm")
 );
 
-export default function UserPage(props) {
+export default function InventoryPage(props) {
   const [inventory, setInventory] = useState([]);
   const [loaded, setLoad] = useState(false);
   const [modal, toggleModal] = useState(false);

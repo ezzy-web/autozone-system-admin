@@ -27,6 +27,8 @@ const ImageContent = React.lazy(() =>
   import("../components/vehicle-components/VehicleImagesContainer")
 );
 
+const FeatureComponent = React.lazy(() => import("../components/vehicle-components/FeaturesComponent"))
+
 function EditField(props) {
   const modalToggle = props.modalToggle;
   const handleUpdate = props.updateVehicle;
@@ -129,7 +131,15 @@ export default function VehiclePage() {
         .then((res) => {
           const body = res.data;
           if (body.status) {
-            const data = body.content;
+            var data = body.content;
+            var date = data?.arrival ? new Date(parseInt(data.arrival)) : null;
+            if (date) {
+              date = [date.getFullYear(), date.getMonth(), date.getDate()];
+
+              data.arrival = date.join("-");
+            } else {
+              data.arrival = "";
+            }
             setVehicle(data);
             setAvailable(data.isAvailable);
             setVisible(data.isVisible);
@@ -146,15 +156,56 @@ export default function VehiclePage() {
   };
 
   const updateVehicle = (object) => {
+    var update = JSON.parse(JSON.stringify(vehicle));
+    const name = object?.name;
+    const value = object?.value;
+    const images = object?.images;
+    const appendImages = object?.appendImages;
+
+    if (name) {
+      update[name] = value;
+    }
+
+    if (images) {
+      update["images"] = images.slice();
+    }
+
+    if (appendImages) {
+      var lst = update.images ? update.images.slice() : [];
+      appendImages.forEach((image) => {
+        lst.push(image);
+      });
+
+      update["images"] = lst;
+    }
+
+    setVehicle(update);
     setChanges(true);
     setEditModalCollapse(false);
-    console.log(object)
   };
 
   const saveChanges = () => {
     setLoad(false);
-    setLoad(true);
-    setChanges(false);
+    httpClient()
+      .post("/updateVehicle", vehicle)
+      .then((res) => {
+        const body = res.data;
+        if (body.status) {
+          setChanges(false);
+          setLoad(true);
+
+          return;
+        }
+
+        if (body.content.includes("auth/required")) {
+          window.location.reload()
+        }
+
+        setLoad(true);
+      })
+      .catch((err) => {
+        setLoad(true);
+      });
   };
 
   const handleStateChange = (event, name) => {
@@ -178,6 +229,28 @@ export default function VehiclePage() {
       setPriceVisible(!priceVisible);
     }
   };
+
+  const deleteVehicle = () => {
+    setLoad(false);
+    httpClient().post("/deleteVehicle", { id: vehicle.id })
+    .then( res => {
+      setLoad(true);
+      const body = res.data
+      if (body.success) {
+        window.location.replace("/admin/management/inventory")
+        return;
+      }
+
+
+      if (body.content.includes("auth/required")) {
+        window.location.reload()
+      }
+
+    })
+    .catch( err => {
+      setLoad(true);
+    })
+  }
 
   useEffect(() => {
     getVehicle();
@@ -377,7 +450,7 @@ export default function VehiclePage() {
             className="my-3 w-100"
             variant="text"
             size="small"
-            onClick={saveChanges}
+            onClick={deleteVehicle}
             color="secondary"
           >
             <small>Delete Vehicle</small>
@@ -385,36 +458,52 @@ export default function VehiclePage() {
         </div>
         <div className="col-md-8 col-sm-12">
           <Card>
-            {loaded ? (
-              <TabContext value={tabValue.toString()}>
-                <Tabs
-                  value={tabValue}
-                  onChange={handleTabChange}
-                  centered
-                  textColor="secondary"
-                >
-                  <Tab value={0} label="Specifications" />
-                  <Tab value={1} label="Images" />
-                  <Tab value={2} label="Features" />
-                </Tabs>
-                <TabPanel value="0">
+            <TabContext value={tabValue.toString()}>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                centered
+                textColor="secondary"
+              >
+                <Tab value={0} label="Specifications" />
+                <Tab value={1} label="Images" />
+                <Tab value={2} label="Features" />
+              </Tabs>
+              <TabPanel value="0">
+                {loaded ? (
                   <ContentContainer
                     data={vehicle}
                     handleEditModalOpen={handleEditModalOpen}
                   />
-                </TabPanel>
-                <TabPanel value="1">
+                ) : (
+                  <>
+                    <CardLoadState />
+                  </>
+                )}
+              </TabPanel>
+              <TabPanel value="1">
+                {loaded ? (
                   <ImageContent
                     stock={vehicle?.id}
-                    images={vehicle?.images}
+                    images={vehicle.images ? vehicle.images : []}
                     updateVehicle={updateVehicle}
                   />
-                </TabPanel>
-                <TabPanel value="2">Item Three</TabPanel>
-              </TabContext>
-            ) : (
-              <CardLoadState />
-            )}
+                ) : (
+                  <>
+                    <CardLoadState />
+                  </>
+                )}
+              </TabPanel>
+              <TabPanel value="2">
+              {loaded ? (
+                  <FeatureComponent features={vehicle?.features} updateVehicle={updateVehicle} />
+                ) : (
+                  <>
+                    <CardLoadState />
+                  </>
+                )}
+              </TabPanel>
+            </TabContext>
           </Card>
         </div>
       </div>

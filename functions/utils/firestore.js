@@ -135,6 +135,37 @@ class InventoryManager {
             throw new Error("Data doesn't Exist")
         }
     }
+
+    async updateVehicle(id, data, user) {
+        data['lastUpdate'] = serverTimestamp()
+        data['updated_by'] = user
+        data['title'] = data.year + " " + data.make + " " + data.model
+        data['features'] = data?.features
+        data['requests'] = data?.features
+        data['isAvailable'] = data?.isAvailable
+        data['isVisible'] = data?.isVisible
+        data['isFeatured'] = data?.isFeatured
+        data['invoice'] = data?.invoice
+        data['images'] = data?.images
+        
+        const vehicleDoc = doc(db, "Inventory", id)
+
+        await updateDoc(vehicleDoc, data).catch(err => {
+            console.log(err)
+            throw err
+        })
+        return data.id
+    }
+
+    async deleteVehicle(id) {
+        const vehicleDoc = doc(db, "Inventory", id)
+        await deleteDoc(vehicleDoc).catch( err => {
+            console.log(err)
+            throw err
+        })
+
+        return true
+    }
 }
 
 

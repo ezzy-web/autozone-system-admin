@@ -1,5 +1,5 @@
 const { initializeApp } = require("firebase/app")
-const { getStorage, ref, uploadBytesResumable } = require("firebase/storage")
+const { getStorage, ref, uploadBytesResumable, deleteObject } = require("firebase/storage")
 
 
 const firebaseConfig = {
@@ -18,5 +18,6 @@ module.exports = {
     app,
     storage,
     ref,
-    uploadBytesResumable
+    uploadBytesResumable,
+    deleteObject
 }
