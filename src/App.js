@@ -16,6 +16,7 @@ const InventoryPage = React.lazy(() => import("./page/Inventory"))
 const VehiclePage = React.lazy(() => import("./page/VehiclePage"))
 const InvoicePage = React.lazy(() => import("./page/InvoicePage"))
 const RequestPage = React.lazy(() => import("./page/RequestPage"))
+const GenerateInvoice = React.lazy(() => import("./page/CreateInvoice"))
 
 const INVENTORY_MANAGEMENT_PATH = "/admin/management/inventory";
 const REQUEST_MANAGEMENT_PATH = "/admin/management/requests";
@@ -60,7 +61,7 @@ function AdministrativePages(props) {
                                 path="/"
                                 element={<>Dashboard Page</>}
                             />
-                            <Route exact path={GENERATE_INVOICE_PATH} element={<>Gen Page</>} />
+                            <Route exact path={GENERATE_INVOICE_PATH} element={<GenerateInvoice state={props.state} />} />
                             <Route
                                 path={INVOICES_TABLE_PATH}
                                 element={<InvoicePage state={props.state} />}
@@ -86,7 +87,7 @@ function ConnectionComponent() {
         <div className="table-loading">
             <Typography variant="button">
                 Check Your Internet Connection
-            </Typography> <br/>
+            </Typography> <br />
             <Button onClick={reloadPage} >Reload Page</Button>
         </div>
     )

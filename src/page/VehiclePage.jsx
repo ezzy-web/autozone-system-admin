@@ -252,8 +252,18 @@ export default function VehiclePage() {
     })
   }
 
+  window.onbeforeunload = (e) => {
+    console.log(changes)
+    if (!changes) {
+      delete e["returnValue"];
+    } else {
+      e.returnValue = "";
+    }
+  }
+
   useEffect(() => {
     getVehicle();
+    
   }, []);
 
   return (
