@@ -456,7 +456,7 @@ export default function VehiclePage() {
               <CardLoadState />
             )}
           </Card>
-          <Button
+          {/* <Button
             className="my-3 w-100"
             variant="text"
             size="small"
@@ -464,7 +464,7 @@ export default function VehiclePage() {
             color="secondary"
           >
             <small>Delete Vehicle</small>
-          </Button>
+          </Button> */}
         </div>
         <div className="col-md-8 col-sm-12">
           <Card>

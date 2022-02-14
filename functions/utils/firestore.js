@@ -12,6 +12,7 @@ const {
     deleteDoc
 } = require("firebase/firestore")
 
+const { simpleflake } = require('simpleflakes')
 
 const db = getFirestore(app)
 
@@ -69,7 +70,7 @@ class UserManager {
 
     async deleteUser(uid) {
         const userDoc = doc(db, "Users", uid)
-        await deleteDoc(userDoc).catch( err => {
+        await deleteDoc(userDoc).catch(err => {
             console.log(err)
             throw err
         })
@@ -85,7 +86,15 @@ class InventoryManager {
     }
 
     #generateStockNo() {
-        return "JA-29001-1232"
+        const flake = simpleflake(Date.now())
+
+        const stock = flake.toString().substring(0, 9)
+        return stock
+    }
+
+    getDocRef(id) {
+        const vehicleDoc = doc(db, "Inventory", id)
+        return vehicleDoc
     }
 
     async createVehicle(data, user) {
@@ -102,7 +111,7 @@ class InventoryManager {
         data['isFeatured'] = false
         data['invoice'] = null
         data['images'] = []
-        
+
         const vehicleDoc = doc(db, "Inventory", data.id)
 
         await setDoc(vehicleDoc, data).catch(err => {
@@ -120,8 +129,8 @@ class InventoryManager {
         return docs.docs
     }
 
-    async getVehicle(id) {
-        const vehicleDoc = doc(db, "Inventory", id)
+    async getVehicle(id, ref = null) {
+        const vehicleDoc = ref ? ref : doc(db, "Inventory", id)
 
         const snap = await getDoc(vehicleDoc).catch(err => {
             console.log(err)
@@ -136,19 +145,23 @@ class InventoryManager {
         }
     }
 
-    async updateVehicle(id, data, user) {
+    async updateVehicle(id, data, user, ref = null) {
+
+
         data['lastUpdate'] = serverTimestamp()
         data['updated_by'] = user
-        data['title'] = data.year + " " + data.make + " " + data.model
-        data['features'] = data?.features
-        data['requests'] = data?.features
-        data['isAvailable'] = data?.isAvailable
-        data['isVisible'] = data?.isVisible
-        data['isFeatured'] = data?.isFeatured
-        data['invoice'] = data?.invoice
-        data['images'] = data?.images
-        
-        const vehicleDoc = doc(db, "Inventory", id)
+
+        if (data.id) {
+            data['title'] = data.year + " " + data.make + " " + data.model
+            data['features'] = data?.features
+            data['requests'] = data?.features
+            data['isAvailable'] = data?.isAvailable
+            data['isVisible'] = data?.isVisible
+            data['isFeatured'] = data?.isFeatured
+            data['invoice'] = data?.invoice
+            data['images'] = data?.images
+        }
+        const vehicleDoc = ref ? ref : doc(db, "Inventory", id)
 
         await updateDoc(vehicleDoc, data).catch(err => {
             console.log(err)
@@ -157,9 +170,9 @@ class InventoryManager {
         return data.id
     }
 
-    async deleteVehicle(id) {
-        const vehicleDoc = doc(db, "Inventory", id)
-        await deleteDoc(vehicleDoc).catch( err => {
+    async deleteVehicle(id, ref = null) {
+        const vehicleDoc = ref ? ref : doc(db, "Inventory", id)
+        await deleteDoc(vehicleDoc).catch(err => {
             console.log(err)
             throw err
         })
@@ -169,18 +182,95 @@ class InventoryManager {
 }
 
 
+class ClientManager {
+    constructor() {
+        this.collection = collection(db, "Clients")
+    }
 
+    getDocRef(id) {
+        const clientDoc = doc(db, "Clients", id)
+        return clientDoc
+    }
+
+    async createClient(data, user) {
+        data['timeStamp'] = serverTimestamp()
+        data['lastUpdate'] = serverTimestamp()
+        data['added_by'] = user
+        data['updated_by'] = user
+
+        const clientDoc = await addDoc(this.collection, data).catch(err => {
+            console.log(err)
+            throw err
+        })
+        return clientDoc
+    }
+
+    async updateClient(id, data, user, ref = null) {
+        data['lastUpdate'] = serverTimestamp()
+        data['updated_by'] = user
+
+        const clientDoc = ref ? ref : doc(db, "Clients", id)
+
+        await updateDoc(clientDoc, data).catch(err => {
+            console.log(err)
+            throw err
+        })
+        return clientDoc
+    }
+}
+
+class InvoiceManager {
+    constructor() {
+        this.collection = collection(db, "Invoices")
+    }
+
+    #generateInvoiceNo() {
+        const flake = simpleflake(Date.now())
+        const stock = flake.toString().substring(0, 9)
+        return stock
+    }
+
+    getDocRef(id) {
+        const invoiceDoc = doc(db, "Invoices", id)
+        return invoiceDoc
+    }
+
+    async createInvoice(data, user) {
+        data['timeStamp'] = serverTimestamp()
+        data['lastUpdate'] = serverTimestamp()
+        data['added_by'] = user
+        data['id'] = this.#generateInvoiceNo()
+
+        const invoiceDoc = doc(db, "Invoices", data.id)
+
+        await setDoc(invoiceDoc, data).catch(err => {
+            console.log(err)
+            throw err
+        })
+        return invoiceDoc
+    }
+}
+
+
+const getClientManager = () => {
+    return new ClientManager()
+}
 
 const getUserManager = () => {
     return new UserManager()
 }
 
-
 const getInventoryManager = () => {
     return new InventoryManager()
 }
 
+const getInvoiceManager = () => {
+    return new InvoiceManager()
+}
+
 module.exports = {
     getUserManager,
-    getInventoryManager
+    getInventoryManager,
+    getClientManager,
+    getInvoiceManager
 }

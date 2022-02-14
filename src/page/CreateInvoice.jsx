@@ -9,6 +9,7 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import numeral from "numeral";
 
 function SelectVehicle(props) {
   const inventory = props?.inventory;
@@ -194,6 +195,255 @@ function ClientInformation(props) {
   );
 }
 
+function normalize(phone) {
+  phone = phone.replace(/[^\d]/g, "");
+
+  if (phone.length === 10) {
+    return phone.replace(/(\d{3})(\d{3})(\d{4})/, "1 ($1) $2-$3");
+  } else {
+    return phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, "$1 ($2) $3-$4");
+  }
+}
+
+function VerifyInformation(props) {
+  const vehicle = props?.vehicle;
+  const client = props?.client;
+
+  const editVehicle = () => {
+    var url = new URL(
+      "/admin/management/inventory/vehicle",
+      window.location.origin
+    );
+
+    url.searchParams.append("stck", vehicle.id);
+    window.open(url.href);
+  };
+
+  const tax = parseFloat(props?.vehicle?.price) * 0.15;
+  const total = parseFloat(props?.vehicle?.price) + tax;
+
+  return (
+    <>
+      <Toolbar className="d-flex space-between">
+        <Typography variant="h6">Verify Information</Typography>
+        <Button varian="filled" size="small">
+          <small>Refresh</small>
+        </Button>
+      </Toolbar>
+      <div className="separator my-4"></div>
+
+      <Typography variant="button">Vehicle Information</Typography>
+      <div className="separator my-2">
+        <Button
+          varian="filled"
+          size="small"
+          className="p-0 mx-2"
+          onClick={editVehicle}
+        >
+          <small>Edit Vehicle Information</small>
+        </Button>
+      </div>
+
+      <div className="my-5">
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Make</small>
+              </div>
+              <small>
+                <b>{vehicle?.make}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Model</small>
+              </div>
+              <small>
+                <b>{vehicle?.model}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Year</small>
+              </div>
+              <small>
+                <b>{vehicle?.year}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+          </div>
+          <div className="col-md-6 col-sm-12">
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Stock No.</small>
+              </div>
+              <small>
+                <b>{vehicle?.id}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Engine No.</small>
+              </div>
+              <small>
+                <b>{vehicle?.engine_no}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Chassis No.</small>
+              </div>
+              <small>
+                <b>{vehicle?.chassis}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <Typography variant="button">Client Information</Typography>
+      <div className="separator my-2"></div>
+
+      <div className="my-5">
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Client Name</small>
+              </div>
+              <small>
+                <b>{client?.firstName + " " + client?.lastName}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Email</small>
+              </div>
+              <small>
+                <b>{client?.email}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Mobile No.</small>
+              </div>
+              <small>
+                <b>{normalize(client?.mobile)}</b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+          </div>
+          <div className="col-md-6 col-sm-12">
+            <div className="w-100 d-block">
+              <div>
+                <small className="text-muted">Address</small>
+              </div>
+              <small>
+                <b>
+                  {client?.address1 !== "" ? (
+                    <>
+                      {client?.address1} <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {client?.address2 !== "" ? (
+                    <>
+                      {client?.address2} <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {client?.address3 !== "" ? (
+                    <>
+                      {client?.address3} <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {client?.town !=="" ? (
+                    <>
+                      {client?.town} <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {client?.parish !== "" ? (
+                    <>
+                      {client?.parish} <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {client?.country !== "" ? (
+                    <>
+                      {client?.country} <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </b>
+              </small>
+            </div>
+            <div className="separator my-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <Typography variant="button">Pricing Information</Typography>
+      <div className="separator my-2"></div>
+
+      <div className="my-5">
+        <div className="row">
+          <div className="w-100 d-block">
+            <div>
+              <small className="text-muted">Vehicle Price</small>
+            </div>
+            <small>
+              <b>{numeral(vehicle?.price).format("$ 0,0.00")}</b>
+            </small>
+          </div>
+          <div className="separator my-1"></div>
+
+          <div className="w-100 d-block">
+            <div>
+              <small className="text-muted">Tax (GCT 15%)</small>
+            </div>
+            <small>
+              <b>{numeral(tax).format("$ 0,0.00")}</b>
+            </small>
+          </div>
+          <div className="separator my-1"></div>
+
+          <div className="w-100 d-block">
+            <div>
+              <small className="text-muted">Total</small>
+            </div>
+            <small>
+              <b>{numeral(total).format("$ 0,0.00")}</b>
+            </small>
+          </div>
+          <div className="separator my-1"></div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function CreateInvoice() {
   const [loaded, setLoad] = useState(false);
   const [activeStep, changeStep] = useState(0);
@@ -305,6 +555,48 @@ export default function CreateInvoice() {
     setVehicle(inventory[index]);
   };
 
+  const submitInvoice = () => {
+    setLoad(false)
+    const clientData = {
+      firstName: client.firstName,
+      lastName: client.lastName,
+      email: client.email,
+      mobile: client.mobile,
+      address: {
+        address1: client.address1,
+        address2: client.address2,
+        address3: client.address3,
+        town: client.town,
+        parish: client.parish,
+        country: client.country,
+      },
+    };
+
+    const data = {
+      vehicle: selectedVehicle.id,
+      client: clientData,
+    };
+
+    httpClient().post("/createInvoice", data)
+    .then( res => {
+      const body = res.data
+      setLoad(true)
+      if (body.status) {
+        changeStep(activeStep+1)
+        return;
+      }
+
+
+      if (body.content.includes("auth/required")) {
+        window.location.reload()
+      }
+      
+    })
+    .catch( err => {
+      setLoad(true)
+    })
+  };
+
   useEffect(() => getInventory(), []);
 
   return (
@@ -315,10 +607,9 @@ export default function CreateInvoice() {
             Create New Invoice{" "}
           </Typography>
         </Toolbar>
-        <div className="container">
           <Card className="p-5">
             {loaded ? (
-              <div className="container steps-forms">
+              <div className="steps-forms">
                 {activeStep === 0 ? (
                   <SelectVehicle
                     inventory={searchResults}
@@ -337,7 +628,14 @@ export default function CreateInvoice() {
                 ) : (
                   <></>
                 )}
-                {activeStep === 2 ? <>Verify Information</> : <></>}
+                {activeStep === 2 ? (
+                  <VerifyInformation
+                    vehicle={selectedVehicle}
+                    client={client}
+                  />
+                ) : (
+                  <></>
+                )}
                 {activeStep === 3 ? <>Generate Invoice</> : <></>}
               </div>
             ) : (
@@ -361,15 +659,20 @@ export default function CreateInvoice() {
                   </Button>
                   <Button
                     disabled={selectedVehicle === null}
-                    onClick={() => changeStep(activeStep + 1)}
+                    onClick={() => {
+                      if (activeStep === 2) {
+                        submitInvoice();
+                      } else {
+                        changeStep(activeStep + 1);
+                      }
+                    }}
                   >
-                    {activeStep === 3 ? "Save Invoice" : "Continue"}
+                    {activeStep === 2 ? "Save Invoice" : "Continue"}
                   </Button>
                 </>
               )}
             </>
           </Card>
-        </div>
       </Container>
     </>
   );
