@@ -120,6 +120,7 @@ function ClientInformation(props) {
             </div>
             <div className="col-6">
               <TextField
+              defaultValue={client?.mobile}
                 value={client?.mobile}
                 onChange={(e) =>
                   handleClientChange({ name: "mobile", value: e.target.value })
@@ -618,7 +619,7 @@ export default function CreateInvoice() {
             Create New Invoice{" "}
           </Typography>
         </Toolbar>
-        <Card className="p-5">
+        <Card className="container py-5">
           {loaded ? (
             <div className="steps-forms">
               {activeStep === 0 ? (

@@ -18,6 +18,7 @@ const InvoicePage = React.lazy(() => import("./page/InvoicePage"))
 const RequestPage = React.lazy(() => import("./page/RequestPage"))
 const GenerateInvoice = React.lazy(() => import("./page/CreateInvoice"))
 const Dashboard = React.lazy(() => import("./page/Dashboard"))
+const Invoice = React.lazy(() => import("./page/ViewInvoice"))
 
 const INVENTORY_MANAGEMENT_PATH = "/admin/management/inventory";
 const REQUEST_MANAGEMENT_PATH = "/admin/management/requests";
@@ -50,7 +51,11 @@ function AdministrativePages(props) {
                             {props.state?.access?.includes('admin') ? (
                                 <Route path={USER_MANAGEMENT_PATH} element={<UserPage state={props.state} />} />
                             ) : (
-                                <Route path={USER_MANAGEMENT_PATH} element={<>Not Allowed Administrator Only</>} />
+                                <Route path={USER_MANAGEMENT_PATH} element={<div className="table-loading">
+                                    <Typography variant="button">
+                                        You are not allowed access to this content.
+                                    </Typography>
+                                </div>} />
                             )}
 
                             <Route path={PROFILE_PATH} element={<>Profile Page</>} />
@@ -69,7 +74,7 @@ function AdministrativePages(props) {
                             />
                             <Route
                                 path={VIEW_INVOICE_PAGE}
-                                element={<>Invoice Edit Page</>}
+                                element={<Invoice state={props.state} />}
                             />
                         </Routes>)
                 }

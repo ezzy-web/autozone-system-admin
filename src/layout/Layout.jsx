@@ -27,11 +27,9 @@ function Layout(props) {
   const [anchor, ToggleDrawer] = useState(false);
   const handleDrawerToggle = () => {
     ToggleDrawer(!anchor);
-    console.log(anchor);
   };
   const handleDrawerClose = () => {
     ToggleDrawer(false);
-    console.log(anchor);
   };
 
   return (

@@ -20,6 +20,7 @@ const options = {
   ],
 
   body: [
+    { value: "Hatchback", label: "Hatchback" },
     { value: "Sedan", label: "Sedan" },
     { value: "Coupe", label: "Coupe" },
     { value: "Pickup", label: "Pick-up" },

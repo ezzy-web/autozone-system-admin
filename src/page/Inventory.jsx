@@ -8,10 +8,10 @@ import {
   Card,
   Avatar,
   Button,
-  TextField,
   Snackbar,
 } from "@material-ui/core";
 import httpClient from "../httpClient";
+import { TextField } from "@mui/material";
 import TableComponent from "../components/DatatableComponent/DataTable";
 
 const NewVehicleForm = React.lazy(() =>
@@ -184,6 +184,7 @@ export default function InventoryPage(props) {
             Inventory Management{" "}
           </Typography>
           <TextField
+          variant="standard"
             className="mx-4 w-75"
             value={search}
             onChange={handleSearch}

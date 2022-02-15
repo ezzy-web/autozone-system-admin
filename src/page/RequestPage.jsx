@@ -7,8 +7,8 @@ import {
   Container,
   Card,
   Button,
-  TextField,
 } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import httpClient from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
 
@@ -99,6 +99,7 @@ export default function RequestPage(props) {
             Request Management{" "}
           </Typography>
           <TextField
+          variant="standard"
             className="mx-4 w-75"
             value={search}
             onChange={handleSearch}

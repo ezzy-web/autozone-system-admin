@@ -266,12 +266,37 @@ class InvoiceManager {
         return invoiceDoc
     }
 
+    async updateInvoice(data, user) {
+        data['lastUpdate'] = serverTimestamp()
+        const invoiceDoc = doc(db, "Invoices", data.id)
+        await updateDoc(invoiceDoc, data).catch(err => {
+            console.log(err)
+            throw err
+        })
+    }
+
     async getAllInvoices() {
         const docs = await getDocs(this.collection).catch(err => {
             console.log(err)
             throw err
         })
         return docs.docs
+    }
+
+    async getInvoice(id, ref = null) {
+        const docRef = ref ? ref : doc(db, "Invoices", id)
+
+        const snap = await getDoc(docRef).catch(err => {
+            console.log(err)
+            throw err
+        })
+
+        if (snap.exists()) {
+            return snap.data()
+        } else {
+            console.log("Data does't exist")
+            throw new Error("Data doesn't Exist")
+        }
     }
 }
 

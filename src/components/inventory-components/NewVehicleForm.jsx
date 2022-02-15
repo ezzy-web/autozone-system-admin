@@ -5,11 +5,11 @@ import {
   Divider,
   Button,
   Typography,
-  TextField,
   MenuItem,
   Checkbox,
   FormControlLabel
 } from "@material-ui/core";
+import { TextField } from "@mui/material";
 
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,6 +35,7 @@ const options = {
   ],
 
   body: [
+    { value: "Hatchback", label: "Hatchback" },
     { value: "Sedan", label: "Sedan" },
     { value: "Coupe", label: "Coupe" },
     { value: "Pickup", label: "Pick-up" },

@@ -6,9 +6,9 @@ import {
   Typography,
   Container,
   Card,
-  Button,
-  TextField
+  Button
 } from "@material-ui/core";
+import { TextField } from "@mui/material"
 import httpClient from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
 
@@ -92,17 +92,21 @@ export default function InvoicePage(props) {
           <Typography variant="button">Actions</Typography>
         </>
       ),
-      selector: (row) => (
-        <div className="d-flex">
-          <Button>
-            <small>Edit</small>
-          </Button>
-
-          <Button>
-            <small>Get PDF</small>
-          </Button>
-        </div>
-      ),
+      selector: (row) => {
+        const url = new URL("/admin/management/invoices/view", window.location.origin)
+        url.searchParams.append("invoice", row.id)
+        return (
+          <div className="d-flex">
+            <Button href={url.href}>
+              <small>Edit</small>
+            </Button>
+  
+            <Button>
+              <small>Get PDF</small>
+            </Button>
+          </div>
+        )
+      } ,
     },
   ];
 
@@ -148,6 +152,7 @@ export default function InvoicePage(props) {
             Invoice Management{" "}
           </Typography>
           <TextField
+          variant="standard"
             className="mx-4 w-75"
             value={search}
             onChange={handleSearch}

@@ -1,12 +1,12 @@
 import React from "react";
 import {
   Button,
-  TextField,
   Paper,
   Avatar,
   CircularProgress,
   Typography,
 } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import { Backdrop } from "@mui/material";
 import httpClient from "../httpClient.js";
 import { useForm, Controller } from "react-hook-form";
@@ -64,7 +64,7 @@ export default function LoginComponent(props) {
   };
   return (
     <div id="authentication-component-container">
-      <Backdrop sx={{ zIndex: 'tooltip' }} open={loaded}>
+      <Backdrop sx={{ zIndex: "tooltip" }} open={loaded}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <div className="row container">
@@ -82,6 +82,7 @@ export default function LoginComponent(props) {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
+                      variant="filled"
                       label="Email"
                       className="w-100"
                       error={errors.email ? true : false}
@@ -102,6 +103,7 @@ export default function LoginComponent(props) {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <TextField
+                      variant="filled"
                       label="Password"
                       className="w-100"
                       error={errors.password ? true : false}
