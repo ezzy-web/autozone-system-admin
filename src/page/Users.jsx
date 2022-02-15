@@ -8,7 +8,8 @@ import {
   Card,
   Avatar,
   Button,
-  Badge
+  Badge,
+  Snackbar,
 } from "@material-ui/core";
 import httpClient from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
@@ -27,6 +28,14 @@ export default function UserPage(props) {
   const [loaded, setLoad] = useState(false);
   const [modal, toggleModal] = useState(false);
 
+  const [openBar, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleOpenSnackBar = (message) => {
+    setMessage(message);
+    setOpen(true);
+  };
+
   const handleToggleModal = () => {
     toggleModal(!modal);
   };
@@ -42,9 +51,8 @@ export default function UserPage(props) {
         if (row.uid === currentUser?.uid) {
           return (
             <>
-              <Badge color="secondary" variant="dot">
-                <b className="text-muted">{row.fullName}</b>
-              </Badge>
+              <Badge color="secondary" variant="dot"></Badge>
+              <b className="text-muted mx-2">{row.fullName}</b>
             </>
           );
         }
@@ -143,7 +151,10 @@ export default function UserPage(props) {
                   onHide={closeModal}
                 >
                   <>
-                    <NewUserForm toggleModal={toggleModal} />
+                    <NewUserForm
+                      handleOpenSnackBar={handleOpenSnackBar}
+                      toggleModal={toggleModal}
+                    />
                   </>
                 </Modal>
               </div>
@@ -151,6 +162,12 @@ export default function UserPage(props) {
           </div>
         </div>
       </Container>
+
+      <Snackbar
+        open={openBar}
+        onClose={() => setOpen(false)}
+        message={message}
+      />
     </>
   );
 }

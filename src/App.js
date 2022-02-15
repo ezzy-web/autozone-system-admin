@@ -17,6 +17,7 @@ const VehiclePage = React.lazy(() => import("./page/VehiclePage"))
 const InvoicePage = React.lazy(() => import("./page/InvoicePage"))
 const RequestPage = React.lazy(() => import("./page/RequestPage"))
 const GenerateInvoice = React.lazy(() => import("./page/CreateInvoice"))
+const Dashboard = React.lazy(() => import("./page/Dashboard"))
 
 const INVENTORY_MANAGEMENT_PATH = "/admin/management/inventory";
 const REQUEST_MANAGEMENT_PATH = "/admin/management/requests";
@@ -55,11 +56,11 @@ function AdministrativePages(props) {
                             <Route path={PROFILE_PATH} element={<>Profile Page</>} />
                             <Route
                                 path={ADMIN_DASHBOARD_PATH}
-                                element={<>Dashboard Page</>}
+                                element={<Dashboard state={props.state} />}
                             />
                             <Route
                                 path="/"
-                                element={<>Dashboard Page</>}
+                                element={<Dashboard state={props.state} />}
                             />
                             <Route exact path={GENERATE_INVOICE_PATH} element={<GenerateInvoice state={props.state} />} />
                             <Route

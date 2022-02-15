@@ -15,6 +15,4 @@ exports.handler = async (event) => {
         console.log(error)
         return response(200, error?.code, false)
     }
-
-    
 }

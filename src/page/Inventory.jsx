@@ -9,6 +9,7 @@ import {
   Avatar,
   Button,
   TextField,
+  Snackbar,
 } from "@material-ui/core";
 import httpClient from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
@@ -23,9 +24,39 @@ export default function InventoryPage(props) {
   const [modal, toggleModal] = useState(false);
   const [search, setSearch] = useState("");
 
+  const [filters, setFilters] = useState(null);
+  const [serachResults, setResults] = useState(inventory);
+
+  const [openBar, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleOpenSnackBar = (message) => {
+    setMessage(message);
+    setOpen(true);
+  };
+
   const handleSearch = (e) => {
-    setSearch(e.target.value);
-    //   EXECUTE CODE TO FILTER INVENTORY
+    setLoad(false);
+    const search = e.target.value;
+    setSearch(search);
+    const mapping = filters.filter((data) => {
+      var equ = false;
+      data.match.forEach((param) => {
+        if (!equ) {
+          equ = param.includes(search.toUpperCase());
+        }
+      });
+
+      return equ;
+    });
+
+    if (search === "") {
+      setResults(inventory);
+    } else {
+      setResults(mapping.map((data) => inventory[data.index]));
+    }
+
+    setTimeout(() => setLoad(true), 1000);
   };
 
   const handleToggleModal = () => {
@@ -102,7 +133,7 @@ export default function InventoryPage(props) {
           </Typography>
         );
       },
-    }
+    },
   ];
 
   const getInventory = () => {
@@ -113,6 +144,23 @@ export default function InventoryPage(props) {
         const body = res.data;
         if (body.status) {
           setInventory(body.content);
+          setFilters(
+            body.content.map((data, index) => ({
+              index: index,
+              match: [
+                data?.id,
+                data.make?.toUpperCase(),
+                data.model?.toUpperCase(),
+                data.year,
+                data.chassis?.toUpperCase(),
+                data.engine_no?.toUpperCase(),
+                data.isVisible ? "VISIBLE" : "HIDDEN",
+                data.isAvailable ? "AVAILABLE" : "SOLD",
+              ],
+            }))
+          );
+
+          setResults(body.content);
         }
         setLoad(true);
       })
@@ -125,8 +173,11 @@ export default function InventoryPage(props) {
     getInventory();
   }, []);
 
+  
+
   return (
     <>
+      
       <Container>
         <Toolbar className="my-2">
           <Typography variant="h5" component={"h1"}>
@@ -144,7 +195,7 @@ export default function InventoryPage(props) {
           <div className="col-md-8 col-sm-12">
             <Card>
               {loaded ? (
-                <TableComponent columns={columns} data={inventory} />
+                <TableComponent columns={columns} data={serachResults} />
               ) : (
                 <div className="table-loading">
                   <CircularProgress />
@@ -182,13 +233,22 @@ export default function InventoryPage(props) {
                 </Button>
                 <Modal show={modal} onHide={closeModal}>
                   <>
-                    <NewVehicleForm toggleModal={toggleModal} />
+                    <NewVehicleForm
+                      handleOpenSnackBar={handleOpenSnackBar}
+                      toggleModal={toggleModal}
+                    />
                   </>
                 </Modal>
               </div>
             </Card>
           </div>
         </div>
+
+        <Snackbar
+          open={openBar}
+          onClose={() => setOpen(false)}
+          message={message}
+        />
       </Container>
     </>
   );

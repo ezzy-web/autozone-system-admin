@@ -67,6 +67,7 @@ const options = {
 
 export default function NewVehicleForm(props) {
   const toggleModal = props.toggleModal;
+  const handleOpenSnackBar = props.handleOpenSnackBar
 
   const schema = yup.object().shape({
     make: yup.string().required("This field is required"),
@@ -105,16 +106,16 @@ export default function NewVehicleForm(props) {
         const body = res.data
         if (body.status) {
           toggleModal(false)
-
+          handleOpenSnackBar(data.make + " " + data.model + " successfully added to the Inventory.")
           return;
         }
 
         const content = body.content
+        
         if (content.includes("auth/required")) {
           window.location.reload()
         }
-
-        console.log(content);
+        handleOpenSnackBar("Something went wrong")
       })
       .catch((err) => {
         

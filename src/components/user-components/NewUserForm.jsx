@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Modal } from "react-bootstrap";
-import { Typography, Button, Divider, TextField, MenuItem } from "@material-ui/core";
-
+import { Typography, Button, Divider, TextField, MenuItem, CircularProgress } from "@material-ui/core";
+import { Backdrop } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,6 +12,8 @@ import httpClient from ".././../httpClient";
 
 export default function NewUserForm(props) {
   const toggleModal = props.toggleModal
+  const handleOpenSnackBar = props.handleOpenSnackBar
+  const [loaded, setLoad] = React.useState(false)
 
   const schema = yup.object().shape({
     firstName: yup.string().required("This field is required"),
@@ -31,21 +33,28 @@ export default function NewUserForm(props) {
   });
 
   const registerUser = (data) => {
+    setLoad(true)
     httpClient()
       .post("/createUser", data)
       .then((res) => {
         const body = res.data
         if (body.status) {
           toggleModal(false)
+          handleOpenSnackBar("Successfully registered new member")
         } else {
-          // ERROR IMPLEMENTATION
-          console.log(body.content)
+          handleOpenSnackBar("Something went wrong")
         }
+        setLoad(false)
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setLoad(false)
+      });
   };
   return (
     <>
+    <Backdrop sx={{ zIndex: 'tooltip' }} open={loaded}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Modal.Header
           closeButton={
             <Button>
@@ -164,7 +173,7 @@ export default function NewUserForm(props) {
                   />
                 </div>
                 <div className="my-5 d-block">
-                  <Button variant="text" type="submit" className="w-100">Register User</Button>
+                  <Button disabled={loaded} variant="text" type="submit" className="w-100">Register User</Button>
                 </div>
               </div>
             </div>

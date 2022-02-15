@@ -8,6 +8,7 @@ import {
   Card,
   Button,
   TextField,
+  Snackbar,
 } from "@material-ui/core";
 import numeral from "numeral";
 
@@ -375,7 +376,7 @@ function VerifyInformation(props) {
                   ) : (
                     <></>
                   )}
-                  {client?.town !=="" ? (
+                  {client?.town !== "" ? (
                     <>
                       {client?.town} <br />
                     </>
@@ -484,6 +485,14 @@ export default function CreateInvoice() {
   );
   const [selectedVehicle, setVehicle] = useState(null);
 
+  const [openBar, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleOpenSnackBar = (message) => {
+    setMessage(message);
+    setOpen(true);
+  };
+
   const getInventory = () => {
     setLoad(false);
     httpClient()
@@ -556,7 +565,7 @@ export default function CreateInvoice() {
   };
 
   const submitInvoice = () => {
-    setLoad(false)
+    setLoad(false);
     const clientData = {
       firstName: client.firstName,
       lastName: client.lastName,
@@ -577,24 +586,26 @@ export default function CreateInvoice() {
       client: clientData,
     };
 
-    httpClient().post("/createInvoice", data)
-    .then( res => {
-      const body = res.data
-      setLoad(true)
-      if (body.status) {
-        changeStep(activeStep+1)
-        return;
-      }
+    httpClient()
+      .post("/createInvoice", data)
+      .then((res) => {
+        const body = res.data;
+        setLoad(true);
+        if (body.status) {
+          changeStep(activeStep + 1);
+          handleOpenSnackBar("Invoice was successfully created");
+          return;
+        }
 
-
-      if (body.content.includes("auth/required")) {
-        window.location.reload()
-      }
-      
-    })
-    .catch( err => {
-      setLoad(true)
-    })
+        if (body.content.includes("auth/required")) {
+          window.location.reload();
+        }
+        handleOpenSnackBar("Something went wrong");
+      })
+      .catch((err) => {
+        setLoad(true);
+        handleOpenSnackBar("Something went wrong");
+      });
   };
 
   useEffect(() => getInventory(), []);
@@ -607,73 +618,87 @@ export default function CreateInvoice() {
             Create New Invoice{" "}
           </Typography>
         </Toolbar>
-          <Card className="p-5">
-            {loaded ? (
-              <div className="steps-forms">
-                {activeStep === 0 ? (
-                  <SelectVehicle
-                    inventory={searchResults}
-                    setVehicle={handleSetVehicle}
-                    vehicle={selectedVehicle}
-                    handleSearch={searchInventory}
-                  />
-                ) : (
-                  <></>
-                )}
-                {activeStep === 1 ? (
-                  <ClientInformation
-                    client={client}
-                    handleChange={handleClientChange}
-                  />
-                ) : (
-                  <></>
-                )}
-                {activeStep === 2 ? (
-                  <VerifyInformation
-                    vehicle={selectedVehicle}
-                    client={client}
-                  />
-                ) : (
-                  <></>
-                )}
-                {activeStep === 3 ? <>Generate Invoice</> : <></>}
-              </div>
-            ) : (
-              <div className="table-loading">
-                <CircularProgress />
-              </div>
-            )}
-            <div className="separator my-2"></div>
-            <>
+        <Card className="p-5">
+          {loaded ? (
+            <div className="steps-forms">
+              {activeStep === 0 ? (
+                <SelectVehicle
+                  inventory={searchResults}
+                  setVehicle={handleSetVehicle}
+                  vehicle={selectedVehicle}
+                  handleSearch={searchInventory}
+                />
+              ) : (
+                <></>
+              )}
+              {activeStep === 1 ? (
+                <ClientInformation
+                  client={client}
+                  handleChange={handleClientChange}
+                />
+              ) : (
+                <></>
+              )}
+              {activeStep === 2 ? (
+                <VerifyInformation vehicle={selectedVehicle} client={client} />
+              ) : (
+                <></>
+              )}
               {activeStep === 3 ? (
                 <>
-                  <Button>Get PDF Copy</Button>
+                  <div className="table-loading">
+                    <Typography variant="button">Invoice Saved</Typography>
+                  </div>
                 </>
               ) : (
-                <>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={() => changeStep(activeStep - 1)}
-                  >
-                    Go Back
-                  </Button>
-                  <Button
-                    disabled={selectedVehicle === null}
-                    onClick={() => {
-                      if (activeStep === 2) {
-                        submitInvoice();
-                      } else {
-                        changeStep(activeStep + 1);
-                      }
-                    }}
-                  >
-                    {activeStep === 2 ? "Save Invoice" : "Continue"}
-                  </Button>
-                </>
+                <></>
               )}
-            </>
-          </Card>
+            </div>
+          ) : (
+            <div className="table-loading">
+              <CircularProgress />
+            </div>
+          )}
+          <div className="separator my-2"></div>
+          <>
+            {activeStep === 3 ? (
+              <>
+                <Button href="/admin/management/invoices">
+                  Back to Invoices
+                </Button>
+                <Button>Get PDF Copy</Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={() => changeStep(activeStep - 1)}
+                >
+                  Go Back
+                </Button>
+                <Button
+                  disabled={selectedVehicle === null}
+                  onClick={() => {
+                    if (activeStep === 2) {
+                      submitInvoice();
+                    } else {
+                      changeStep(activeStep + 1);
+                    }
+                  }}
+                >
+                  {activeStep === 2 ? "Save Invoice" : "Continue"}
+                </Button>
+              </>
+            )}
+          </>
+        </Card>
       </Container>
+
+      <Snackbar
+        open={openBar}
+        onClose={() => setOpen(false)}
+        message={message}
+      />
     </>
   );
 }

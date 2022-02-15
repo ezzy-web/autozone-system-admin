@@ -4,10 +4,10 @@ import {
   TextField,
   Paper,
   Avatar,
-  Backdrop,
   CircularProgress,
   Typography,
 } from "@material-ui/core";
+import { Backdrop } from "@mui/material";
 import httpClient from "../httpClient.js";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -62,9 +62,11 @@ export default function LoginComponent(props) {
         setLoad(false);
       });
   };
-
   return (
     <div id="authentication-component-container">
+      <Backdrop sx={{ zIndex: 'tooltip' }} open={loaded}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div className="row container">
         <div className="col-md-6 col-sm-12">
           <Paper className="login-container">
@@ -128,10 +130,6 @@ export default function LoginComponent(props) {
           </Paper>
         </div>
       </div>
-
-      <Backdrop sx={{ color: "#fff", zIndex: 999 }} open={loaded}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </div>
   );
 }

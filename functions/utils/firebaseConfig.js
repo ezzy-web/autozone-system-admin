@@ -1,27 +1,34 @@
 
 const { initializeApp } = require("firebase/app")
-const admin = require("firebase-admin")
+const firebase = require("firebase-admin")
 
 require('dotenv').config();
+
+
+
+
+
+
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API,
-  authDomain: "javvy-s-autozone-7c590.firebaseapp.com",
-  projectId: "javvy-s-autozone-7c590",
-  storageBucket: "javvy-s-autozone-7c590.appspot.com",
-  messagingSenderId: "786569536618",
-  appId: "1:786569536618:web:49385dbdc0a40f4f53d613",
-  measurementId: "G-XJZ566FGDV"
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MESUREMENT_ID
 };
-
 const app = initializeApp(firebaseConfig);
-const config = require("./../../firebaseConfig.json")
 
-admin.initializeApp({
-  credential: admin.credential.cert(config)
+
+const serviceAccount = require("./../../config.json")
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount)
 })
+
 
 module.exports = {
   app,
-  config,
-  admin
+  admin: firebase
 }

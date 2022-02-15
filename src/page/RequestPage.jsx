@@ -17,9 +17,31 @@ export default function RequestPage(props) {
   const [loaded, setLoad] = useState(false);
   const [search, setSearch] = useState("");
 
+  const [filters, setFilters] = useState(null);
+  const [serachResults, setResults] = useState(requests);
+
   const handleSearch = (e) => {
-    setSearch(e.target.value);
-    //   EXECUTE CODE TO FILTER Requests
+    setLoad(false);
+    const search = e.target.value;
+    setSearch(search);
+    const mapping = filters.filter((data) => {
+      var equ = false;
+      data.match.forEach((param) => {
+        if (!equ) {
+          equ = param.includes(search.toUpperCase());
+        }
+      });
+
+      return equ;
+    });
+
+    if (search === "") {
+      setResults(requests);
+    } else {
+      setResults(mapping.map((data) => requests[data.index]));
+    }
+
+    setTimeout(() => setLoad(true), 1000);
   };
 
   const columns = [
@@ -47,6 +69,16 @@ export default function RequestPage(props) {
         const body = res.data;
         if (body.status) {
           setRequests(body.content);
+          setFilters(
+            body.content.map((data, index) => ({
+              index: index,
+              match: [
+                data?.id
+              ],
+            }))
+          );
+
+          setResults(body.content);
         }
         setLoad(true);
       })
@@ -78,7 +110,7 @@ export default function RequestPage(props) {
           <div className="col-md-8 col-sm-12">
             <Card>
               {loaded ? (
-                <TableComponent columns={columns} data={requests} />
+                <TableComponent columns={columns} data={serachResults} />
               ) : (
                 <div className="table-loading">
                   <CircularProgress />

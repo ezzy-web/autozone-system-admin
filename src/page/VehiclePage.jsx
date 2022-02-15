@@ -14,6 +14,8 @@ import {
   Divider,
 } from "@material-ui/core";
 
+import { Backdrop } from "@mui/material";
+
 import { Tabs, Tab, Skeleton } from "@mui/material";
 
 import { TabPanel, TabContext } from "@mui/lab";
@@ -27,7 +29,9 @@ const ImageContent = React.lazy(() =>
   import("../components/vehicle-components/VehicleImagesContainer")
 );
 
-const FeatureComponent = React.lazy(() => import("../components/vehicle-components/FeaturesComponent"))
+const FeatureComponent = React.lazy(() =>
+  import("../components/vehicle-components/FeaturesComponent")
+);
 
 function EditField(props) {
   const modalToggle = props.modalToggle;
@@ -146,6 +150,7 @@ export default function VehiclePage() {
             setFeatured(data.isFeatured);
             setPriceVisible(data.price_visible);
           }
+          setBackdrop(false);
           setLoad(true);
         })
         .catch((err) => {});
@@ -185,26 +190,26 @@ export default function VehiclePage() {
   };
 
   const saveChanges = () => {
-    setLoad(false);
+    setBackdrop(true);
     httpClient()
       .post("/updateVehicle", vehicle)
       .then((res) => {
         const body = res.data;
         if (body.status) {
           setChanges(false);
-          setLoad(true);
 
+          getVehicle();
           return;
         }
 
         if (body.content.includes("auth/required")) {
-          window.location.reload()
+          window.location.reload();
         }
 
-        setLoad(true);
+        setBackdrop(false);
       })
       .catch((err) => {
-        setLoad(true);
+        setBackdrop(false);
       });
   };
 
@@ -230,44 +235,46 @@ export default function VehiclePage() {
     }
   };
 
-  const deleteVehicle = () => {
-    setLoad(false);
-    httpClient().post("/deleteVehicle", { id: vehicle.id })
-    .then( res => {
-      setLoad(true);
-      const body = res.data
-      if (body.success) {
-        window.location.replace("/admin/management/inventory")
-        return;
-      }
+  // const deleteVehicle = () => {
+  //   setLoad(false);
+  //   httpClient().post("/deleteVehicle", { id: vehicle.id })
+  //   .then( res => {
+  //     setLoad(true);
+  //     const body = res.data
+  //     if (body.success) {
+  //       window.location.replace("/admin/management/inventory")
+  //       return;
+  //     }
 
+  //     if (body.content.includes("auth/required")) {
+  //       window.location.reload()
+  //     }
 
-      if (body.content.includes("auth/required")) {
-        window.location.reload()
-      }
-
-    })
-    .catch( err => {
-      setLoad(true);
-    })
-  }
+  //   })
+  //   .catch( err => {
+  //     setLoad(true);
+  //   })
+  // }
 
   window.onbeforeunload = (e) => {
-    console.log(changes)
+    console.log(changes);
     if (!changes) {
       delete e["returnValue"];
     } else {
       e.returnValue = "";
     }
-  }
+  };
+  const [backDrop, setBackdrop] = useState(false);
 
   useEffect(() => {
     getVehicle();
-    
   }, []);
 
   return (
     <div>
+      <Backdrop sx={{ zIndex: "tooltip" }} open={backDrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Toolbar>
         {loaded ? (
           <Typography variant="h5" component={"h1"}>
@@ -505,8 +512,11 @@ export default function VehiclePage() {
                 )}
               </TabPanel>
               <TabPanel value="2">
-              {loaded ? (
-                  <FeatureComponent features={vehicle?.features} updateVehicle={updateVehicle} />
+                {loaded ? (
+                  <FeatureComponent
+                    features={vehicle?.features}
+                    updateVehicle={updateVehicle}
+                  />
                 ) : (
                   <>
                     <CardLoadState />

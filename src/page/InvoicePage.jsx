@@ -7,7 +7,7 @@ import {
   Container,
   Card,
   Button,
-  TextField,
+  TextField
 } from "@material-ui/core";
 import httpClient from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
@@ -17,16 +17,37 @@ export default function InvoicePage(props) {
   const [loaded, setLoad] = useState(false);
   const [search, setSearch] = useState("");
 
+  const [filters, setFilters] = useState(null)
+  const [serachResults, setResults] = useState(invoices)
   const handleSearch = (e) => {
-    setSearch(e.target.value);
-    //   EXECUTE CODE TO FILTER Invoices
+    setLoad(false);
+    const search = e.target.value;
+    setSearch(search);
+    const mapping = filters.filter((data) => {
+      var equ = false;
+      data.match.forEach((param) => {
+        if (!equ) {
+          equ = param.includes(search.toUpperCase());
+        }
+      });
+
+      return equ;
+    });
+
+    if (search === "") {
+      setResults(invoices);
+    } else {
+      setResults(mapping.map((data) => invoices[data.index]));
+    }
+
+    setTimeout(() => setLoad(true), 1000);
   };
 
   const columns = [
     {
       name: (
         <>
-          <Typography variant="button">Stock No.</Typography>
+          <Typography variant="button">Invoice No.</Typography>
         </>
       ),
       selector: (row) => (
@@ -34,6 +55,52 @@ export default function InvoicePage(props) {
           <Typography variant="button">
             <small>{row?.id}</small>
           </Typography>
+        </div>
+      ),
+    },
+    {
+      name: (
+        <>
+          <Typography variant="button">Client Name</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+          <Typography variant="button">
+            <small>{row?.client.firstName + " " + row?.client.lastName}</small>
+          </Typography>
+        </div>
+      ),
+    },
+    {
+      name: (
+        <>
+          <Typography variant="button">Vehicle</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+          <Typography variant="button">
+            <small>{row?.vehicle.title}</small>
+          </Typography>
+        </div>
+      ),
+    },
+    {
+      name: (
+        <>
+          <Typography variant="button">Actions</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex">
+          <Button>
+            <small>Edit</small>
+          </Button>
+
+          <Button>
+            <small>Get PDF</small>
+          </Button>
         </div>
       ),
     },
@@ -47,6 +114,20 @@ export default function InvoicePage(props) {
         const body = res.data;
         if (body.status) {
           setInvoices(body.content);
+          setFilters(body.content.map( (data, index) => ({
+            index: index,
+            match: [
+              data?.id.toString().toUpperCase(),
+              data?.client.firstName.toUpperCase(),
+              data?.client.lastName.toUpperCase(),
+              data?.vehicle.make.toUpperCase(),
+              data?.vehicle.model.toUpperCase(),
+              data?.vehicle.year.toUpperCase(),
+              data?.vehicle.title.toUpperCase(),
+              data?.client.firstName.toUpperCase() + " " + data?.client.lastName.toUpperCase()
+            ]
+          })))
+          setResults(body.content)
         }
         setLoad(true);
       })
@@ -78,7 +159,7 @@ export default function InvoicePage(props) {
           <div className="col-md-8 col-sm-12">
             <Card>
               {loaded ? (
-                <TableComponent columns={columns} data={invoices} />
+                <TableComponent columns={columns} data={serachResults} />
               ) : (
                 <div className="table-loading">
                   <CircularProgress />
@@ -105,7 +186,7 @@ export default function InvoicePage(props) {
                   Add New Invoice
                 </Typography>
 
-                <Button >
+                <Button href="/admin/management/generate/invoice" >
                   <span className="mx-3">Create Invoice</span>{" "}
                 </Button>
               </div>
