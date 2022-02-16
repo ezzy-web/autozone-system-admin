@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import httpClient from "../../httpClient";
+import {httpClient, addActivity} from "../../httpClient";
 
 const options = {
   year: [
@@ -107,6 +107,7 @@ export default function NewVehicleForm(props) {
         const body = res.data
         if (body.status) {
           toggleModal(false)
+          addActivity("New Vehicle added to Inventory", data.make + " " + data.model + " successfully added to the Inventory.")
           handleOpenSnackBar(data.make + " " + data.model + " successfully added to the Inventory.")
           return;
         }

@@ -7,7 +7,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import httpClient from "../../httpClient";
+import {httpClient} from "../../httpClient";
 
 export default function UserExpand(props) {
   const data = props.data;
@@ -177,19 +177,24 @@ export default function UserExpand(props) {
           <AccordionDetails>
             <div className="pb-5 fs-6">
               {data?.activities.map((activity) => {
-                var date = new Date(activity.timeStamp);
+                const seconds = parseInt(activity.timeStamp.seconds)
+                const nanoseconds = parseInt(activity.timeStamp.nanoseconds)
+                var date = new Date(seconds * 1000 + nanoseconds/1000000);
                 return (
                   <div key={date.toLocaleString()}>
-                    <div className="fw-bolder mt-5">
+                    <div className="fw-bolder">
+                      <small>
                       {" "}
                       {activity.title}{" "}
                       <span className="text-muted">
                         {" "}
                         {date.toLocaleString()}{" "}
                       </span>{" "}
+                      </small>
+                      
                     </div>
-                    <div className="text-gray-600"> {activity.details} </div>
-                    <Divider />
+                    <div className="text-muted"> <small>{activity.details} </small> </div>
+                    <div className="separator my-2"></div>
                   </div>
                 );
               })}

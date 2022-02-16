@@ -9,7 +9,9 @@ const {
     updateDoc,
     getDoc,
     getDocs,
-    deleteDoc
+    deleteDoc,
+    query,
+    orderBy
 } = require("firebase/firestore")
 
 const { simpleflake } = require('simpleflakes')
@@ -18,9 +20,84 @@ const db = getFirestore(app)
 
 
 
+class ActivityManager {
+    constructor() {
+        this.collection = collection(db, "Activities")
+    }
+
+    async createActivity(data) {
+        data['timeStamp'] = serverTimestamp()
+
+        console.log(data)
+
+        const docRef = await addDoc(this.collection, data).catch(err => {
+            console.log(err)
+            throw err
+        })
+
+        return docRef
+    }
+
+    async getActivities(limitAmt = 15, order_by = "timeStamp", startAfter = null) {
+
+        if (startAfter) {
+            const queryRef = query(this.collection, orderBy(order_by), limit(limitAmt), startAfter(startAfter))
+            const snap = await getDocs(queryRef).catch(err => {
+                console.log(err)
+                throw err
+            })
+
+            const docs = snap.docs()
+            const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null 
+
+
+            return {
+                documents: docs,
+                lastDocument: lastDocSnap
+            }
+        } else {
+            const queryRef = query(this.collection, orderBy(order_by), limit(limitAmt))
+            const snap = await getDocs(queryRef).catch(err => {
+                console.log(err)
+                throw err
+            })
+
+            const docs = snap.docs()
+            const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null 
+
+
+            return {
+                documents: docs,
+                lastDocument: lastDocSnap
+            }
+        }
+    }
+
+    async getActivity(id, ref = null) {
+        const docRef = ref ? ref : doc(db, "Activities", id)
+
+        const snap = await getDoc(docRef).catch(err => {
+            console.log(err)
+            throw err
+        })
+
+        if (snap.exists()) {
+            return snap.data()
+        } else {
+            console.log("Data does't exist")
+            throw new Error("Data doesn't Exist")
+        }
+    }
+}
+
 class UserManager {
     constructor() {
         this.collection = collection(db, "Users")
+    }
+
+    getDocRef(id) {
+        const docRef = doc(db, "Users", id)
+        return docRef
     }
 
     async createUser(data) {
@@ -317,9 +394,14 @@ const getInvoiceManager = () => {
     return new InvoiceManager()
 }
 
+const getActivityManger = () => {
+    return new ActivityManager()
+}
+
 module.exports = {
     getUserManager,
     getInventoryManager,
     getClientManager,
-    getInvoiceManager
+    getInvoiceManager,
+    getActivityManger
 }

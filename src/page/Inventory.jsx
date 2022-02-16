@@ -10,7 +10,7 @@ import {
   Button,
   Snackbar,
 } from "@material-ui/core";
-import httpClient from "../httpClient";
+import { httpClient } from "../httpClient";
 import { TextField } from "@mui/material";
 import TableComponent from "../components/DatatableComponent/DataTable";
 
@@ -126,7 +126,9 @@ export default function InventoryPage(props) {
         </>
       ),
       selector: (row) => {
-        var date = new Date(row?.lastUpdate?.nanoseconds);
+        const seconds = parseInt(row.lastUpdate.seconds);
+        const nanoseconds = parseInt(row.lastUpdate.nanoseconds);
+        var date = new Date(seconds * 1000 + nanoseconds / 1000000);
         return (
           <Typography variant="caption" component={"small"}>
             {date.toLocaleString("en-US")}
@@ -173,18 +175,15 @@ export default function InventoryPage(props) {
     getInventory();
   }, []);
 
-  
-
   return (
     <>
-      
       <Container>
         <Toolbar className="my-2">
           <Typography variant="h5" component={"h1"}>
             Inventory Management{" "}
           </Typography>
           <TextField
-          variant="standard"
+            variant="standard"
             className="mx-4 w-75"
             value={search}
             onChange={handleSearch}

@@ -1,6 +1,6 @@
 import React from "react";
 import { List, ListItem } from "@material-ui/core";
-import httpClient from "../httpClient";
+import {httpClient} from "../httpClient";
 
 const INVENTORY_MANAGEMENT_PATH = "/admin/management/inventory";
 const REQUEST_MANAGEMENT_PATH = "/admin/management/requests";

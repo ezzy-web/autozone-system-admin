@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import httpClient from "../httpClient";
+import {httpClient, addActivity} from "../httpClient";
 import {
   CircularProgress,
   Toolbar,
@@ -594,6 +594,7 @@ export default function CreateInvoice() {
         setLoad(true);
         if (body.status) {
           changeStep(activeStep + 1);
+          addActivity("New Invoice Created", "Invoice assigned to " + selectedVehicle.id + " (" + selectedVehicle.title + ") was created")
           handleOpenSnackBar("Invoice was successfully created");
           return;
         }

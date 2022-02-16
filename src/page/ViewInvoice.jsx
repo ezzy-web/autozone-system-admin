@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Button, Toolbar, Card } from "@mui/material";
 import { TextField, CircularProgress, Snackbar } from "@mui/material";
-import httpClient from "../httpClient";
+import {httpClient, addActivity} from "../httpClient";
 import numeral from "numeral";
 
 export default function ViewInvoice() {
@@ -22,6 +22,7 @@ export default function ViewInvoice() {
   const [gct, setGCT] = useState(0.15);
   const [total, setTotal] = useState(0);
   const [tax, setTax] = useState(0);
+
 
   const editVehicle = () => {
     var url = new URL(
@@ -76,6 +77,7 @@ export default function ViewInvoice() {
         const body = res.data;
 
         if (body.status) {
+          addActivity("Invoice Update", "Invoice " + invoice.id + " assigned to " + vehicle.id + " (" + vehicle.title + ") was updated")
           setChange(false);
           getInvoice();
           handleOpenSnackBar("Invoice Updated")

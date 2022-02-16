@@ -5,7 +5,7 @@ import {
     Routes
 } from "react-router-dom";
 import './styles/app.scss'
-import httpClient from './httpClient.js'
+import {httpClient} from './httpClient.js'
 import { Button, Typography } from "@material-ui/core";
 
 const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))

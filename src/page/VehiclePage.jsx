@@ -15,7 +15,7 @@ import {
 import { Backdrop, TextField } from "@mui/material";
 import { Tabs, Tab, Skeleton } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
-import httpClient from "../httpClient";
+import {httpClient, addActivity} from "../httpClient";
 
 const ContentContainer = React.lazy(() =>
   import("../components/vehicle-components/VehicleContentContainer")
@@ -192,6 +192,7 @@ export default function VehiclePage() {
       .then((res) => {
         const body = res.data;
         if (body.status) {
+          addActivity("Vehicle Update", vehicle.id + " (" + vehicle.title + ") was updated")
           setChanges(false);
 
           getVehicle();
@@ -326,7 +327,7 @@ export default function VehiclePage() {
                         Date Added
                       </Typography>
                       <Typography variant="subtitle2">
-                        {Date(vehicle?.timeStamp?.nanoseconds).toLocaleString()}
+                      {new Date(parseInt(vehicle?.timeStamp?.seconds) * 1000 + parseInt(vehicle?.timeStamp?.nanoseconds) / 1000000).toLocaleString()}
                       </Typography>
                     </div>
 
@@ -361,9 +362,7 @@ export default function VehiclePage() {
                         Date Last Edited
                       </Typography>
                       <Typography variant="subtitle2">
-                        {Date(
-                          vehicle?.lastUpdate?.nanoseconds
-                        ).toLocaleString()}
+                        {new Date(parseInt(vehicle?.lastUpdate?.seconds) * 1000 + parseInt(vehicle?.lastUpdate?.nanoseconds) / 1000000).toLocaleString()}
                       </Typography>
                     </div>
                   </Box>

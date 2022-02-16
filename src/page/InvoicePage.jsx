@@ -9,7 +9,7 @@ import {
   Button
 } from "@material-ui/core";
 import { TextField } from "@mui/material"
-import httpClient from "../httpClient";
+import {httpClient} from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
 
 export default function InvoicePage(props) {

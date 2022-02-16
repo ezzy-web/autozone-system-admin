@@ -11,7 +11,7 @@ import {
   Badge,
   Snackbar,
 } from "@material-ui/core";
-import httpClient from "../httpClient";
+import {httpClient} from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
 
 const NewUserForm = React.lazy(() =>
@@ -79,6 +79,7 @@ export default function UserPage(props) {
     },
   ];
 
+  
   const getUsers = () => {
     setLoad(false);
     httpClient()

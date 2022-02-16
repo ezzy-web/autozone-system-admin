@@ -2,8 +2,21 @@ import axios from "axios"
 
 const httpClient = () => {
   return axios.create({
-      baseURL: window.location.origin + "/.netlify/functions"
+    baseURL: window.location.origin + "/.netlify/functions"
   })
 }
 
-export default httpClient
+
+
+const addActivity = (title, details) => {
+  httpClient().post("/createActivity", { title, details })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export {
+  httpClient,
+  addActivity
+}
+

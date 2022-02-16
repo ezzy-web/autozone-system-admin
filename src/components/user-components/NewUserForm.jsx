@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import httpClient from ".././../httpClient";
+import {httpClient, addActivity} from ".././../httpClient";
 
 
 export default function NewUserForm(props) {
@@ -40,6 +40,7 @@ export default function NewUserForm(props) {
         const body = res.data
         if (body.status) {
           toggleModal(false)
+          addActivity("New Member", "New member was added to the system (" + data.email + ")")
           handleOpenSnackBar("Successfully registered new member")
         } else {
           handleOpenSnackBar("Something went wrong")
