@@ -49,9 +49,9 @@ function Layout(props) {
             <span>
               <i className="lni lni-menu"></i>
             </span>
-            <LogoComponent />
+            
           </Button>
-          
+          <LogoComponent />
           
           
           <Tooltip title="Account Profile">

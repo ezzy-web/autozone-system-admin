@@ -1,6 +1,6 @@
 
 const response = require('./utils/formattedResponse')
-const { logout } = require("./utils/firebaseAuth")
+const { logout } = require("./utils/firebase/firebaseAuth")
 
 exports.handler = async (event, context) => {
     await logout()

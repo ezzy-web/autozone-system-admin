@@ -122,7 +122,7 @@ export default function UserPage(props) {
                   data={users}
                   expandableRows={true}
                   expandableRowsComponent={(props) => (
-                    <Expanded {...props} current={currentUser} />
+                    <Expanded {...props} current={currentUser} handleOpenSnackBar={handleOpenSnackBar} />
                   )}
                 />
               ) : (

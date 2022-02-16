@@ -1,6 +1,6 @@
 
 const response = require('./utils/formattedResponse')
-const { getUserManager } = require("./utils/firestore")
+const { getUserManager } = require("./utils/firebase/firestore")
 
 const db = getUserManager()
 

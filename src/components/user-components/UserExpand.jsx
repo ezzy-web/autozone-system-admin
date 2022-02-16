@@ -1,20 +1,18 @@
 import React from "react";
 import { Badge } from "react-bootstrap";
+import { Button, Divider, MenuItem, Typography } from "@material-ui/core";
 import {
-  Button,
-  Divider,
-  MenuItem,
+  TextField,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography,
-} from "@material-ui/core";
-import { TextField } from "@mui/material";
+} from "@mui/material";
 import httpClient from "../../httpClient";
 
 export default function UserExpand(props) {
   const data = props.data;
   const currentUser = props.current;
+  const handleOpenSnackBar = props.handleOpenSnackBar;
 
   var date_joined = new Date(data?.timeStamp?.nanoseconds);
   const [access, setAccess] = React.useState(data?.access);
@@ -27,14 +25,28 @@ export default function UserExpand(props) {
     httpClient()
       .post("/deleteUser", { id: data.uid })
       .then((res) => {
-        console.log(res);
+        handleOpenSnackBar("User Removed refresh users to show updates");
       })
 
       .catch((err) => {
-        console.log(err);
+        handleOpenSnackBar("Something went wrong");
       });
   };
 
+  const verifyEmail = () => {
+    httpClient()
+      .post("/sendEmailVerification", { email: data.email })
+      .then((res) => {
+        if (res.data.status) {
+          handleOpenSnackBar("Verification Email Sent");
+
+          return;
+        }
+      })
+      .catch((err) => {
+        handleOpenSnackBar("Something went wrong");
+      });
+  };
   return (
     <>
       <div id="user-expander-container">
@@ -60,7 +72,12 @@ export default function UserExpand(props) {
             {data?.emailVerified ? (
               <></>
             ) : (
-              <Button className="p-0" variant="text" size="small">
+              <Button
+                onClick={verifyEmail}
+                className="p-0"
+                variant="text"
+                size="small"
+              >
                 <small className="mx-3">Send Verification Email</small>
               </Button>
             )}
@@ -123,7 +140,9 @@ export default function UserExpand(props) {
                     <div className="right">
                       <TextField
                         select
-                        onChange={(e) => { setAccess(e.target.value)}}
+                        onChange={(e) => {
+                          setAccess(e.target.value);
+                        }}
                         value={access}
                         size="small"
                         className="w-50"

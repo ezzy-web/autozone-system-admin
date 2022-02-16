@@ -41,12 +41,16 @@ const logout = async () => {
   signOut(auth)
 }
 
+
+
 module.exports = {
   register,
   login,
   logout,
   auth,
-  deleteUser
+  deleteUser,
+  generateEmailVerificationLink: async (email) => await admin.auth().generateEmailVerificationLink(email),
+  generatePasswordResetLink: async (email) => await admin.auth().generatePasswordResetLink(email)
 }
 
 

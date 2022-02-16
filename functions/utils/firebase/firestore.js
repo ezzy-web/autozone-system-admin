@@ -36,7 +36,7 @@ class UserManager {
 
     async updateUser(id, data) {
         data['lastUpdate'] = serverTimestamp()
-        const userDoc = doc(db, "Users", data.uid)
+        const userDoc = doc(db, "Users", id)
 
         await updateDoc(userDoc, data).catch(err => {
             console.log(err)

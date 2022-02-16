@@ -1,6 +1,6 @@
 
 const response = require('./utils/formattedResponse')
-const { getInventoryManager } = require("./utils/firestore")
+const { getInventoryManager } = require("./utils/firebase/firestore")
 
 const db = getInventoryManager()
 
