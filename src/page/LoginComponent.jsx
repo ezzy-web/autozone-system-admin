@@ -6,16 +6,42 @@ import {
   CircularProgress,
   Typography,
 } from "@material-ui/core";
-import { TextField } from "@mui/material";
+import { Modal } from "react-bootstrap";
+import { Visibility, VisibilityOff } from "@material-ui/icons"
+import { TextField, Snackbar, InputAdornment, IconButton } from "@mui/material";
 import { Backdrop } from "@mui/material";
-import {httpClient} from "../httpClient.js";
+import { httpClient } from "../httpClient.js";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+const NewUserForm = React.lazy(() =>
+  import("../components/user-components/NewUserForm.jsx")
+);
+
 export default function LoginComponent(props) {
   const [loaded, setLoad] = React.useState(false);
   const [errorMsg, setError] = React.useState("");
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  const [modal, toggleModal] = React.useState(false);
+
+  const [openBar, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+
+  const [passwordHidden, setPasswordState] = React.useState(true);
+
+  const handleOpenSnackBar = (message) => {
+    setMessage(message);
+    setOpen(true);
+  };
+
+  const handleToggleModal = () => {
+    toggleModal(!modal);
+  };
+
+  const closeModal = () => {
+    toggleModal(false);
+  };
 
   const schema = yup.object().shape({
     email: yup.string().email("Invalid email").required("Email is required"),
@@ -33,6 +59,18 @@ export default function LoginComponent(props) {
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
+
+  const checkAdmin = () => {
+    httpClient()
+      .post("/systemCred", {})
+      .then((res) => {
+        console.log(res);
+        setIsAdmin(res.data.content);
+      })
+      .catch((err) => {
+        setIsAdmin(false);
+      });
+  };
 
   const submit = (data) => {
     setLoad(true);
@@ -62,6 +100,9 @@ export default function LoginComponent(props) {
         setLoad(false);
       });
   };
+
+  React.useEffect(() => checkAdmin(), []);
+
   return (
     <div id="authentication-component-container">
       <Backdrop sx={{ zIndex: "tooltip" }} open={loaded}>
@@ -109,10 +150,27 @@ export default function LoginComponent(props) {
                       error={errors.password ? true : false}
                       helperText={errors?.password?.message}
                       name={"password"}
-                      type={"password"}
+                      type={passwordHidden ? "password" : "text"}
                       defaultValue=""
                       value={value}
                       onChange={onChange}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => setPasswordState(!passwordHidden)}
+                              edge="end"
+                            >
+                              {passwordHidden ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 />
@@ -129,9 +187,35 @@ export default function LoginComponent(props) {
             <Button className="w-100 my-4" size="small" variant="text">
               Back to Website
             </Button>
+            {isAdmin ? (
+              <>
+                <Button
+                  onClick={handleToggleModal}
+                  className="w-100 my-4"
+                  size="small"
+                >
+                  New to System
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
           </Paper>
         </div>
       </div>
+      <Modal className="modal-containe" show={modal} onHide={closeModal}>
+        <>
+          <NewUserForm
+            handleOpenSnackBar={handleOpenSnackBar}
+            toggleModal={toggleModal}
+          />
+        </>
+      </Modal>
+      <Snackbar
+        open={openBar}
+        onClose={() => setOpen(false)}
+        message={message}
+      />
     </div>
   );
 }

@@ -11,7 +11,8 @@ const {
     getDocs,
     deleteDoc,
     query,
-    orderBy
+    orderBy,
+    where
 } = require("firebase/firestore")
 
 const { simpleflake } = require('simpleflakes')
@@ -48,7 +49,7 @@ class ActivityManager {
             })
 
             const docs = snap.docs()
-            const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null 
+            const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null
 
 
             return {
@@ -63,7 +64,7 @@ class ActivityManager {
             })
 
             const docs = snap.docs()
-            const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null 
+            const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null
 
 
             return {
@@ -93,6 +94,12 @@ class ActivityManager {
 class UserManager {
     constructor() {
         this.collection = collection(db, "Users")
+    }
+
+    async checkAdmin() {
+        const queryRef = query(this.collection, where("access", "==", "admin"))
+        const docs = await getDocs(queryRef).catch(err => { console.log(err); throw err })
+        return docs.size > 0 ? false : true
     }
 
     getDocRef(id) {
