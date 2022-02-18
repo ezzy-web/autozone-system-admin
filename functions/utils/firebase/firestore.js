@@ -29,8 +29,6 @@ class ActivityManager {
     async createActivity(data) {
         data['timeStamp'] = serverTimestamp()
 
-        console.log(data)
-
         const docRef = await addDoc(this.collection, data).catch(err => {
             console.log(err)
             throw err

@@ -13,6 +13,7 @@ exports.handler = async (event, context) => {
 
         try {
             const data = await db.getUser(user.uid)
+            data.activities = null
             return response(200, data)
         } catch (error) {
             console.log(error)

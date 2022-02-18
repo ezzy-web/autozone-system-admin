@@ -4,6 +4,7 @@ const {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail
   } = require("firebase/auth")
 
 const auth = getAuth(app)
@@ -42,6 +43,14 @@ const logout = async () => {
 }
 
 
+const changeEmail = async (user, newEmail) => {
+  await updateEmail(user, newEmail).catch( err => {
+    throw err
+  })
+}
+
+
+
 
 module.exports = {
   register,
@@ -50,7 +59,9 @@ module.exports = {
   auth,
   deleteUser,
   generateEmailVerificationLink: async (email) => await admin.auth().generateEmailVerificationLink(email),
-  generatePasswordResetLink: async (email) => await admin.auth().generatePasswordResetLink(email)
+  generatePasswordResetLink: async (email) => await admin.auth().generatePasswordResetLink(email),
+  changeEmail
+
 }
 
 

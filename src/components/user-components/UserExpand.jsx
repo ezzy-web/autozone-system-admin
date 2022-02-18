@@ -7,7 +7,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import {httpClient} from "../../httpClient";
+import {httpClient, addActivity} from "../../httpClient";
 
 export default function UserExpand(props) {
   const data = props.data;
@@ -26,6 +26,7 @@ export default function UserExpand(props) {
       .post("/deleteUser", { id: data.uid })
       .then((res) => {
         handleOpenSnackBar("User Removed refresh users to show updates");
+        addActivity("User Removed", data.fullName + " was removed from the system.")
       })
 
       .catch((err) => {
