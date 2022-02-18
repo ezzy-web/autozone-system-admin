@@ -8,8 +8,9 @@ import {
   AppBar,
   Button,
   Tooltip,
-  Avatar
+  Avatar,
 } from "@material-ui/core";
+
 
 const drawerWidth = 40;
 const SidebarComponent = React.lazy(() =>
@@ -17,13 +18,16 @@ const SidebarComponent = React.lazy(() =>
 );
 const LogoComponent = () => (
   <>
-    <div className="mx-5">System Control</div>
+    <div className="mx-5">
+      <a href="/">
+        <img src="/images/logo.png" alt="logo" className="logo-image" />
+      </a>
+    </div>
   </>
 );
 
-
 function Layout(props) {
-  const user = props.state
+  const user = props.state;
   const [anchor, ToggleDrawer] = useState(false);
   const handleDrawerToggle = () => {
     ToggleDrawer(!anchor);
@@ -34,10 +38,7 @@ function Layout(props) {
 
   return (
     <Box className="admin-portal">
-      <AppBar
-        color="inherit"
-        position="static"
-      >
+      <AppBar color="inherit" position="static">
         <Toolbar className={"admin-main-bar"}>
           <Button
             color="inherit"
@@ -49,23 +50,20 @@ function Layout(props) {
             <span>
               <i className="lni lni-menu"></i>
             </span>
-            
           </Button>
           <LogoComponent />
-          
-          
+
           <Tooltip title="Account Profile">
-            <Button
-              size="medium"
-              href={"/admin/profile"}
-              variant="text"
-            >
-              <Avatar sx={{ width: 32, height: 32 }}>{user?.firstName?.charAt(0)?.toUpperCase()}</Avatar>
-              <small  className=" text-muted mx-3"><b>{user?.fullName}</b></small>
+            <Button size="medium" href={"/admin/profile"} variant="text">
+              <Avatar sx={{ width: 32, height: 32 }}>
+                {user?.firstName?.charAt(0)?.toUpperCase()}
+              </Avatar>
+              <small className=" text-muted mx-3">
+                <b>{user?.fullName}</b>
+              </small>
             </Button>
           </Tooltip>
         </Toolbar>
-        
       </AppBar>
       <Box
         component="nav"
