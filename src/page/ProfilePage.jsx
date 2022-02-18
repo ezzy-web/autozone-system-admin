@@ -17,7 +17,6 @@ import { httpClient } from "../httpClient";
 
 function ChangeInfo(props) {
   const modalToggle = props.toggleModal;
-  const user = props?.user;
   const [email, changeEmail] = React.useState("");
   const updateUser = props?.updateUser;
 
@@ -35,9 +34,7 @@ function ChangeInfo(props) {
           return;
         }
       })
-      .catch( err => {
-          console.log(err)
-      })
+      .catch( err => {})
   };
 
   return (
@@ -291,7 +288,6 @@ export default function ProfilePage(props) {
       <Modal className="modal-containe" show={modal} onHide={closeModal}>
         <ChangeInfo
           toggleModal={setModal}
-          user={user}
           updateUser={getUserData}
         />
       </Modal>
