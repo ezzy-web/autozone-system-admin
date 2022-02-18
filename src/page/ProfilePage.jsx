@@ -121,7 +121,10 @@ export default function ProfilePage(props) {
       });
   };
 
-  React.useEffect(() => getUserData(), []);
+  React.useEffect(() => { 
+    getUserData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Toolbar>

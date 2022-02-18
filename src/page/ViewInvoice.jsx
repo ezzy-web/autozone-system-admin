@@ -95,7 +95,10 @@ export default function ViewInvoice() {
     setTotal(parseFloat(vehicle?.price) + (vehicle?.price * gct));
   }, [gct, vehicle]);
 
-  useEffect(() => getInvoice(), []);
+  useEffect(() =>{ 
+    getInvoice()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   
 
