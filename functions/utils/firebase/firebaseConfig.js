@@ -39,7 +39,7 @@ console.log(serviceAccount)
 // const { applicationDefault } = require("firebase-admin/app");
 
 firebase.initializeApp({
-  credential: firebase.credential.cert(serviceAccount)
+  credential: firebase.credential.cert(JSON.stringify(serviceAccount))
   // credential: applicationDefault()
 })
 
