@@ -29,7 +29,7 @@ export default function NewUserForm(props) {
     control,
   } = useForm({
     reValidateMode: "onChange",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema)
   });
 
   const registerUser = (data) => {
@@ -158,12 +158,11 @@ export default function NewUserForm(props) {
                         className="w-100"
                         placeholder={"User Access Level"}
                         error={errors.access ? true : false}
-                        helperText={errors?.access?.message ? errors?.access?.message  : "This defines the member's level in the system"}
+                        helperText={errors?.access?.message ? errors?.access?.message  : "This defines the member's access level to the system"}
                         value={value}
-                        defaultValue="normal"
                         onChange={onChange}
                       >
-                        {[{ value: "admin", label: "Administrator" }, { value: "normal", label: "Normal" } ].map( option => (
+                        {[{ value: "", label: "Select Access Level" }, { value: "admin", label: "Administrator" }, { value: "normal", label: "Normal" } ].map( option => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
