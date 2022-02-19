@@ -29,7 +29,7 @@ const serviceAccount = {
   client_email: process.env.CLIENT_EMAIL,
   client_id: process.env.CLIENT_EMAIL,
   auth_uri: process.env.AUTH_URI,
-  token_uri: pricess.env.TOKEN_URL,
+  token_uri: process.env.TOKEN_URL,
   auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_URL,
   client_x509_cert_url: process.env.CLIENT_CERT_URL
 }
