@@ -7,7 +7,7 @@ import {
   Typography,
   MenuItem,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
 } from "@material-ui/core";
 import { TextField } from "@mui/material";
 
@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import {httpClient, addActivity} from "../../httpClient";
+import { httpClient, addActivity } from "../../httpClient";
 
 const options = {
   year: [
@@ -68,7 +68,9 @@ const options = {
 
 export default function NewVehicleForm(props) {
   const toggleModal = props.toggleModal;
-  const handleOpenSnackBar = props.handleOpenSnackBar
+  const handleOpenSnackBar = props.handleOpenSnackBar;
+
+  const [loaded, setLoad] = React.useState(false);
 
   const schema = yup.object().shape({
     make: yup.string().required("This field is required"),
@@ -100,28 +102,41 @@ export default function NewVehicleForm(props) {
   });
 
   const submit = (data) => {
+    setLoad(true);
     httpClient()
       .post("/createVehicle", data)
       .then((res) => {
-        
-        const body = res.data
+        const body = res.data;
         if (body.status) {
-          toggleModal(false)
-          addActivity("New Vehicle added to Inventory", data.make + " " + data.model + " successfully added to the Inventory.")
-          handleOpenSnackBar(data.make + " " + data.model + " successfully added to the Inventory.")
+          toggleModal(false);
+          addActivity(
+            "New Vehicle added to Inventory",
+            data.make +
+              " " +
+              data.model +
+              " successfully added to the Inventory."
+          );
+          handleOpenSnackBar(
+            data.make +
+              " " +
+              data.model +
+              " successfully added to the Inventory."
+          );
+          setLoad(false);
           return;
         }
 
-        const content = body.content
-        
+        const content = body.content;
+
         if (content.includes("auth/required")) {
-          window.location.reload()
+          window.location.reload();
         }
-        handleOpenSnackBar("Something went wrong")
+        handleOpenSnackBar("Something went wrong");
+        setLoad(false);
       })
       .catch((err) => {
-        
-            console.log(err);
+        setLoad(false);
+        handleOpenSnackBar("Something went wrong");
       });
   };
 
@@ -529,7 +544,12 @@ export default function NewVehicleForm(props) {
                 >
                   Cancel
                 </Button>
-                <Button variant="text" type="submit" className="w-100">
+                <Button
+                  disabled={loaded}
+                  variant="text"
+                  type="submit"
+                  className="w-100"
+                >
                   Add to Inventory
                 </Button>
               </div>

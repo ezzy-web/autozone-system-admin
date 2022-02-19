@@ -64,7 +64,6 @@ export default function LoginComponent(props) {
     httpClient()
       .post("/systemCred", {})
       .then((res) => {
-        console.log(res);
         setIsAdmin(res.data.content);
       })
       .catch((err) => {
