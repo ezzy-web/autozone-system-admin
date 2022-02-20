@@ -4,6 +4,6 @@
     command = "npm run build"
 
 [[redirects]]
-    from = "api/*"
-    to = ".netlify/functions/:splat"
+    from = "admin/*"
+    to = "/"
     status = 200
