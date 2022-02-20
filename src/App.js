@@ -5,7 +5,7 @@ import {
     Routes
 } from "react-router-dom";
 import './styles/app.scss'
-import {httpClient} from './httpClient.js'
+import { httpClient } from './httpClient.js'
 import { Button, Typography } from "@material-ui/core";
 
 const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))
@@ -132,7 +132,9 @@ export default function App() {
         return (
             <Router>
                 <Routes>
-                    {admin === null ? (
+                    {admin ? (
+                        <Route path="/*" element={<AdministrativePages state={admin} />} />
+                    ) : (
                         <>
                             {connection ? (
                                 <Route path="/*"
@@ -148,9 +150,6 @@ export default function App() {
                                 />
                             )}
                         </>
-
-                    ) : (
-                        <Route path="/*" element={<AdministrativePages state={admin} />} />
                     )}
                 </Routes>
             </Router>
