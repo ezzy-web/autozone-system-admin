@@ -22,17 +22,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 
-// const serviceAccount = process.env.GOOGLE_APPLICATION_CREDENTIALS
 // const { applicationDefault } = require("firebase-admin/app");
 
+// const refreshToken = process.env.REFRESH_TOKEN
 
 
+// firebase.credential.refreshToken()
 
-firebase.initializeApp({
-  credential: refreshToken(process.env.REFRESH_TOKEN)
-  // credential: applicationDefault()
-})
-
+firebase.initializeApp()
+// {
+//   credential: firebase.credential.cert(serviceAccount)
+//   // credential: applicationDefault()
+// }
 
 module.exports = {
   app,
