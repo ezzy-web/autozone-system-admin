@@ -33,7 +33,7 @@ export default function LoginComponent(props) {
 
   const [passwordHidden, setPasswordState] = React.useState(true);
   const [cookies, setCookies] = useCookies(['user'])
-
+  console.log(cookies)
   const handleOpenSnackBar = (message) => {
     setMessage(message);
     setOpen(true);
@@ -81,7 +81,6 @@ export default function LoginComponent(props) {
   };
 
   const submit = (data) => {
-    cookies ? null : null
     setLoad(true);
     setError("");
     httpClient()
