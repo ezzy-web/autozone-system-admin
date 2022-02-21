@@ -81,9 +81,9 @@ export default function LoginComponent(props) {
   };
 
   const submit = (data) => {
+    cookies ? null : null
     setLoad(true);
     setError("");
-    console.log(data)
     httpClient()
       .post("/loginUser", data)
       .then((res) => {
