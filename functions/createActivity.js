@@ -2,7 +2,7 @@
 const response = require('./utils/formattedResponse')
 const { getActivityManger, getUserManager } = require("./utils/firebase/firestore")
 const { arrayUnion } = require('firebase/firestore')
-const { auth } = require("./utils/firebase/firebaseAuth")
+const { verify } = require("./utils/firebase/firebaseAuth")
 
 
 
@@ -10,14 +10,13 @@ const userDB = getUserManager()
 const activity = getActivityManger()
 
 exports.handler = async (event) => {
-    const { title, details } = JSON.parse(event.body)
-    console.log(title, details)
-    const user = auth.currentUser
+    const { title, details, token, customToken } = JSON.parse(event.body)
+    const user = await verify(token, customToken)
 
     if (user) {
 
         try {
-            const userRef = userDB.getDocRef(user.uid)
+            const userRef = userDB.getDocRef(user.user.uid)
             const activityRef = await activity.createActivity({
                 user: userRef,
                 title,
@@ -25,7 +24,7 @@ exports.handler = async (event) => {
             })
 
 
-            await userDB.updateUser(user.uid, {
+            await userDB.updateUser(user.user.uid, {
                 activities: arrayUnion(activityRef)
             })
             

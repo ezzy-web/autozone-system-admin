@@ -5,8 +5,9 @@ import {
     Routes
 } from "react-router-dom";
 import './styles/app.scss'
-import { httpClient } from './httpClient.js'
+import { post } from './httpClient.js'
 import { Button, Typography } from "@material-ui/core";
+import { useCookies } from "react-cookie"
 
 const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))
 const Layout = React.lazy(() => import("./layout/Layout.jsx"))
@@ -49,7 +50,7 @@ function AdministrativePages(props) {
                                 path={REQUEST_MANAGEMENT_PATH}
                                 element={<RequestPage state={props.state} />}
                             />
-                            {props.state?.access?.includes('admin') ? (
+                            {props.state?.user?.customClaims?.access?.includes('admin') ? (
                                 <Route path={USER_MANAGEMENT_PATH} element={<UserPage state={props.state} />} />
                             ) : (
                                 <Route path={USER_MANAGEMENT_PATH} element={<div className="table-loading">
@@ -102,20 +103,21 @@ function ConnectionComponent() {
 
 
 export default function App() {
-    const [admin, setAdmin] = useState(null);
     const [loaded, setLoad] = useState(false);
     const [connection, setConnection] = useState(true)
-
+    const [cookies, setCookies] = useCookies(['user'])
 
     const authState = () => {
         setConnection(true)
-        httpClient().get("/authState")
+        post("/authState")
             .then(res => {
                 const body = res.data
                 if (body.status) {
                     const user = body.content
                     if (user !== "NO_USER") {
-                        setAdmin(user)
+                        setCookies("user", JSON.stringify(user))
+                    } else {
+                        setCookies("user")
                     }
                 }
 
@@ -126,21 +128,23 @@ export default function App() {
 
     useEffect(() => {
         authState()
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (loaded) {
         return (
             <Router>
                 <Routes>
-                    {admin ? (
-                        <Route path="/*" element={<AdministrativePages state={admin} />} />
+                    {cookies.user !== 'undefined' ? (
+                        <Route path="/*" element={<AdministrativePages state={cookies.user} />} />
                     ) : (
                         <>
                             {connection ? (
                                 <Route path="/*"
                                     element={
                                         <Suspense fallback={<></>}>
-                                            <LoginComponent setAdmin={setAdmin} />
+                                            <LoginComponent />
                                         </Suspense>
                                     }
                                 />

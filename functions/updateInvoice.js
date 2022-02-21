@@ -1,5 +1,5 @@
 const { getClientManager, getInvoiceManager, getInventoryManager } = require('./utils/firebase/firestore')
-const { auth } = require('./utils/firebase/firebaseAuth')
+const { verify } = require('./utils/firebase/firebaseAuth')
 const response = require('./utils/formattedResponse')
 
 
@@ -9,15 +9,16 @@ const invoiceDB = getInvoiceManager()
 
 
 exports.handler = async (event, context) => {
-    const user = auth.currentUser
+    const { token, customToken } = JSON.parse(event.body)
+    const user = await verify(token, customToken)
 
     if (user) {
 
         try {
             const userData = {
-                fullName: user.displayName,
-                email: user.email,
-                uid: user.uid
+                fullName: user.user.displayName,
+                email: user.user.email,
+                uid: user.user.uid
             }
             const { id, client } = JSON.parse(event.body)
             const invoice = await invoiceDB.getInvoice(id)

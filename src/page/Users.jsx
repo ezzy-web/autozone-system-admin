@@ -23,7 +23,7 @@ const Expanded = React.lazy(() =>
 );
 
 export default function UserPage(props) {
-  const currentUser = props.state;
+  const currentUser = props.state?.user;
   const [users, setUsers] = useState([]);
   const [loaded, setLoad] = useState(false);
   const [modal, toggleModal] = useState(false);

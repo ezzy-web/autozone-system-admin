@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 
 import { TextField } from "@mui/material";
-import { httpClient } from "../httpClient";
+import { httpClient, post } from "../httpClient";
 
 function ChangeInfo(props) {
   const modalToggle = props.toggleModal;
@@ -21,20 +21,17 @@ function ChangeInfo(props) {
   const updateUser = props?.updateUser;
 
   const updateEmail = () => {
-      console.log(email)
-    httpClient()
-      .post("/changeEmail", {
-        email,
-      })
+    post("/changeEmail", {
+      email,
+    })
       .then((res) => {
         if (res.data.status) {
-          alert("Updated");
           updateUser();
           modalToggle(false);
           return;
         }
       })
-      .catch( err => {})
+      .catch((err) => {});
   };
 
   return (
@@ -65,7 +62,9 @@ function ChangeInfo(props) {
           <Button fullWidth onClick={() => modalToggle(false)}>
             Cancel
           </Button>
-          <Button onClick={updateEmail} fullWidth>Save</Button>
+          <Button onClick={updateEmail} fullWidth>
+            Save
+          </Button>
         </div>
       </div>
     </>
@@ -73,7 +72,8 @@ function ChangeInfo(props) {
 }
 
 export default function ProfilePage(props) {
-  const [user, setUser] = React.useState(props?.state);
+
+  const [user, setUser] = React.useState(props?.state?.user);
   const [openBar, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [modal, setModal] = React.useState(false);
@@ -121,8 +121,8 @@ export default function ProfilePage(props) {
       });
   };
 
-  React.useEffect(() => { 
-    getUserData()
+  React.useEffect(() => {
+    getUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -289,10 +289,7 @@ export default function ProfilePage(props) {
         </div>
       </div>
       <Modal className="modal-containe" show={modal} onHide={closeModal}>
-        <ChangeInfo
-          toggleModal={setModal}
-          updateUser={getUserData}
-        />
+        <ChangeInfo toggleModal={setModal} updateUser={getUserData} />
       </Modal>
       <Snackbar
         open={openBar}

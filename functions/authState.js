@@ -1,24 +1,13 @@
 
 const response = require('./utils/formattedResponse')
-const { auth } = require("./utils/firebase/firebaseAuth")
-const { getUserManager } = require("./utils/firebase/firestore")
-
-
-const db = getUserManager()
+const { verify } = require("./utils/firebase/firebaseAuth")
 
 exports.handler = async (event, context) => {
-    const user = auth.currentUser
+    const { token, customToken } = JSON.parse(event.body) 
 
-    if (user) {
+    const user = await verify(token, customToken)
 
-        try {
-            const data = await db.getUser(user.uid)
-            data.activities = null
-            return response(200, data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
+    if (user)
+        return response(200, user)
     return response(200, "NO_USER")
 }

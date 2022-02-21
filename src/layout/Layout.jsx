@@ -11,11 +11,10 @@ import {
   Avatar,
 } from "@material-ui/core";
 
+import SidebarComponent from "../components/SidebarComponent.jsx";
+
 
 const drawerWidth = 40;
-const SidebarComponent = React.lazy(() =>
-  import("../components/SidebarComponent.jsx")
-);
 const LogoComponent = () => (
   <>
     <div className="mx-5">
@@ -59,7 +58,7 @@ function Layout(props) {
                 {user?.firstName?.charAt(0)?.toUpperCase()}
               </Avatar>
               <small className=" text-muted mx-3">
-                <b>{user?.fullName}</b>
+                <b>{user?.user?.displayName}</b>
               </small>
             </Button>
           </Tooltip>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Button, Toolbar, Card } from "@mui/material";
 import { TextField, CircularProgress, Snackbar } from "@mui/material";
-import {httpClient, addActivity} from "../httpClient";
+import { httpClient, addActivity, post } from "../httpClient";
 import numeral from "numeral";
 
 export default function ViewInvoice() {
@@ -22,7 +22,6 @@ export default function ViewInvoice() {
   const [gct, setGCT] = useState(0.15);
   const [total, setTotal] = useState(0);
   const [tax, setTax] = useState(0);
-
 
   const editVehicle = () => {
     var url = new URL(
@@ -48,13 +47,13 @@ export default function ViewInvoice() {
           setVehicle(invoiceData.vehicle);
           setClient(invoiceData.client);
         } else {
-          handleOpenSnackBar("Something went wrong")
+          handleOpenSnackBar("Something went wrong");
         }
         setLoad(true);
       })
       .catch((err) => {
         setLoad(true);
-        handleOpenSnackBar("Something went wrong")
+        handleOpenSnackBar("Something went wrong");
       });
   };
 
@@ -71,36 +70,43 @@ export default function ViewInvoice() {
   };
 
   const updateChanges = () => {
-    httpClient()
-      .post("/updateInvoice", { id: invoice.id, client })
+    post("/updateInvoice", { id: invoice.id, client })
       .then((res) => {
         const body = res.data;
 
         if (body.status) {
-          addActivity("Invoice Update", "Invoice " + invoice.id + " assigned to " + vehicle.id + " (" + vehicle.title + ") was updated")
+          addActivity(
+            "Invoice Update",
+            "Invoice " +
+              invoice.id +
+              " assigned to " +
+              vehicle.id +
+              " (" +
+              vehicle.title +
+              ") was updated"
+          );
           setChange(false);
           getInvoice();
-          handleOpenSnackBar("Invoice Updated")
+          handleOpenSnackBar("Invoice Updated");
           return;
         }
       })
       .catch((err) => {
         console.log(err);
-        handleOpenSnackBar("Something went wrong")
+        handleOpenSnackBar("Something went wrong");
       });
   };
 
   useEffect(() => {
     setTax(vehicle?.price * gct);
-    setTotal(parseFloat(vehicle?.price) + (vehicle?.price * gct));
+    setTotal(parseFloat(vehicle?.price) + vehicle?.price * gct);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gct, vehicle]);
 
-  useEffect(() =>{ 
-    getInvoice()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    getInvoice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  
 
   return (
     <>
@@ -111,7 +117,9 @@ export default function ViewInvoice() {
       />
       <Toolbar className="d-flex space-between">
         <Typography variant="h6">Invoice</Typography>
-        <small className="text-muted"><b>{invoice?.id}</b> </small>
+        <small className="text-muted">
+          <b>{invoice?.id}</b>{" "}
+        </small>
 
         <Button
           disabled={!change}
@@ -123,7 +131,10 @@ export default function ViewInvoice() {
         </Button>
 
         <Button
-          onClick={() => { setLoad(false); getInvoice()}}
+          onClick={() => {
+            setLoad(false);
+            getInvoice();
+          }}
           variant="filled"
           size="small"
         >
@@ -132,12 +143,9 @@ export default function ViewInvoice() {
       </Toolbar>
       <div className="row">
         <div className="col-md-3 col-sm-12">
-        <Button
-          variant="filled"
-          fullWidth
-        >
-          GET PDF COPY
-        </Button>
+          <Button variant="filled" fullWidth>
+            GET PDF COPY
+          </Button>
         </div>
         <div className="col-md-9 col-sm-12">
           <Card>

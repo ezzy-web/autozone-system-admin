@@ -1,12 +1,13 @@
 const { getInventoryManager } = require('./utils/firebase/firestore')
-const { auth } = require('./utils/firebase/firebaseAuth')
+const { verify } = require('./utils/firebase/firebaseAuth')
 const response = require('./utils/formattedResponse')
 
 
 const db = getInventoryManager()
 
 exports.handler = async (event, context) => {
-    const user = auth.currentUser
+    const { token, customToken } = JSON.parse(event.body)
+    const user = await verify(token, customToken)
 
     if (user) {
         var data = JSON.parse(event.body)
@@ -16,13 +17,7 @@ exports.handler = async (event, context) => {
         }
 
         try {
-            console.log(data)
-            const stockNo = await db.updateVehicle(data.id, data, {
-                fullName: user.displayName,
-                email: user.email,
-                uid: user.uid
-            })
-            
+            const stockNo = await db.updateVehicle(data.id, data, { uid: user.user.uid, fullName: user.user.displayName, email: user.user.email})
             return response(200, stockNo)
         } catch (error) {
             console.log(error)

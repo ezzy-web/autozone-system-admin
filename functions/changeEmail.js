@@ -1,21 +1,20 @@
 
 const response = require('./utils/formattedResponse')
-const { changeEmail, auth } = require("./utils/firebase/firebaseAuth")
+const { changeEmail, verify } = require("./utils/firebase/firebaseAuth")
 const { getUserManager } = require("./utils/firebase/firestore")
-const { verifyEmail } = require("./utils/sendgrid/sendgrid")
 
 const db = getUserManager()
 
 
 exports.handler = async (event, context) => {
-    const { email: newEmail } = JSON.parse(event.body)
+    const { email: newEmail, token, customToken } = JSON.parse(event.body)
 
-    const user = auth.currentUser
+    const user = await verify(token, customToken)
 
     if (user) {
         try {
-
-            await changeEmail(user, newEmail)
+            
+            await changeEmail(user.user.uid, newEmail)
             await db.updateUser(user.uid, {
                 email: user.email,
                 emailVerified: false
