@@ -1,7 +1,5 @@
 import axios from "axios"
 
-import { Cookies } from "react-cookie"
-
 
 const httpClient = () => {
   return axios.create({
@@ -19,9 +17,11 @@ const addActivity = (title, details) => {
 
 
 function post(url, content = {}) {
-  const cookie = new Cookies()
-  content['token'] = cookie.get('user')?.token
-  content['customToken'] = cookie.get('user')?.customToken
+  const data = window.sessionStorage.getItem("user")
+  console.log(data)
+  const user = data ? JSON.parse(data) : null
+  content['token'] = user?.token
+  content['customToken'] = user?.customToken
   return httpClient().post(url, content)
 }
 

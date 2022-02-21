@@ -7,7 +7,6 @@ import {
 import './styles/app.scss'
 import { post } from './httpClient.js'
 import { Button, Typography } from "@material-ui/core";
-import { useCookies } from "react-cookie"
 
 const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))
 const Layout = React.lazy(() => import("./layout/Layout.jsx"))
@@ -105,46 +104,57 @@ function ConnectionComponent() {
 export default function App() {
     const [loaded, setLoad] = useState(false);
     const [connection, setConnection] = useState(true)
-    const [cookies, setCookies] = useCookies(['user'])
+    const [user, setUser] = useState(null)
 
-    const authState = () => {
-        setConnection(true)
-        post("/authState")
-            .then(res => {
-                const body = res.data
-                if (body.status) {
-                    const user = body.content
-                    if (user !== "NO_USER") {
-                        setCookies("user", JSON.stringify(user))
-                    } else {
-                        setCookies("user")
-                    }
-                }
 
-                setLoad(true)
-            })
-            .catch(err => { setLoad(true); setConnection(false) })
+    const setCookies = (data = null) => {
+        if (data) {
+            window.sessionStorage.setItem("user", JSON.stringify(data))
+        } else {
+            window.sessionStorage.removeItem("user")
+        }
+       
+        setUser(data)
     }
 
-    useEffect(() => {
-        authState()
 
+
+    const authState = () => {
+        setLoad(false)
+        post('/authState', {})
+        .then( res => {
+            if (!res.data.status) {
+                setCookies()
+            } else {
+                setUser(JSON.parse(window.sessionStorage.getItem("user")))
+            }
+
+            setLoad(true)
+        })
+        .catch( err => {
+            setLoad(true)
+            setConnection(false)
+        })
+    }
+
+    useEffect( () => {
+        authState()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [] )
 
     if (loaded) {
         return (
             <Router>
                 <Routes>
-                    {cookies.user !== 'undefined' ? (
-                        <Route path="/*" element={<AdministrativePages state={cookies.user} />} />
+                    {user ? (
+                        <Route path="/*" element={<AdministrativePages state={user} />} />
                     ) : (
                         <>
                             {connection ? (
                                 <Route path="/*"
                                     element={
                                         <Suspense fallback={<></>}>
-                                            <LoginComponent />
+                                            <LoginComponent setCookies={setCookies} />
                                         </Suspense>
                                     }
                                 />

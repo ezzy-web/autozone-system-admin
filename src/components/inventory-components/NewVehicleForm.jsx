@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { httpClient, addActivity } from "../../httpClient";
+import { addActivity, post } from "../../httpClient";
 
 const options = {
   year: [
@@ -103,8 +103,7 @@ export default function NewVehicleForm(props) {
 
   const submit = (data) => {
     setLoad(true);
-    httpClient()
-      .post("/createVehicle", data)
+    post("/createVehicle", data)
       .then((res) => {
         const body = res.data;
         if (body.status) {

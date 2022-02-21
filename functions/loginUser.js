@@ -15,8 +15,13 @@ exports.handler = async (event, context) => {
         const user = records.user
 
         try {
-            await updateUserClaims(user.uid, { email: user.email, emailVerified: user.emailVerified})
             await db.updateUser(user.uid, { email: user.email, emailVerified: user.emailVerified })
+
+            const data = await db.getUser(user.uid)
+            data.activities = null
+
+            await updateUserClaims(user.uid, data)
+
             return response(200, records)
         } catch (error) {
             throw error

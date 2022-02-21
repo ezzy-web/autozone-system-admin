@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {httpClient, addActivity} from "../httpClient";
+import {httpClient, addActivity, post} from "../httpClient";
 import {
   CircularProgress,
   Toolbar,
@@ -587,8 +587,7 @@ export default function CreateInvoice() {
       client: clientData,
     };
 
-    httpClient()
-      .post("/createInvoice", data)
+    post("/createInvoice", data)
       .then((res) => {
         const body = res.data;
         setLoad(true);

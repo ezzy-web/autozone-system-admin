@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import {httpClient, addActivity} from ".././../httpClient";
+import {addActivity, post} from ".././../httpClient";
 
 
 export default function NewUserForm(props) {
@@ -34,8 +34,7 @@ export default function NewUserForm(props) {
 
   const registerUser = (data) => {
     setLoad(true)
-    httpClient()
-      .post("/createUser", data)
+    post("/createUser", data)
       .then((res) => {
         const body = res.data
         if (body.status) {

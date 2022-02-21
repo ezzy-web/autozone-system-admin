@@ -1,5 +1,4 @@
 import React from "react";
-import { useCookies } from "react-cookie";
 import { List, ListItem } from "@material-ui/core";
 import { httpClient } from "../httpClient";
 
@@ -10,12 +9,13 @@ const PROFILE_PATH = "/admin/profile";
 const ADMIN_DASHBOARD_PATH = "/admin/dashboard";
 
 export default function SidebarComponent(props) {
-  const [cookies, setCookies] = useCookies(["user"]);
+  const user = props.state
   const handleLogout = () => {
     httpClient()
-      .post("/logout", { uid : cookies?.user?.user.uid })
+      .post("/logout", { uid : user?.user.uid })
       .then((res) => {
-        setCookies('user')
+        window.sessionStorage.removeItem("user")
+        window.location.replace("/")
       });
   };
   return (
@@ -42,7 +42,7 @@ export default function SidebarComponent(props) {
         >
           Manage Request
         </ListItem>
-        {cookies?.user?.user.customClaims?.access === "admin" ? (
+        {user?.user.customClaims?.access === "admin" ? (
           <ListItem
             className="side-item"
             component={"a"}

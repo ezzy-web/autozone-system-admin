@@ -14,7 +14,6 @@ import { TextField, Snackbar, InputAdornment, IconButton } from "@mui/material";
 import { Backdrop } from "@mui/material";
 import { httpClient } from "../httpClient.js";
 import { useForm, Controller } from "react-hook-form";
-import { useCookies } from "react-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -32,8 +31,9 @@ export default function LoginComponent(props) {
   const [message, setMessage] = React.useState("");
 
   const [passwordHidden, setPasswordState] = React.useState(true);
-  const [cookies, setCookies] = useCookies(['user'])
-  console.log(cookies)
+  
+
+
   const handleOpenSnackBar = (message) => {
     setMessage(message);
     setOpen(true);
@@ -89,7 +89,8 @@ export default function LoginComponent(props) {
         const body = res.data;
         if (body.status) {
           const user = body.content;
-          setCookies("user", JSON.stringify(user)) 
+          props.setCookies(user) 
+          console.log(user)
           return;
         }
 
