@@ -6,6 +6,7 @@ import {
     SimpleGrid, Image
 } from "@chakra-ui/react"
 import Typed from "react-typed"
+// import TinySlider from "tiny-slider-react"
 
 
 
@@ -26,11 +27,16 @@ function QuickSearchForm() {
 
 
 function BodyTypes() {
+    const stackStyle = {
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "center"
+    }
     return (
         <SimpleGrid minChildWidth={150} spacing={30}>
             <Link href={"/"}>
                 <div>
-                    <Stack display={"flex"} justifyContent={"center"} >
+                    <Stack {...stackStyle}>
                         <Image justifyContent={"center"} w="85%" src="./assets/sedan.png" />
                         <Heading mt={"20px"} align="center" size='sm'>Sedan</Heading>
                     </Stack>
@@ -38,7 +44,7 @@ function BodyTypes() {
             </Link>
             <Link href={"/"}>
                 <div>
-                    <Stack display={"flex"} justifyContent={"center"} >
+                    <Stack {...stackStyle} >
                         <Image justifyContent={"center"} w="85%" src="./assets/suv.png" />
                         <Heading mt={"20px"} align="center" size='sm'>SUV</Heading>
                     </Stack>
@@ -46,15 +52,15 @@ function BodyTypes() {
             </Link>
             <Link href={"/"}>
                 <div>
-                    <Stack display={"flex"} justifyContent={"center"} >
-                        <Image justifyContent={"center"} w="85%" src="./assets/hatch.png" />
+                    <Stack {...stackStyle} >
+                        <Image w="85%" src="./assets/hatch.png" />
                         <Heading mt={"20px"} align="center" size='sm'>Hatchback</Heading>
                     </Stack>
                 </div>
             </Link>
             <Link href={"/"}>
                 <div>
-                    <Stack display={"flex"} justifyContent={"center"} >
+                    <Stack {...stackStyle} >
                         <Image justifyContent={"center"} w="85%" src="./assets/pick-up.png" />
                         <Heading mt={"20px"} align="center" size='sm'>Pick-up</Heading>
                     </Stack>
@@ -67,6 +73,15 @@ function BodyTypes() {
 function HomeLayout({ recents }) {
     const typedStrings = ["Hello Me", "Hello You", "Hello World"]
     const [value, setValue] = React.useState(0)
+
+    // const recentSliderSettings = {
+    //     lazyload: true,
+    //     nav: false,
+    //     mouseDrag: true,
+    //     loop: true,
+    //     items: 4,
+    //     gutter: 5
+    // }
     return (
         <>
 
@@ -102,7 +117,9 @@ function HomeLayout({ recents }) {
                 <Box bg="whitesmoke">
                     <Container>
                         <Heading mb={10} size="md">Recently Viewed</Heading>
-                        <Box>{recents}</Box>
+                        {/* <TinySlider settings={recentSliderSettings} > */}
+                            {recents}
+                        {/* </TinySlider> */}
                     </Container>
 
                 </Box>

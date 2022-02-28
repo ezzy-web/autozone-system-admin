@@ -3,10 +3,17 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 import HomeLayout from "../components/layout/homePageLayout";
+import RecentlyVisited from "../components/recent-vehicle-component";
 
 function Recents({ recents }) {
   if (recents) {
-    return <></>;
+    return (
+      <>
+        {recents.map((vehicle, key) => (
+          <RecentlyVisited key={key} vehicle={vehicle} />
+        ))}
+      </>
+    );
   }
 
   return <></>;
@@ -28,7 +35,7 @@ function Featured({ featured }) {
 }
 
 function Home({ featured = [], newArrival = [], makes = [] }) {
-  const recents = [];
+  const recents = [{ name: "Nissan Skyline" }, { name: "Toyota Hiace" }];
   const saved = [];
 
   const components = {
