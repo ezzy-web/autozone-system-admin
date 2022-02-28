@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import {
     Box, Stack, Heading,
-    SimpleGrid
+    SimpleGrid, Image
 } from "@chakra-ui/react"
 import Typed from "react-typed"
 
@@ -28,10 +28,38 @@ function QuickSearchForm() {
 function BodyTypes() {
     return (
         <SimpleGrid minChildWidth={150} spacing={30}>
-            <Link href={"/contact"}><div><Box bg="tomato" height={50}></Box></div></Link>
-            <Link href={"/"}><div><Box bg="tomato" height={50}></Box></div></Link>
-            <Link href={"/"}><div><Box bg="tomato" height={50}></Box></div></Link>
-            <Link href={"/"}><div><Box bg="tomato" height={50}></Box></div></Link>
+            <Link href={"/"}>
+                <div>
+                    <Stack display={"flex"} justifyContent={"center"} >
+                        <Image justifyContent={"center"} w="85%" src="./assets/sedan.png" />
+                        <Heading mt={"20px"} align="center" size='sm'>Sedan</Heading>
+                    </Stack>
+                </div>
+            </Link>
+            <Link href={"/"}>
+                <div>
+                    <Stack display={"flex"} justifyContent={"center"} >
+                        <Image justifyContent={"center"} w="85%" src="./assets/suv.png" />
+                        <Heading mt={"20px"} align="center" size='sm'>SUV</Heading>
+                    </Stack>
+                </div>
+            </Link>
+            <Link href={"/"}>
+                <div>
+                    <Stack display={"flex"} justifyContent={"center"} >
+                        <Image justifyContent={"center"} w="85%" src="./assets/hatch.png" />
+                        <Heading mt={"20px"} align="center" size='sm'>Hatchback</Heading>
+                    </Stack>
+                </div>
+            </Link>
+            <Link href={"/"}>
+                <div>
+                    <Stack display={"flex"} justifyContent={"center"} >
+                        <Image justifyContent={"center"} w="85%" src="./assets/pick-up.png" />
+                        <Heading mt={"20px"} align="center" size='sm'>Pick-up</Heading>
+                    </Stack>
+                </div>
+            </Link>
         </SimpleGrid>
     )
 }
@@ -65,7 +93,7 @@ function HomeLayout({ recents }) {
             <Container>
                 <Heading mb={10} size="md">Search by type</Heading>
 
-                <Box >
+                <Box pt={15}>
                     <BodyTypes />
                 </Box>
             </Container>
