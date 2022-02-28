@@ -21,7 +21,6 @@ exports.handler = async (event, context) => {
             data.activities = null
 
             await updateUserClaims(user.uid, data)
-
             return response(200, records)
         } catch (error) {
             throw error

@@ -14,7 +14,7 @@ export default function SidebarComponent(props) {
     httpClient()
       .post("/logout", { uid : user?.user.uid })
       .then((res) => {
-        window.sessionStorage.removeItem("user")
+        window.localStorage.removeItem("user")
         window.location.replace("/")
       });
   };

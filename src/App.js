@@ -109,9 +109,9 @@ export default function App() {
 
     const setCookies = (data = null) => {
         if (data) {
-            window.sessionStorage.setItem("user", JSON.stringify(data))
+            window.localStorage.setItem("user", JSON.stringify(data))
         } else {
-            window.sessionStorage.removeItem("user")
+            window.localStorage.removeItem("user")
         }
        
         setUser(data)
@@ -126,7 +126,7 @@ export default function App() {
             if (!res.data.status) {
                 setCookies()
             } else {
-                setUser(JSON.parse(window.sessionStorage.getItem("user")))
+                setUser(JSON.parse(window.localStorage.getItem("user")))
             }
 
             setLoad(true)

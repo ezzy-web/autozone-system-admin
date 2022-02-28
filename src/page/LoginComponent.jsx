@@ -90,7 +90,6 @@ export default function LoginComponent(props) {
         if (body.status) {
           const user = body.content;
           props.setCookies(user) 
-          console.log(user)
           return;
         }
 

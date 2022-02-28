@@ -23,7 +23,7 @@ export default function dashboard() {
         <div className="separator my-2"></div>
         <div className="row">
           <div className="col-md-4 col-sm-12">
-            <Card id="new-object-card">
+            <Card className="dashboard" id="new-object-card">
               <div className="content">
                 <Typography variant="h5" component={"h4"}>
                   Invoice Management
@@ -37,7 +37,7 @@ export default function dashboard() {
           </div>
 
           <div className="col-md-4 col-sm-12">
-            <Card id="new-object-card">
+            <Card className="dashboard" id="new-object-card">
               <div className="content">
                 <Typography variant="h5" component={"h4"}>
                   Inventory Management
@@ -51,7 +51,7 @@ export default function dashboard() {
           </div>
 
           <div className="col-md-4 col-sm-12">
-            <Card id="new-object-card">
+            <Card className="dashboard" id="new-object-card">
               <div className="content">
                 <Typography variant="h5" component={"h4"}>
                   Request Management

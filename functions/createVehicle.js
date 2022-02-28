@@ -28,7 +28,5 @@ exports.handler = async (event, context) => {
 
         }
     }
-
-    console.log("\n\n auth/required \n\n")
     return response(200, "auth/required", false)
 }

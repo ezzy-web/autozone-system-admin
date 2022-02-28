@@ -16,6 +16,7 @@ import { TextField } from "@mui/material";
 import { httpClient, post } from "../httpClient";
 
 function ChangeInfo(props) {
+  const openSnack = props.openSnack
   const modalToggle = props.toggleModal;
   const [email, changeEmail] = React.useState("");
   const updateUser = props?.updateUser;
@@ -28,10 +29,12 @@ function ChangeInfo(props) {
         if (res.data.status) {
           updateUser();
           modalToggle(false);
+          openSnack("Email changed to " + email)
           return;
         }
+        openSnack("Failed to change email")
       })
-      .catch((err) => {});
+      .catch((err) => openSnack("Failed to change email"));
   };
 
   return (
@@ -73,7 +76,7 @@ function ChangeInfo(props) {
 
 export default function ProfilePage(props) {
 
-  const [user, setUser] = React.useState(props?.state?.user);
+  const [user, setUser] = React.useState(props?.state?.user?.customClaims);
   const [openBar, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [modal, setModal] = React.useState(false);
@@ -94,11 +97,8 @@ export default function ProfilePage(props) {
           setUser(res.data.content);
           return;
         }
-        console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   const handleOpenSnackBar = (message) => {
@@ -112,7 +112,6 @@ export default function ProfilePage(props) {
       .then((res) => {
         if (res.data.status) {
           handleOpenSnackBar("Verification Email Sent");
-
           return;
         }
       })
@@ -289,7 +288,7 @@ export default function ProfilePage(props) {
         </div>
       </div>
       <Modal className="modal-containe" show={modal} onHide={closeModal}>
-        <ChangeInfo toggleModal={setModal} updateUser={getUserData} />
+        <ChangeInfo openSnack={handleOpenSnackBar} toggleModal={setModal} updateUser={getUserData} />
       </Modal>
       <Snackbar
         open={openBar}

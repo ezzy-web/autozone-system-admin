@@ -253,7 +253,6 @@ export default function VehiclePage() {
   // }
 
   window.onbeforeunload = (e) => {
-    console.log(changes);
     if (!changes) {
       delete e["returnValue"];
     } else {

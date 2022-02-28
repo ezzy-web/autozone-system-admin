@@ -36,7 +36,7 @@ const login = async (email, password, remember = false) => {
 
   const user = credentials.user
   const token = await user.getIdToken(true).catch(err => { throw err })
-  const userRecord = await admin.getUserByEmail(user.email).catch(err => { throw err })
+  const userRecord = await admin.getUser(user.uid).catch(err => { throw err })
   const customToken = remember ? await admin.createCustomToken(user.uid) : null
 
   return {
@@ -50,7 +50,7 @@ const verify = async (token, customToken) => {
   var res
   try {
     const claims = await admin.verifyIdToken(token)
-    const user = await admin.getUserByEmail(claims.email).catch( err => { throw err })
+    const user = await admin.getUser(claims.uid).catch( err => { throw err })
     res = {
       user,
       token,

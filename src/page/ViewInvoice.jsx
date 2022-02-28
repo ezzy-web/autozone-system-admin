@@ -3,6 +3,7 @@ import { Typography, Button, Toolbar, Card } from "@mui/material";
 import { TextField, CircularProgress, Snackbar } from "@mui/material";
 import { httpClient, addActivity, post } from "../httpClient";
 import numeral from "numeral";
+import download from "downloadjs";
 
 export default function ViewInvoice() {
   const [change, setChange] = useState(false);
@@ -97,6 +98,18 @@ export default function ViewInvoice() {
       });
   };
 
+  const generateInvoice = async () => {
+    const res = await post("/generateInvoice", { vehicle, client, total: numeral(total).format("$ 0,0.0"), tax: numeral(tax).format("$ 0,0.0"), invoice, gct: gct*100 })
+      .catch((err) => {
+        return;
+      });
+
+    const blob = new Blob(res.data.data, {
+      type: "application/pdf"
+    });
+    download(blob, "Invoice.pdf", "application/pdf");
+  };
+
   useEffect(() => {
     setTax(vehicle?.price * gct);
     setTotal(parseFloat(vehicle?.price) + vehicle?.price * gct);
@@ -143,7 +156,7 @@ export default function ViewInvoice() {
       </Toolbar>
       <div className="row">
         <div className="col-md-3 col-sm-12">
-          <Button variant="filled" fullWidth>
+          <Button variant="filled" fullWidth onClick={generateInvoice}>
             GET PDF COPY
           </Button>
         </div>

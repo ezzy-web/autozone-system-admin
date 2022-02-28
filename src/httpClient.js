@@ -10,15 +10,12 @@ const httpClient = () => {
 
 const addActivity = (title, details) => {
   post("/createActivity", { title, details })
-    .catch(err => {
-      console.log(err)
-    })
+    .catch(err => {})
 }
 
 
 function post(url, content = {}) {
-  const data = window.sessionStorage.getItem("user")
-  console.log(data)
+  const data = window.localStorage.getItem("user")
   const user = data ? JSON.parse(data) : null
   content['token'] = user?.token
   content['customToken'] = user?.customToken

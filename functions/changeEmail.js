@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
             
             await changeEmail(user.user.uid, newEmail)
             await db.updateUser(user.uid, {
-                email: user.email,
+                email: newEmail,
                 emailVerified: false
             })
             return response(200, 'OK')
