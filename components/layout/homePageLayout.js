@@ -1,14 +1,12 @@
 import Navbar from "../navbar";
 import Link from "next/link";
-
+import React from "react";
 import {
     Box, Stack, Heading,
     SimpleGrid
 } from "@chakra-ui/react"
-
-import { Tab, Tabs } from "grommet";
-
 import Typed from "react-typed"
+
 
 
 function Container({ children }) {
@@ -30,7 +28,7 @@ function QuickSearchForm() {
 function BodyTypes() {
     return (
         <SimpleGrid minChildWidth={150} spacing={30}>
-            <Link href={"/"} ><div><Box bg="tomato" height={50}></Box></div></Link>
+            <Link href={"/contact"}><div><Box bg="tomato" height={50}></Box></div></Link>
             <Link href={"/"}><div><Box bg="tomato" height={50}></Box></div></Link>
             <Link href={"/"}><div><Box bg="tomato" height={50}></Box></div></Link>
             <Link href={"/"}><div><Box bg="tomato" height={50}></Box></div></Link>
@@ -40,27 +38,28 @@ function BodyTypes() {
 
 function HomeLayout({ recents }) {
     const typedStrings = ["Hello Me", "Hello You", "Hello World"]
+    const [value, setValue] = React.useState(0)
     return (
         <>
 
-            <header>
-                <Box bg="whitesmoke" overflow="hidden" w="100%" height="70vh">
-
+            <Box position={"relative"} overflow={"hidden"} w="100%" height={"70vh"}>
+                <Box overflow="hidden" w="100%" height="70vh">
+                    Joel
                 </Box>
-                <Box position="absolute" top="0" w="100%" >
-                    <Navbar />
+                <Box bg="rgba(0, 0, 0, 0.534)" position="absolute" top="0" w="100%" >
+                    <Navbar light={true} />
                     <Box h={"70vh"}>
                         <Stack mt={5} >
-                            <Heading align="center" size='2xl'>Search Inventory</Heading>
+                            <Heading textColor={"white"} align="center" size='2xl'>Search Inventory</Heading>
 
-                            <Stack py={5} px={{ base: 30, md: 150 }}>
-                                <Box overflow="hidden" height={30} my={10} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading size="lg" /></Typed></Box>
+                            <Stack pt={2} px={{ base: 30, md: 150 }}>
+                                <Box overflow="hidden" height={30} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} size="lg" /></Typed></Box>
                                 <QuickSearchForm />
                             </Stack>
                         </Stack>
                     </Box>
                 </Box>
-            </header>
+            </Box>
 
 
             <Container>
@@ -83,17 +82,21 @@ function HomeLayout({ recents }) {
 
 
             <Container>
-                <Tabs>
-                    <Tab title="Search Inventory" >
-                        <Heading my={10} size="md">Search Inventory</Heading>
-                    </Tab>
-                    <Tab title="New Arrivals" >
-                        <Heading my={10} size="md">New Arrivals</Heading>
-                    </Tab>
-                    <Tab title="Featured Vehicles" >
-                        <Heading my={10} size="md">Featured Vehicles</Heading>
-                    </Tab>
+                {/* <Tabs value={value} onChange={(e) => console.log(e)} aria-label="basic tabs example">
+                    <Tab label="Search Inventory" />
+                    <Tab label="New Arrivals" />
+                    <Tab label="Featured Vehicles" />
                 </Tabs>
+                <TabPanel value={value} index={0}>
+                    <Heading my={10} size="md">Search Inventory</Heading>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <Heading my={10} size="md">Search Inventory</Heading>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <Heading my={10} size="md">Search Inventory</Heading>
+                </TabPanel> */}
+
             </Container>
 
 

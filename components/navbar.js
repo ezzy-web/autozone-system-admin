@@ -17,15 +17,15 @@ import Link from "next/link";
 
 import { AiOutlineMenu, AiTwotoneHeart } from "react-icons/ai";
 
-function NavbarItems({ isDrawer }) {
+function NavbarItems({ isDrawer, light }) {
 
-  const style = {
+  var style = {
     _hover: {
       bg: "rgba(189, 69, 53, 0.29)",
     },
-    borderRadius: "10px",
+    borderRadius: "5px",
     px: 4,
-    py: 2,
+    py: 1,
     fontWeight: 600,
     cursor: "pointer",
     transition: "0.25s",
@@ -33,13 +33,20 @@ function NavbarItems({ isDrawer }) {
   }
 
   if (! isDrawer) style['bg'] = 'rgba(68, 68, 68, 0.1)'
+  if (light) {
+    style['textColor'] = "white"
+    style['_hover'] = {
+      bg: "rgba(255, 255, 255, 0.096)"
+    }
+  }
+
 
   return (
     <>
-      <Link href={"/"}><div><Box {...style} >Home</Box></div></Link>
-      <Link href={"/inventory"}><div><Box {...style} >Inventory</Box></div></Link>      
-      <Link href={"about"}><div><Box {...style} >About</Box></div></Link>
-      <Link href={"contact"}><div><Box {...style} >Contact</Box></div></Link>
+      <Link href={"/"}><Box {...style} >Home</Box></Link>
+      <Link href={"/inventory"}><Box {...style} >Inventory</Box></Link>      
+      <Link href={"about"}><Box {...style} >About</Box></Link>
+      <Link href={"contact"}><Box {...style} >Contact</Box></Link>
     </>
   );
 }
@@ -68,7 +75,7 @@ function DrawerContainer({ onClose, isOpen }) {
   );
 }
 
-function Navbar() {
+function Navbar({ light=false }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -89,7 +96,7 @@ function Navbar() {
           </Stack>
 
           <HStack display={{ base: "none", md: "flex" }} spacing="30px">
-            <NavbarItems />
+            <NavbarItems light={light} />
           </HStack>
 
           <IconButton variant="ghost" icon={<AiTwotoneHeart />} />
