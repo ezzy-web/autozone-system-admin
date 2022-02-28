@@ -10,14 +10,12 @@ import { post } from "../httpClient";
 
 export default function Dashboard() {
   const [activities, setActivities] = useState([]);
-  const [lastDoc, setLastDoc] = useState(null);
 
   const getActivities = async () => {
     const res = await post("get_all_activities").catch((err) => {});
     if (!res) return;
     if (!res.data.status) return;
     setActivities(res.data.content.activities);
-    setLastDoc(res.data.content.lastDoc);
   };
 
   useEffect(() => getActivities(), []);
