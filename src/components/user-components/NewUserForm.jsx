@@ -40,7 +40,7 @@ export default function NewUserForm(props) {
         if (body.status) {
           toggleModal(false)
           addActivity("New Member", "New member was added to the system (" + data.email + ")")
-          handleOpenSnackBar("Successfully registered new member")
+          handleOpenSnackBar("Successfully registered new member. Email was sent to "+ data.email+", with more information.")
         } else {
           handleOpenSnackBar("Something went wrong")
         }
