@@ -12,7 +12,8 @@ const {
     deleteDoc,
     query,
     orderBy,
-    where
+    where,
+    arrayUnion
 } = require("firebase/firestore")
 
 const { simpleflake } = require('simpleflakes')
@@ -166,6 +167,7 @@ class UserManager {
 class InventoryManager {
     constructor() {
         this.collection = collection(db, "Inventory")
+        this.makeManager = new MakeModelManager()
     }
 
     #generateStockNo() {
@@ -201,6 +203,9 @@ class InventoryManager {
             console.log(err)
             throw err
         })
+
+        await this.makeManager.addMakeModel(data.make, data.model)
+
         return data.id
     }
 
@@ -383,6 +388,39 @@ class InvoiceManager {
     }
 }
 
+
+
+class MakeModelManager {
+
+    constructor() {
+        this.collection = collection(db, "Makes")
+    }
+
+    async addMakeModel(make, model) {
+        const docRef = doc(db, "Makes", make)
+
+        const snap = await getDoc(docRef).catch(err => { console.log(err) })
+        console.log(snap.exists())
+        if (snap.exists()) {
+
+            const queryRef = query(this.collection, where("models", "array-contains", model))
+            const snap = await getDocs(queryRef).catch(err => { console.log(err) })
+
+            console.log(snap.size === 0)
+            if (snap.size === 0) {
+                await updateDoc(docRef, { models: arrayUnion(model) }).catch(err => console.log(err))
+            }
+
+            return;
+
+        }
+        const ref = doc(db, "Makes", make)
+        await setDoc(ref, { models: [model] }).catch(err => console.log(err))
+
+        return;
+    }
+
+}
 
 const getClientManager = () => {
     return new ClientManager()
