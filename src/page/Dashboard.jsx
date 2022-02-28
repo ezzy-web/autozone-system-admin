@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Toolbar,
@@ -6,8 +6,21 @@ import {
   Card,
   Container,
 } from "@material-ui/core";
+import { post } from "../httpClient";
 
-export default function dashboard() {
+export default function Dashboard() {
+  const [activities, setActivities] = useState([]);
+  const [lastDoc, setLastDoc] = useState(null);
+
+  const getActivities = async () => {
+    const res = await post("get_all_activities").catch((err) => {});
+    if (!res) return;
+    if (!res.data.status) return;
+    setActivities(res.data.content.activities);
+    setLastDoc(res.data.content.lastDoc);
+  };
+
+  useEffect(() => getActivities(), []);
   return (
     <div>
       <Container>
@@ -69,6 +82,34 @@ export default function dashboard() {
           Recent Activities{" "}
         </Typography>
         <div className="separator my-2"></div>
+        <Card>
+          <div className="container mt-2">
+            {activities.map((activity) => {
+              const seconds = parseInt(activity.timeStamp.seconds);
+              const nanoseconds = parseInt(activity.timeStamp.nanoseconds);
+              var date = new Date(seconds * 1000 + nanoseconds / 1000000);
+              return (
+                <div key={date.toLocaleString()}>
+                  <div className="fw-bolder">
+                    <small>
+                      {" "}
+                      {activity.title}{" "}
+                      <span className="text-muted">
+                        {" "}
+                        {date.toLocaleString()}{" "}
+                      </span>{" "}
+                    </small>
+                  </div>
+                  <div className="text-muted">
+                    {" "}
+                    <small>{activity.details} </small>{" "}
+                  </div>
+                  <div className="separator my-2"></div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
       </Container>
     </div>
   );
