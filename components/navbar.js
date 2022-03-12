@@ -12,10 +12,12 @@ import {
   Stack,
   HStack,
   VStack,
+  Image,
+  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
 
-import { AiOutlineMenu, AiTwotoneHeart } from "react-icons/ai";
+import FeatherIcon from 'feather-icons-react'
 
 function NavbarItems({ isDrawer, light }) {
 
@@ -25,14 +27,15 @@ function NavbarItems({ isDrawer, light }) {
     },
     borderRadius: "5px",
     px: 4,
-    py: 1,
+    py: 2,
     fontWeight: 600,
     cursor: "pointer",
     transition: "0.25s",
-    textColor: "black"
+    textColor: "black",
+    fontSize: 16
   }
 
-  if (! isDrawer) style['bg'] = 'rgba(68, 68, 68, 0.1)'
+  if (!isDrawer) style['bg'] = 'rgba(68, 68, 68, 0.1)'
   if (light) {
     style['textColor'] = "white"
     style['_hover'] = {
@@ -43,10 +46,10 @@ function NavbarItems({ isDrawer, light }) {
 
   return (
     <>
-      <Link href={"/"}><Box {...style} >Home</Box></Link>
-      <Link href={"/inventory"}><Box {...style} >Inventory</Box></Link>      
-      <Link href={"about"}><Box {...style} >About</Box></Link>
-      <Link href={"contact"}><Box {...style} >Contact</Box></Link>
+      <Link href={"/"}><Box {...style} ><Text  fontSize={'sm'}>Home</Text> </Box></Link>
+      <Link href={"/inventory"}><Box {...style} ><Text  fontSize={'sm'}>Inventory</Text></Box></Link>
+      <Link href={"about"}><Box {...style} ><Text  fontSize={'sm'}>About Us</Text></Box></Link>
+      <Link href={"contact"}><Box {...style} ><Text  fontSize={'sm'}>Contact Us</Text></Box></Link>
     </>
   );
 }
@@ -57,7 +60,9 @@ function DrawerContainer({ onClose, isOpen }) {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
-          <h1>Autozone</h1>
+          <Link href={"/"}>
+            <Image src="./assets/image.png" width={10} />
+          </Link>
           <DrawerCloseButton></DrawerCloseButton>
         </DrawerHeader>
 
@@ -75,7 +80,7 @@ function DrawerContainer({ onClose, isOpen }) {
   );
 }
 
-function Navbar({ light=false }) {
+function Navbar({ light = false }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -86,20 +91,22 @@ function Navbar({ light=false }) {
               onClick={onOpen}
               display={{ base: "flex", md: "none" }}
               variant="ghost"
-              icon={<AiOutlineMenu />}
+              icon={<FeatherIcon color={light ? 'white' : 'black'} icon={'menu'} />}
             />
             <Stack display={{ base: "none", md: "flex" }}>
-              <h1>
-                <Link href={"/"}>Autozone</Link>
-              </h1>
+              <Link href={"/"}>
+                <Image src="./assets/image.png" width={10} />
+              </Link>
             </Stack>
           </Stack>
+          <HStack spacing={4} alignItems={'center'} justifyContent={'flex-end'}>
+            <HStack display={{ base: "none", md: "flex" }} spacing="30px">
+              <NavbarItems light={light} />
+            </HStack>
 
-          <HStack display={{ base: "none", md: "flex" }} spacing="30px">
-            <NavbarItems light={light} />
+            <IconButton variant="ghost" icon={<FeatherIcon size={20} color={light ? 'white' : 'rgb(150, 61, 61)'} fill={light ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
           </HStack>
 
-          <IconButton variant="ghost" icon={<AiTwotoneHeart />} />
         </Stack>
 
         <DrawerContainer isOpen={isOpen} onClose={onClose} />

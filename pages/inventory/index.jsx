@@ -1,45 +1,29 @@
-import Link from "next/link"
-import { useRouter } from "next/router"
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-import User from "../../components/user"
+import InventoryLayout from "../../components/layout/inventory.page.layout";
 
-// #Note Link is used only within the client side of the application
-
-function Inventory({ users }) {
-
-  const router = useRouter()
+function Inventory() {
   return (
     <>
-      <h1>Users</h1>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>
-            <User user={user} />
-          </li>
-        ))}
-      </ul>
+      <InventoryLayout />
     </>
-
-  )
+  );
 }
 
-
-export default Inventory
+export default Inventory;
 
 export async function getServerSideProps() {
-  var data = []
-  
-  
-  try {
-    const response = await fetch('https://gorest.co.in/public/v2/users')
-    data = await response.json()
+  // var data = []
 
-    console.log(data)
-  } catch (error) {
-    console.log(error)
-  }
+  // try {
+  //   const response = await fetch('https://gorest.co.in/public/v2/users')
+  //   data = await response.json()
 
+  //   console.log(data)
+  // } catch (error) {
+  //   console.log(error)
+  // }
 
-
-  return { props: { users: data } }
+  return { props: { } };
 }
