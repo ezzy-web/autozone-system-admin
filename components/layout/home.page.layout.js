@@ -12,7 +12,7 @@ import SearchInventoryForm from "../home.components/SearchInventoryForm";
 import Container from "../elements/Container";
 
 
-function HomeLayout({ recents, newArrival, featured }) {
+function HomeLayout({ recents, newArrival, featured, makes }) {
     const typedStrings = ["Hello Me", "Hello You", "Hello World"]
     return (
         <>
@@ -20,7 +20,7 @@ function HomeLayout({ recents, newArrival, featured }) {
             <Box position={"relative"} overflow={"hidden"} w="100%" height={"70vh"}>
                 <Box display={'flex'} justifyContent={'center'} alignItems={'center'} overflow="hidden" w="100%" height="70vh">
                     {/* Image Slider here */}
-                    <Image width={'100%'} src={'https://images.unsplash.com/photo-1514910440960-0b0fe5b56501?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1990&q=80'} />
+                    <Image objectFit={'fill'} src={'https://images.unsplash.com/photo-1514910440960-0b0fe5b56501?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1990&q=80'} />
                 </Box>
                 <Box bg="rgba(0, 0, 0, 0.834)" position="absolute" top="0" w="100%" >
                     <Navbar light={true} />
@@ -30,7 +30,7 @@ function HomeLayout({ recents, newArrival, featured }) {
 
                             <Stack pt={2} px={{ base: 30, md: 150 }}>
                                 <Box overflow="hidden" height={31} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} size="lg" /></Typed></Box>
-                                <QuickSearchForm />
+                                <QuickSearchForm makes={makes} />
                             </Stack>
                         </Stack>
                     </Box>
@@ -71,7 +71,7 @@ function HomeLayout({ recents, newArrival, featured }) {
                         <TabPanel>
                             <Heading mb={10} size="md">Search Our Inventory</Heading>
 
-                            <SearchInventoryForm />
+                            <SearchInventoryForm makes={makes} />
                         </TabPanel>
                         <TabPanel>
                             <HStack justifyContent={'space-between'} alignItems={'center'}>

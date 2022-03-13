@@ -13,7 +13,7 @@ function BodyTypes() {
     }
     return (
         <SimpleGrid minChildWidth={150} spacing={30}>
-            <Link href={"/"}>
+            <Link href={{ pathname: '/inventory/query', query: { body: 'Sedan' } }}>
                 <div>
                     <Stack {...stackStyle}>
                         <Image justifyContent={"center"} w="85%" src="./assets/sedan.png" />
@@ -21,7 +21,7 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link href={"/"}>
+            <Link href={{ pathname: '/inventory/query', query: { body: 'SUV' } }}>
                 <div>
                     <Stack {...stackStyle} >
                         <Image justifyContent={"center"} w="85%" src="./assets/suv.png" />
@@ -29,7 +29,7 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link href={"/"}>
+            <Link href={{ pathname: '/inventory/query', query: { body: 'Hatchback' } }}>
                 <div>
                     <Stack {...stackStyle} >
                         <Image w="85%" src="./assets/hatch.png" />
@@ -37,7 +37,7 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link href={"/"}>
+            <Link href={{ pathname: '/inventory/query', query: { body: 'Pickup' } }}>
                 <div>
                     <Stack {...stackStyle} >
                         <Image justifyContent={"center"} w="85%" src="./assets/pick-up.png" />

@@ -5,44 +5,26 @@ import styles from "../styles/Home.module.css";
 
 import HomeLayout from "../components/layout/home.page.layout";
 import RecentlyVisited from "../components/recent-vehicle-component";
-import VehicleCard from "../components/vehicle.card.container";
-import { SimpleGrid } from "@chakra-ui/react";
 import InventoryContent from "../components/inventroy.components/InventoryContent";
 
 function Recents({ recents }) {
   if (recents) {
-    return <InventoryContent vehicles={recents} isMore={false} isConstant={true} />
-  }
-
-  return <></>;
-}
-
-function NewArrival({ newArrival }) {
-  if (newArrival) {
-    return <InventoryContent vehicles={newArrival} isMore={false} isConstant={true} />
-  }
-
-  return <></>;
-}
-
-function Featured({ featured }) {
-  if (featured) {
-    return <InventoryContent vehicles={featured} isMore={false} isConstant={true} />
+    return <InventoryContent paginationState={{ docs: recents }} isMore={false} isConstant={true} />
   }
   return <></>;
 }
 
-function Home({ featured = [1,2,3,4,2,3], newArrival = [1, 1, 1, 1,1,1], makes = [] }) {
-  // const recents = [{ name: "Nissan Skyline" }, { name: "Toyota Hiace" },{ name: "Nissan Skyline" }, { name: "Toyota Hiace" },{ name: "Nissan Skyline" }, { name: "Toyota Hiace" }];
+
+
+function Home({ featured , newArrival, makes }) {
   const recents = [];
   const saved = [];
 
   const components = {
     saved,
     recents: recents.length === 0 ? null : <Recents recents={recents} />,
-    newArrival:
-      newArrival.length === 0 ? null : <NewArrival newArrival={newArrival} />,
-    featured: featured.length === 0 ? null : <Featured featured={featured} />,
+    newArrival: newArrival?.length === 0 ? <InventoryContent paginationState={{ docs: [] }} isMore={false} isConstant={true} /> : <InventoryContent paginationState={{ docs: newArrival }} isMore={false} isConstant={true} />,
+    featured: featured?.length === 0 ? <InventoryContent paginationState={{ docs: [] }} isMore={false} isConstant={true} /> : <InventoryContent paginationState={{ docs: featured }} isMore={false} isConstant={true} />,
     makes,
   };
 
@@ -54,3 +36,28 @@ function Home({ featured = [1,2,3,4,2,3], newArrival = [1, 1, 1, 1,1,1], makes =
 }
 
 export default Home;
+
+
+export async function getServerSideProps(context) {
+  var [ featured, newArrival, makes ] = [[], [], []]
+  
+  var response = await fetch('http://localhost:3000/api/getMakes')
+  makes = await response.json()
+
+
+  response = await fetch('http://localhost:3000/api/getFeatured')
+  featured = await response.json()
+
+
+  response = await fetch('http://localhost:3000/api/getNewArrivals')
+  newArrival = await response.json()
+  console.log(newArrival)
+
+
+
+  return { props: {
+      newArrival,
+      featured,
+      makes
+  }}
+}

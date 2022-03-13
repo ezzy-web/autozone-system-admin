@@ -6,9 +6,11 @@ import { Box, HStack, Text, VStack, Heading, Image, Button, IconButton } from '@
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 
+import numeral from 'numeral'
 
-function VehicleCard() {
-    const href = '/'
+
+function VehicleCard({ vehicle }) {
+    const href = '/inventory/vehicle/'+vehicle?.id
     const mainBoxStyle = {
         my: "10px",
         boxShadow: '1px 1px 39px -10px rgba(0, 0, 0, 0.2)',
@@ -22,7 +24,7 @@ function VehicleCard() {
 
     const imageBoxStyle = {
         overflow: "hidden",
-        h: "100%",
+        h: { base: 275, md: 250 },
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -30,14 +32,14 @@ function VehicleCard() {
     }
 
     const overlayBoxStyle = {
-        bg: "rgba(0, 0, 0, 0.434)",
+        bg: "rgba(0, 0, 0, 0.334)",
         position: "absolute",
         top: "0",
         w: "100%",
         h: "100%",
         transition: .5,
         _hover: {
-            bg: "rgba(0, 0, 0, 0.334)",
+            bg: "rgba(0, 0, 0, 0.234)",
             cursor: 'pointer'
         }
     }
@@ -47,11 +49,11 @@ function VehicleCard() {
                 <Box overflow={'hidden'} position={'relative'}>
 
                     <Box {...imageBoxStyle}>
-                        <Image src="./assets/no-image.jpg" h={"100%"} />
+                        <Image src={ vehicle?.images ? vehicle.images.length === 0 ? "/assets/no-image.jpg" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover'} h={'110%'} />
                     </Box>
 
 
-                    {true ? (
+                    {vehicle?.isAvailable ? (
                         <Box {...overlayBoxStyle}>
                             <IconButton onClick={(e) => e.preventDefault()} padding={0} variant={'link'} position={'absolute'} right={2} top={3} icon={<FeatherIcon color={true ? 'white' : 'rgb(150, 61, 61)'} fill={true ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
                         </Box>
@@ -64,13 +66,13 @@ function VehicleCard() {
                 </Box>
             </Link>
             <Box padding={2} >
-                <HStack justifyContent={'space-between'} alignItems={'flex-start'}>
+                <HStack justifyContent={'space-between'} alignItems={'center'}>
                     <VStack alignItems={'flex-start'} >
                         <Link href={href}>
-                            <Heading lineHeight={1.5} size={'xs'} isTruncated> Nissan Skyline 2019 </Heading>
+                            <Heading lineHeight={1.5} size={'xs'} isTruncated> {vehicle?.title} </Heading>
                         </Link>
                         <HStack>
-                            <Text lineHeight={1} color={'gray.500'} fontSize={'xx-small'} >Stock No 1239139 - On lot - AUTOMATIC</Text>
+                            <Text lineHeight={1} color={'gray.500'} fontSize={'xs'} >Stock No {vehicle?.id} - {vehicle?.location} - {vehicle?.trans?.toUpperCase()}</Text>
                         </HStack>
 
                     </VStack>
@@ -78,20 +80,20 @@ function VehicleCard() {
 
                     <VStack overflow={'hidden'} bgColor={'yellow.400'} borderRadius={5}>
                         <Box paddingX={2} paddingY={1} width={'full'} bgColor={'gray.700'}>
-                            {true ? (
-                                <Text lineHeight={1} color={'white'} textAlign={'center'} fontSize={'sm'} >{false ? '$190000' : 'Contact Us'}</Text>
+                            {vehicle?.isAvailable ? (
+                                <Text lineHeight={1} color={'white'} textAlign={'center'} fontSize={'12px'} >{vehicle?.price_visible ? numeral(vehicle?.price).format('$ 0,0') : 'Contact Us'}</Text>
                             ) : (
-                                <Text lineHeight={1} color={'white'} textAlign={'center'} fontSize={'sm'}>SOLD</Text>
+                                <Text lineHeight={1} color={'white'} textAlign={'center'} fontSize={'12px'}>SOLD</Text>
                             )}
                         </Box>
                         <Box paddingX={1} paddingBottom={1}>
-                            <Heading fontSize={'sm'} lineHeight={'short'}> {false ? 'Negotiable' : ''}</Heading>
+                            <Text fontSize={'xs'} lineHeight={1}> {vehicle?.price_visible ? vehicle?.price_cond : ''}</Text>
                         </Box>
                     </VStack>
                 </HStack>
 
 
-                <Link href={href}><Button width={'full'} marginTop={5} rightIcon={<FeatherIcon size={16} icon={'arrow-up-right'} />} >More Details</Button></Link>
+                <Link href={href}><Button fontSize={'14px'} width={'full'} marginTop={5} rightIcon={<FeatherIcon size={14} icon={'arrow-up-right'} />} >More Details</Button></Link>
             </Box>
         </Box>
     )

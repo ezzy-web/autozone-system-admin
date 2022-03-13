@@ -1,12 +1,11 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+
 
 import InventoryLayout from "../../components/layout/inventory.page.layout";
 
-function Inventory() {
+function Inventory({ paginationData }) {
   return (
     <>
-      <InventoryLayout />
+      <InventoryLayout paginationData={paginationData} />
     </>
   );
 }
@@ -14,16 +13,9 @@ function Inventory() {
 export default Inventory;
 
 export async function getServerSideProps() {
-  // var data = []
+  var paginationData
+  const response = await fetch('http://localhost:3000/api/getInventory')
+  paginationData = await response.json()
 
-  // try {
-  //   const response = await fetch('https://gorest.co.in/public/v2/users')
-  //   data = await response.json()
-
-  //   console.log(data)
-  // } catch (error) {
-  //   console.log(error)
-  // }
-
-  return { props: { } };
+  return { props: { paginationData } };
 }

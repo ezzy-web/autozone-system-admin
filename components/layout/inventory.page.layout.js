@@ -1,39 +1,109 @@
-import { Grid, GridItem, SimpleGrid, Box, Accordion, AccordionButton, AccordionItem, Heading, AccordionIcon, HStack, AccordionPanel, Text, IconButton, FormLabel } from '@chakra-ui/react'
+import { Grid, GridItem, SimpleGrid, Box, Accordion, AccordionButton, AccordionItem, Heading, AccordionIcon, HStack, AccordionPanel, Text, IconButton, FormLabel, Button } from '@chakra-ui/react'
 import React from 'react'
+import { useRouter } from 'next/router'
 import Navbar from '../navbar'
-import VehicleCard from '../vehicle.card.container'
 import BreadcrumbContainer from '../elements/Breadcrumb'
 
 import FeatherIcon from 'feather-icons-react'
 import Banner from '../elements/Banner'
 import Select from 'react-select'
 import InventoryContent from '../inventroy.components/InventoryContent'
+import FilterInventory from '../inventory.components/FilterInventory'
 
 
 
-export default function InventoryLayout() {
+export default function InventoryLayout({ paginationData, params }) {
+    const router = useRouter()
+    const [queryParams, setQueryParams] = React.useState(null)
+    const [paginationState, setPaginationState] = React.useState(paginationData)
+    const [currentParams, setCurrentParams] = React.useState(params)
+    const [refresh, setRefresh] = React.useState(false)
 
-    const vehicles = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+    const removeParam = (key) => {
+        var newParamState = JSON.parse(JSON.stringify(currentParams))
+        
+        if (key === 'make') {
+            newParamState['model'] = null
+        }
+        newParamState[key] = null
+        
+        var isQuery = false
+        var query = {}
+        for (const [key, value] of Object.entries(newParamState)) {
+            if (value && value != '') {
+                query[key] = value
+                isQuery = true
+            }
+        }
+
+        if (isQuery) {
+            const params = new URLSearchParams(query)
+            router.push('/inventory/query?' + params.toString())
+            setCurrentParams(query)
+            setRefresh(true)
+            return;
+        }
+        router.push('/inventory')
+        setCurrentParams(query)
+    }
+
+    const handleQueryParamsChange = () => {
+        if (currentParams) {
+            var querries = []
+            for (const [key, value] of Object.entries(currentParams)) {
+                querries.push({ key, value })
+            }
+            setQueryParams(querries)
+        } else {
+            setQueryParams([])
+        }
+    }
+
+    const refreshData = async () => {
+        const response = await fetch('http://localhost:3000/api/queryInventory', {
+            method: 'POST',
+            body: JSON.stringify({ query: currentParams })
+        }).catch(error => console.log(error))
+
+        const data = await response.json().catch(error => console.log(error))
+        setPaginationState(data)
+        setRefresh(false)
+    }
+    
+    React.useEffect(() => {
+        handleQueryParamsChange()
+        if (refresh) refreshData()
+    }, [currentParams])
+
     return (
         <>
             <Navbar />
             <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={1} width='full' ></Box>
             <Banner />
-            <BreadcrumbContainer />
+            <BreadcrumbContainer params={queryParams} />
 
             <Grid marginTop={10} templateRows={'repeat(2, 1fr)'} templateColumns={'repeat(12, 1fr)'}>
 
                 <GridItem paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
                     <Box position={'sticky'} top={0}>
                         <Box padding={5} bgColor={'gray.100'}>
-                            <Heading size={'xxsm'} color={'gray.600'}>10 Results Found</Heading>
+                            <Heading size={'xxsm'} color={'gray.600'}>{paginationState?.resultsCount} Results Found</Heading>
                         </Box>
                         <Box padding={2}>
                             <SimpleGrid minChildWidth={100}>
-                                <HStack marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
-                                    <Text fontSize={'sm'} isTruncated>Nissan</Text>
-                                    <IconButton variant={'ghost'} size={'xs'} onClick={() => alert('Delete')} icon={<FeatherIcon size={14} icon='x' />} />
-                                </HStack>
+                                {queryParams ? (
+                                    <>
+                                        {queryParams.map((query, key) => {
+                                            return (
+                                                <HStack marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
+                                                    <Text fontSize={'sm'} isTruncated>{ query.value }</Text>
+                                                    <IconButton variant={'ghost'} size={'xs'} onClick={() => removeParam(query.key)} icon={<FeatherIcon size={14} icon='x' />} />
+                                                </HStack>
+                                            )
+                                        })}
+                                    </>
+                                ) : (<></>)}
+
                             </SimpleGrid>
                         </Box>
                         <Box >
@@ -70,58 +140,7 @@ export default function InventoryLayout() {
                                     </AccordionButton>
 
                                     <AccordionPanel>
-                                        <Box my={3}>
-                                            <FormLabel fontSize={'xs'}>Make</FormLabel>
-                                            <Select
-                                                options={[]}
-                                                placeholder='Make'
-                                                classNamePrefix="form-select-index"
-                                            />
-                                        </Box>
-                                        <Box my={3}>
-                                            <FormLabel fontSize={'xs'}>Model</FormLabel>
-                                            <Select
-                                                options={[]}
-                                                placeholder='Any'
-                                                classNamePrefix="form-select-index"
-                                            />
-                                        </Box>
-                                        <HStack justifyContent={'space-evenly'} width={'full'}>
-                                            <Box width={'full'} my={3}>
-                                                <FormLabel fontSize={'xs'}>From</FormLabel>
-                                                <Select
-                                                    options={[]}
-                                                    placeholder='From'
-                                                    classNamePrefix="form-select-index"
-                                                />
-                                            </Box>
-                                            <Box width={'full'} my={3}>
-                                                <FormLabel fontSize={'xs'}>To</FormLabel>
-                                                <Select
-                                                    options={[]}
-                                                    placeholder='To'
-                                                    classNamePrefix="form-select-index"
-                                                />
-                                            </Box>
-                                        </HStack>
-
-                                        <Box my={3}>
-                                            <FormLabel fontSize={'xs'}>Body Type</FormLabel>
-                                            <Select
-                                                options={[]}
-                                                placeholder='Any'
-                                                classNamePrefix="form-select-index"
-                                            />
-                                        </Box>
-
-                                        <Box my={3}>
-                                            <FormLabel fontSize={'xs'}>Transmission</FormLabel>
-                                            <Select
-                                                options={[]}
-                                                placeholder='Any'
-                                                classNamePrefix="form-select-index"
-                                            />
-                                        </Box>
+                                        <FilterInventory />
                                     </AccordionPanel>
                                 </AccordionItem>
                             </Accordion>
@@ -130,7 +149,7 @@ export default function InventoryLayout() {
                 </GridItem>
 
                 <GridItem rowSpan={2} colSpan={{ base: 12, md: 9 }} >
-                    <InventoryContent vehicles={vehicles} />
+                    <InventoryContent params={currentParams} isMore={paginationState?.lastDocumentId ? true : false} paginationState={paginationState} />
                 </GridItem>
 
             </Grid>

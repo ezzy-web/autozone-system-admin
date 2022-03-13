@@ -61,7 +61,7 @@ function DrawerContainer({ onClose, isOpen }) {
       <DrawerContent>
         <DrawerHeader>
           <Link href={"/"}>
-            <Image src="./assets/image.png" width={10} />
+            <Image src="/assets/image.png" width={10} />
           </Link>
           <DrawerCloseButton></DrawerCloseButton>
         </DrawerHeader>
@@ -95,7 +95,7 @@ function Navbar({ light = false }) {
             />
             <Stack display={{ base: "none", md: "flex" }}>
               <Link href={"/"}>
-                <Image src="./assets/image.png" width={10} />
+                <Image src="/assets/image.png" width={10} />
               </Link>
             </Stack>
           </Stack>
