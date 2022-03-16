@@ -1,14 +1,39 @@
+import { useRouter } from "next/router";
+import React from "react";
+import VehiclePageLayout from "../../../components/layout/vehicle.page.layout";
+import { CookieContext } from "../../../server/utils/context";
+
+export default function VehiclePage({ vehicle, relatedVehicles }) {
+
+  const { addRecentVehicle } = React.useContext(CookieContext)
+  relatedVehicles.docs = relatedVehicles.docs.filter((doc) => vehicle.id != doc.id);
+  React.useEffect(() => addRecentVehicle(vehicle.id))
 
 
-import { useRouter } from 'next/router';
+  return <VehiclePageLayout vehicle={vehicle} related={relatedVehicles} />;
+}
 
+export async function getServerSideProps({ params }) {
+  require("dotenv").config();
+  const { stockNo } = params;
 
-export default function VehiclePage() {
-  const router = useRouter()
-  const { stockNo } = router.query
-  return (
-    <div>
-      <h1>Vehicle {stockNo}</h1>
-    </div>
-  );
+  var response = await fetch(`${process.env.BASE_URL}api/getVehicle`, {
+    method: "POST",
+    body: JSON.stringify({ id: stockNo }),
+  });
+  const vehicle = await response.json();
+
+  response = await fetch(`${process.env.BASE_URL}api/queryInventory`, {
+    method: "POST",
+    body: JSON.stringify({
+      query: {
+        yearMin: vehicle.year,
+        body: vehicle.body,
+      },
+      limit: 6,
+    }),
+  });
+
+  const relatedVehicles = await response.json();
+  return { props: { vehicle, relatedVehicles } };
 }

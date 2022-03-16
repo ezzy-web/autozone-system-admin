@@ -5,43 +5,43 @@ import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 
 
-export default function BreadcrumbContainer({ params }) {
-    params = params ? params : []
-    const [queryParams, setQueryParams] = React.useState([])
+export default function BreadcrumbContainer({ params = {} }) {
+    const [queryParams, setQueryParams] = React.useState(params)
 
 
     React.useEffect(() => {
-        const crumbs = params.filter((query) => {
-            return query.key === 'make' | query.key === 'model'
-        })
-        setQueryParams(crumbs)
+        setQueryParams(params)
     }, [params])
 
 
     return (
         <Box paddingY={4} bgColor={'gray.100'}>
-            <Breadcrumb paddingX={10} separator={<FeatherIcon size={6} icon={'circle'} fill={'#b2b2b2'} color={'#b2b2b2'} />}>
+            <Breadcrumb paddingX={10} separator={<Box mx={2}><FeatherIcon size={6} icon={'circle'} fill={'#b2b2b2'} color={'#b2b2b2'} /></Box>}>
                 <BreadcrumbItem>
                     <BreadcrumbLink href='/'>Home</BreadcrumbLink>
                 </BreadcrumbItem>
 
-                <BreadcrumbItem isCurrentPage={queryParams.length === 0 ? true : false}>
+                <BreadcrumbItem isCurrentPage={queryParams.make ? false : true}>
                     <BreadcrumbLink href='/inventory'>Inventory</BreadcrumbLink>
                 </BreadcrumbItem>
 
-                {queryParams.length >= 1 ? (
-                    <BreadcrumbItem isCurrentPage={queryParams.length === 1 ? true : false}>
-                        <BreadcrumbLink href={'/inventory/query?make='+queryParams.filter(({ key }) => key === 'make')[0].value}>{queryParams.filter(({ key }) => key === 'make')[0].value}</BreadcrumbLink>
+                {queryParams.make ? (
+                    <BreadcrumbItem isCurrentPage={queryParams.model ? false : true}>
+                        <BreadcrumbLink href={`/inventory/query?make=${queryParams.make}`}>{queryParams.make}</BreadcrumbLink>
                     </BreadcrumbItem>
-                ) : (
-                    <> </>
-                )}
+                ) : null}
 
-                {queryParams.length === 2 ? (
-                    <BreadcrumbItem isCurrentPage={queryParams.length === 2 ? true : false}>
-                        <BreadcrumbLink href={'/inventory/query?model='+queryParams.filter(({ key }) => key === 'model')[0].value}>{queryParams.filter(({ key }) => key === 'model')[0].value}</BreadcrumbLink >
+                {queryParams.model ? (
+                    <BreadcrumbItem isCurrentPage={queryParams.vehicle ? false : true}>
+                        <BreadcrumbLink href={`/inventory/query?make=${queryParams.make}&model=${queryParams.model}`} >{queryParams.model}</BreadcrumbLink>
                     </BreadcrumbItem>
-                ) : <></>}
+                ) : null}
+
+                {queryParams.vehicle ? (
+                    <BreadcrumbItem isCurrentPage >
+                        <BreadcrumbLink href={'/'}>{queryParams.vehicle}</BreadcrumbLink >
+                    </BreadcrumbItem>
+                ) : null}
 
 
             </Breadcrumb>

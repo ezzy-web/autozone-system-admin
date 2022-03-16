@@ -1,9 +1,12 @@
 const { firebase } = require('../utils/firebase.config')
 
 
+
+const INVENTORY_COLLECTION = 'Inventory'
+
 const firestore = firebase.firestore()
 const makeCollection = firestore.collection('Makes')
-const inventoryCollection = firestore.collection('Inventory').where('isVisible', '==', true)
+const inventoryCollection = firestore.collection(INVENTORY_COLLECTION).where('isVisible', '==', true)
 
 const getMakes = async () => {
     try {
@@ -27,10 +30,11 @@ const getFeatured = async () => {
 
 const getNewArrivals = async () => {
     try {
-        var date = new Date()
-        var now = new Date(date.setDate(date.getDate() - 14))
-        const timeStamp = firebase.firestore.Timestamp.fromDate(now)
-        const query = inventoryCollection.where('location', '==', 'On lot').where('arrival', '>=', timeStamp.toMillis()).limit(6)
+        var now = + new Date()
+        // var date = new Date(now.)
+        // const timeStamp = firebase.firestore.Timestamp.fromDate(now)
+        console.log(now - 604800000)
+        const query = inventoryCollection.where('location', '==', 'On lot').where('arrival', '>=', (now - 604800)).limit(6)
         const querySnap = await query.get()
 
         return querySnap.docs
@@ -55,7 +59,6 @@ const getInventory = async (lastDocumentId = null, limit = 9) => {
         throw error
     }
 }
-
 
 const queryInventory = async (lastDocumentId = null, queryParams, limit = 9) => {
     try {
@@ -96,9 +99,18 @@ const queryInventory = async (lastDocumentId = null, queryParams, limit = 9) => 
     }
 }
 
+const getVehicle = async (id) => {
+    try {
+        const document = await firestore.doc(`${INVENTORY_COLLECTION}/${id}`).get()
+        return document.data()
+    } catch (error) {
+        throw error
+    } 
+}
+
 
 
 module.exports = {
-    getMakes, getFeatured, getNewArrivals, getInventory, queryInventory
+    getMakes, getFeatured, getNewArrivals, getInventory, queryInventory, getVehicle
 }
 

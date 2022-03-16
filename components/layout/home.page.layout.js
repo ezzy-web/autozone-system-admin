@@ -4,12 +4,13 @@ import {
     Box, Stack, Heading, Tabs, TabList, TabPanel, TabPanels, Tab, HStack, Button, Image, VStack
 } from "@chakra-ui/react"
 import Typed from "react-typed"
-import Slider from "../elements/Slider";
 
+import RecentlyVisited from '../home.components/recent-vehicle-component';
 import QuickSearchForm from "../home.components/QuickSearchForm";
 import BodyTypes from "../home.components/BodyTypes";
 import SearchInventoryForm from "../home.components/SearchInventoryForm";
 import Container from "../elements/Container";
+import Slider from "../elements/Slider";
 
 
 function HomeLayout({ recents, newArrival, featured, makes }) {
@@ -19,8 +20,7 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
 
             <Box position={"relative"} overflow={"hidden"} w="100%" height={"70vh"}>
                 <Box display={'flex'} justifyContent={'center'} alignItems={'center'} overflow="hidden" w="100%" height="70vh">
-                    {/* Image Slider here */}
-                    <Image objectFit={'fill'} src={'https://images.unsplash.com/photo-1514910440960-0b0fe5b56501?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1990&q=80'} />
+                    <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1514910440960-0b0fe5b56501?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1990&q=80')`} bgSize='cover' bgPosition={'center'} />
                 </Box>
                 <Box bg="rgba(0, 0, 0, 0.834)" position="absolute" top="0" w="100%" >
                     <Navbar light={true} />
@@ -50,11 +50,8 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
                 <Box bg="whitesmoke">
                     <Container>
                         <Heading mb={10} size="md">Recently Viewed</Heading>
-                        <Slider>
-                            {recents}
-                        </Slider>
+                        <Slider isResponsive={true} data={recents} renderItem={({ item }) => <RecentlyVisited recents={item} />} />
                     </Container>
-
                 </Box>
             ) : (<></>)}
 

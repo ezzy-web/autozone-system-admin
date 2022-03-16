@@ -2,10 +2,10 @@
 
 import InventoryLayout from "../../../components/layout/inventory.page.layout";
 
-function Inventory({ paginationData, params }) {
+function Inventory({ paginationData, params, makes }) {
     return (
         <>
-            <InventoryLayout paginationData={paginationData} params={params} />
+            <InventoryLayout paginationData={paginationData} params={params} makes={makes} />
         </>
     );
 }
@@ -13,13 +13,22 @@ function Inventory({ paginationData, params }) {
 export default Inventory;
 
 export async function getServerSideProps({ query }) {
+    require('dotenv').config();
+
+
     var paginationData
-    const response = await fetch('http://localhost:3000/api/queryInventory', {
+    var makes = []
+
+    var response = await fetch(`${process.env.BASE_URL}api/getMakes`)
+    makes = await response.json()
+
+
+    response = await fetch(`${process.env.BASE_URL}api/queryInventory`, {
         method: 'POST',
-        body: JSON.stringify({query})
+        body: JSON.stringify({ query })
     })
 
     paginationData = await response.json()
 
-    return { props: { paginationData, params: query } };
+    return { props: { paginationData, params: query, makes } };
 }

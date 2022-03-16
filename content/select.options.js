@@ -44,5 +44,10 @@ module.exports = {
     price_cond: [
         { value: "Negotiable", label: "Negotiable" },
         { value: "Non-Negotiable", label: "Non-Negotiable" },
+    ],
+
+    reasons: [
+        { value: "Purchase Interest", label: "Purchase Interest" },
+        { value: "Price Negotiation", label: "Price Negotiation" },
     ]
 }

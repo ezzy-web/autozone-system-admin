@@ -7,12 +7,12 @@ import BreadcrumbContainer from '../elements/Breadcrumb'
 import FeatherIcon from 'feather-icons-react'
 import Banner from '../elements/Banner'
 import Select from 'react-select'
-import InventoryContent from '../inventroy.components/InventoryContent'
+import InventoryContent from '../inventory.components/InventoryContent'
 import FilterInventory from '../inventory.components/FilterInventory'
 
 
 
-export default function InventoryLayout({ paginationData, params }) {
+export default function InventoryLayout({ paginationData, params, makes }) {
     const router = useRouter()
     const [queryParams, setQueryParams] = React.useState(null)
     const [paginationState, setPaginationState] = React.useState(paginationData)
@@ -80,14 +80,13 @@ export default function InventoryLayout({ paginationData, params }) {
             <Navbar />
             <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={1} width='full' ></Box>
             <Banner />
-            <BreadcrumbContainer params={queryParams} />
+            <BreadcrumbContainer params={currentParams} />
 
             <Grid marginTop={10} templateRows={'repeat(2, 1fr)'} templateColumns={'repeat(12, 1fr)'}>
 
                 <GridItem paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
-                    <Box position={'sticky'} top={0}>
                         <Box padding={5} bgColor={'gray.100'}>
-                            <Heading size={'xxsm'} color={'gray.600'}>{paginationState?.resultsCount} Results Found</Heading>
+                            <Text fontWeight={'medium'} fontSize={'md'} color={'gray.600'}>{`${paginationState?.resultsCount} ${paginationState?.resultsCount === 1 ? 'Result' : 'Results'}`} Found</Text>
                         </Box>
                         <Box padding={2}>
                             <SimpleGrid minChildWidth={100}>
@@ -106,7 +105,7 @@ export default function InventoryLayout({ paginationData, params }) {
 
                             </SimpleGrid>
                         </Box>
-                        <Box >
+                        <Box  position={'sticky'} top={0}>
                             <Accordion>
                                 <AccordionItem>
                                     <AccordionButton paddingY={5}>
@@ -140,12 +139,11 @@ export default function InventoryLayout({ paginationData, params }) {
                                     </AccordionButton>
 
                                     <AccordionPanel>
-                                        <FilterInventory />
+                                        <FilterInventory makes={makes} setCurrentParams={setCurrentParams} setRefresh={setRefresh} currentParams={currentParams} />
                                     </AccordionPanel>
                                 </AccordionItem>
                             </Accordion>
                         </Box>
-                    </Box>
                 </GridItem>
 
                 <GridItem rowSpan={2} colSpan={{ base: 12, md: 9 }} >

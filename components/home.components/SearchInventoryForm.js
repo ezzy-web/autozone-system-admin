@@ -19,6 +19,23 @@ function SearchInventoryForm({ makes }) {
     var makeOptions = [{ value: "", label: "Select Make" }]
     makeOptions = [...makeOptions, ...makes.map(make => { return { value: make.make, label: make.make } })]
     const [modelOptions, setModelOptions] = React.useState([{ value: "", label: "Select Make" }])
+    const [minYearOptions, setMinYearOptions] = React.useState(options.year)
+    const [maxYearOptions, setMaxYearOptions] = React.useState(options.year)
+
+    
+
+    const handleYearChange = ({ min, max }) => {
+        if (min) {
+            const maxYear = options.year.filter((option) => option.value >= min | option.value === '')
+            setMaxYearOptions(maxYear)
+        }
+
+        if (max) {
+            const minYear = options.year.filter((option) => option.value <= max | option.value === '')
+            setMinYearOptions(minYear)
+        }
+    }
+
     const handleMakeChange = (e) => {
         const match = makes.filter((make) => {
             return make.make === e.value
@@ -39,7 +56,8 @@ function SearchInventoryForm({ makes }) {
         trans: yup.string(),
         yearMin: yup.string(),
         yearMax: yup.string(),
-        body: yup.string()
+        body: yup.string(),
+        location: yup.string()
     })
 
     const { handleSubmit, control, reset } = useForm({ resolver: yupResolver(schema) })
@@ -139,9 +157,9 @@ function SearchInventoryForm({ makes }) {
                         render={({ field: { onChange, value } }) => (
                             <Select
                                 classNamePrefix="form-select-index"
-                                options={[]}
+                                options={minYearOptions}
                                 placeholder={'Year Min'}
-                                onChange={(e) => onChange(e.value)}
+                                onChange={(e) => { onChange(e.value); handleYearChange({ min: e.value }) }}
                             />)} />
                 </GridItem>
                 <GridItem colSpan={{ base: 12, md: 3 }}>
@@ -151,9 +169,9 @@ function SearchInventoryForm({ makes }) {
                         render={({ field: { onChange, value } }) => (
                             <Select
                                 classNamePrefix="form-select-index"
-                                options={[]}
+                                options={maxYearOptions}
                                 placeholder={'Year Max'}
-                                onChange={(e) => onChange(e.value)}
+                                onChange={(e) => { onChange(e.value); handleYearChange({ max: e.value }) }}
                             />)} />
                 </GridItem>
             </Grid>

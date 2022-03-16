@@ -12,7 +12,7 @@ export default function InventoryContent({ paginationState, isMore, isConstant, 
     const getMoreVehicles = async () => {
         if (params) {
 
-            const res = await fetch('http://localhost:3000/api/queryInventory', {
+            const res = await fetch(`${window.location.origin}/api/queryInventory`, {
                 method: 'POST',
                 body: JSON.stringify({ lastDocumentId, query: params })
             }).catch(err => console.log(err))
@@ -25,7 +25,7 @@ export default function InventoryContent({ paginationState, isMore, isConstant, 
             setVehicles((vehicles) => [...vehicles, ...newVehicles])
             return;
         }
-        const res = await fetch('http://localhost:3000/api/getInventory', {
+        const res = await fetch(`${window.location.origin}/api/getInventory`, {
             method: 'POST',
             body: JSON.stringify({ lastDocumentId })
         }).catch(err => console.log(err))
