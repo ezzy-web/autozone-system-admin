@@ -1,4 +1,4 @@
-import { Grid, GridItem, SimpleGrid, Box, Accordion, AccordionButton, AccordionItem, Heading, AccordionIcon, HStack, AccordionPanel, Text, IconButton, FormLabel, Button } from '@chakra-ui/react'
+import { Grid, GridItem, SimpleGrid, Box, Accordion, AccordionButton, AccordionItem, Heading, AccordionIcon, HStack, AccordionPanel, Text, IconButton } from '@chakra-ui/react'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../navbar'
@@ -73,6 +73,7 @@ export default function InventoryLayout({ paginationData, params, makes }) {
     React.useEffect(() => {
         handleQueryParamsChange()
         if (refresh) refreshData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentParams])
 
     return (
@@ -94,7 +95,7 @@ export default function InventoryLayout({ paginationData, params, makes }) {
                                     <>
                                         {queryParams.map((query, key) => {
                                             return (
-                                                <HStack marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
+                                                <HStack key={key} marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
                                                     <Text fontSize={'sm'} isTruncated>{ query.value }</Text>
                                                     <IconButton variant={'ghost'} size={'xs'} onClick={() => removeParam(query.key)} icon={<FeatherIcon size={14} icon='x' />} />
                                                 </HStack>

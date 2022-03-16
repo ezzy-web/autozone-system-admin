@@ -16,7 +16,7 @@ function BodyTypes() {
             <Link href={{ pathname: '/inventory/query', query: { body: 'Sedan' } }}>
                 <div>
                     <Stack {...stackStyle}>
-                        <Image justifyContent={"center"} w="85%" src="./assets/sedan.png" />
+                        <Image alt={'javvys autonzone sedan'} justifyContent={"center"} w="85%" src="./assets/sedan.png" />
                         <Heading mt={"20px"} align="center" size='sm'>Sedan</Heading>
                     </Stack>
                 </div>
@@ -24,7 +24,7 @@ function BodyTypes() {
             <Link href={{ pathname: '/inventory/query', query: { body: 'SUV' } }}>
                 <div>
                     <Stack {...stackStyle} >
-                        <Image justifyContent={"center"} w="85%" src="./assets/suv.png" />
+                        <Image alt={'javvys autonzone suv'} justifyContent={"center"} w="85%" src="./assets/suv.png" />
                         <Heading mt={"20px"} align="center" size='sm'>SUV</Heading>
                     </Stack>
                 </div>
@@ -32,7 +32,7 @@ function BodyTypes() {
             <Link href={{ pathname: '/inventory/query', query: { body: 'Hatchback' } }}>
                 <div>
                     <Stack {...stackStyle} >
-                        <Image w="85%" src="./assets/hatch.png" />
+                        <Image alt={'javvys autonzone hatch'} w="85%" src="./assets/hatch.png" />
                         <Heading mt={"20px"} align="center" size='sm'>Hatchback</Heading>
                     </Stack>
                 </div>
@@ -40,7 +40,7 @@ function BodyTypes() {
             <Link href={{ pathname: '/inventory/query', query: { body: 'Pickup' } }}>
                 <div>
                     <Stack {...stackStyle} >
-                        <Image justifyContent={"center"} w="85%" src="./assets/pick-up.png" />
+                        <Image alt={'javvys autonzone pickup'} justifyContent={"center"} w="85%" src="./assets/pick-up.png" />
                         <Heading mt={"20px"} align="center" size='sm'>Pick-up</Heading>
                     </Stack>
                 </div>

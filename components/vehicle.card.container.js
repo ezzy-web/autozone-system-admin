@@ -67,7 +67,7 @@ function VehicleCard({ vehicle }) {
                 <Box overflow={'hidden'} position={'relative'}>
 
                     <Box {...imageBoxStyle}>
-                        <Image src={vehicle?.images ? vehicle.images.length === 0 ? "/assets/placeholder.gif" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover'} h={'120%'} />
+                        <Image alt={vehicle?.title} src={vehicle?.images ? vehicle.images.length === 0 ? "/assets/placeholder.gif" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover'} h={'120%'} />
                     </Box>
 
 

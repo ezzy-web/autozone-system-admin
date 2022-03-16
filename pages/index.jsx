@@ -1,7 +1,4 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import React, { useContext } from 'react' 
+import React from 'react' 
 
 import HomeLayout from "../components/layout/home.page.layout";
 import InventoryContent from "../components/inventory.components/InventoryContent";
@@ -9,7 +6,7 @@ import InventoryContent from "../components/inventory.components/InventoryConten
 import { getRecentVehicleFromCookie, parseCookies } from "../server/utils/lib";
 
 
-function Home({ featured , newArrival, makes, recents, ... props }) {
+function Home({ featured , newArrival, makes, recents }) {
   recents = recents.filter((doc) => doc ? true : false);
   const saved = [];
 

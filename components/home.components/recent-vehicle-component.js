@@ -42,7 +42,7 @@ export default function RecentlyVisited({ recents }) {
         <a href={href}>
             <Box {...mainBoxStyle}>
                 <Box {...imageBoxStyle}>
-                    <Image src={vehicle.images.length === 0 ? "./assets/placeholder.gif" : vehicle.images[0].url} w={"100%"} />
+                    <Image alt={vehicle.title} src={vehicle.images.length === 0 ? "./assets/placeholder.gif" : vehicle.images[0].url} w={"100%"} />
                 </Box>
                 <Box {...overlayBoxStyle}>
 

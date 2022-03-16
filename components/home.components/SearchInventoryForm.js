@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import { Grid, GridItem, HStack, Button, Divider } from '@chakra-ui/react'
+import { Grid, GridItem, HStack, Button } from '@chakra-ui/react'
 import Select from 'react-select'
 
 import FeatherIcon from 'feather-icons-react'

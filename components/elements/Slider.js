@@ -6,11 +6,11 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Navigation, Thumbs } from 'swiper'
+import { Pagination, Thumbs } from 'swiper'
 import { Box } from '@chakra-ui/react'
 
 
-export default ({ data, renderItem, isResponsive, allowThumbs, thumbRender }) => {
+export default Slider = ({ data, renderItem, isResponsive, allowThumbs, thumbRender }) => {
 
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
     const settings = {

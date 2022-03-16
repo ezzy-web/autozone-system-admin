@@ -24,19 +24,19 @@ export default function ImageSliderComponent({ vehicle, ...props }) {
             {vehicle.images.length == 0 ?
                 <Box>
                     <Slider data={['/assets/no-image.jpg']} renderItem={({ item, index }) => (
-                        <Image width={'full'} src={item} />
+                        <Image alt='javvys autozone' width={'full'} src={item} />
                     )} />
                 </Box>
                 :
                 <Box>
                     <Slider allowThumbs={true} data={vehicle.images} renderItem={({ item, index }) => (
                         <VStack height={'full'} overflow='hidden' justifyContent={'center'} alignItems={'center'}>
-                            <Image _hover={{ cursor: 'pointer' }} width={'full'} src={item.url} onClick={() => openLightBox(index)} />
+                            <Image alt={vehicle.title} _hover={{ cursor: 'pointer' }} width={'full'} src={item.url} onClick={() => openLightBox(index)} />
                         </VStack>
                     )}
                         thumbRender={({ item }) => (
                             <VStack _hover={{ cursor: 'pointer' }} justifyContent={'center'} alignItems={'center'} borderRadius={10} width={'full'} height={70} overflow={'hidden'}>
-                                <Image width={'full'} src={item.url} />
+                                <Image alt={vehicle.title} width={'full'} src={item.url} />
                             </VStack>
                         )} />
                 </Box>

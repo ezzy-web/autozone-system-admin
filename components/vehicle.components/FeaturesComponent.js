@@ -14,6 +14,7 @@ export default function FeaturesComponent({ vehicleFeatures, ...props }) {
 
     React.useEffect(() => {
         handleFeatures()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box, Divider, Grid, GridItem, Heading, HStack, Text } from '@chakra-ui/react'
-import { Carousel } from 'react-bootstrap'
+import { Box, Divider, Heading, HStack, Text } from '@chakra-ui/react'
 import numeral from 'numeral'
 
 
