@@ -43,7 +43,7 @@ export default function InventoryContent({ paginationState, isMore, isConstant, 
         setVehicles(paginationState.docs)
         setHasMore(isMore)
         setLastDocument(paginationState.lastDocumentId)
-    }, [paginationState])
+    }, [paginationState, isMore])
 
 
     return (

@@ -46,10 +46,10 @@ function NavbarItems({ isDrawer, light }) {
 
   return (
     <>
-      <Link href={"/"}><Box {...style} ><Text  fontSize={'sm'}>Home</Text> </Box></Link>
-      <Link href={"/inventory"}><Box {...style} ><Text  fontSize={'sm'}>Inventory</Text></Box></Link>
-      <Link href={"about"}><Box {...style} ><Text  fontSize={'sm'}>About Us</Text></Box></Link>
-      <Link href={"contact"}><Box {...style} ><Text  fontSize={'sm'}>Contact Us</Text></Box></Link>
+      <Link passHref href={"/"}><Box {...style} ><Text  fontSize={'sm'}>Home</Text> </Box></Link>
+      <Link passHref href={"/inventory"}><Box {...style} ><Text  fontSize={'sm'}>Inventory</Text></Box></Link>
+      <Link passHref href={"about"}><Box {...style} ><Text  fontSize={'sm'}>About Us</Text></Box></Link>
+      <Link passHref href={"contact"}><Box {...style} ><Text  fontSize={'sm'}>Contact Us</Text></Box></Link>
     </>
   );
 }
@@ -60,8 +60,8 @@ function DrawerContainer({ onClose, isOpen }) {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
-          <Link href={"/"}>
-            <Image alt={'javvys autonzone'} src="/assets/image.png" width={10} />
+          <Link passHref href={"/"}>
+            <Image _hover={{cursor: 'pointer'}} alt={'javvys autonzone'} src="/assets/image.png" width={10} />
           </Link>
           <DrawerCloseButton></DrawerCloseButton>
         </DrawerHeader>
@@ -94,8 +94,8 @@ function Navbar({ light = false }) {
               icon={<FeatherIcon color={light ? 'white' : 'black'} icon={'menu'} />}
             />
             <Stack display={{ base: "none", md: "flex" }}>
-              <Link href={"/"}>
-                <Image alt={'javvys autonzone'} src="/assets/image.png" width={10} />
+              <Link passHref href={"/"}>
+                <Image _hover={{cursor: 'pointer'}} alt={'javvys autonzone'} src="/assets/image.png" width={10} />
               </Link>
             </Stack>
           </Stack>

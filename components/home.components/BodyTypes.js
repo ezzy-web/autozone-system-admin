@@ -13,7 +13,7 @@ function BodyTypes() {
     }
     return (
         <SimpleGrid minChildWidth={150} spacing={30}>
-            <Link href={{ pathname: '/inventory/query', query: { body: 'Sedan' } }}>
+            <Link passHref href={{ pathname: '/inventory/query', query: { body: 'Sedan' } }}>
                 <div>
                     <Stack {...stackStyle}>
                         <Image alt={'javvys autonzone sedan'} justifyContent={"center"} w="85%" src="./assets/sedan.png" />
@@ -21,7 +21,7 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link href={{ pathname: '/inventory/query', query: { body: 'SUV' } }}>
+            <Link passHref href={{ pathname: '/inventory/query', query: { body: 'SUV' } }}>
                 <div>
                     <Stack {...stackStyle} >
                         <Image alt={'javvys autonzone suv'} justifyContent={"center"} w="85%" src="./assets/suv.png" />
@@ -29,7 +29,7 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link href={{ pathname: '/inventory/query', query: { body: 'Hatchback' } }}>
+            <Link passHref href={{ pathname: '/inventory/query', query: { body: 'Hatchback' } }}>
                 <div>
                     <Stack {...stackStyle} >
                         <Image alt={'javvys autonzone hatch'} w="85%" src="./assets/hatch.png" />
@@ -37,7 +37,7 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link href={{ pathname: '/inventory/query', query: { body: 'Pickup' } }}>
+            <Link passHref href={{ pathname: '/inventory/query', query: { body: 'Pickup' } }}>
                 <div>
                     <Stack {...stackStyle} >
                         <Image alt={'javvys autonzone pickup'} justifyContent={"center"} w="85%" src="./assets/pick-up.png" />
