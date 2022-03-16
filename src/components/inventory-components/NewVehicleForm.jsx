@@ -56,7 +56,7 @@ const options = {
 
   trans: [
     { value: "Automatic", label: "Automatic" },
-    { value: "Manaul", label: "Manual" },
+    { value: "Manual", label: "Manual" },
     { value: "Tiptronic", label: "Tiptronic" },
   ],
 

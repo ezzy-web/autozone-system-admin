@@ -57,8 +57,6 @@ const verify = async (token, customToken) => {
       customToken
     }
   } catch (error) {
-    
-    
     try {
       if (customToken) {
 
@@ -78,7 +76,7 @@ const verify = async (token, customToken) => {
         res = null
       }
     } catch (error) {
-      console.log(err)
+      console.log(error)
       res = null
     }
 

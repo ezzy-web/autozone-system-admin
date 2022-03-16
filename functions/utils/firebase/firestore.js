@@ -120,7 +120,6 @@ class UserManager {
 
     async updateUser(id, data) {
         data['lastUpdate'] = serverTimestamp()
-        console.log(data)
         const userDoc = doc(db, "Users", id)
 
         await updateDoc(userDoc, data).catch(err => {
@@ -401,13 +400,10 @@ class MakeModelManager {
         const docRef = doc(db, "Makes", make)
 
         const snap = await getDoc(docRef).catch(err => { console.log(err) })
-        console.log(snap.exists())
         if (snap.exists()) {
 
             const queryRef = query(this.collection, where("models", "array-contains", model))
             const snap = await getDocs(queryRef).catch(err => { console.log(err) })
-
-            console.log(snap.size === 0)
             if (snap.size === 0) {
                 await updateDoc(docRef, { models: arrayUnion(model) }).catch(err => console.log(err))
             }

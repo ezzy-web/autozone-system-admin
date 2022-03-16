@@ -93,7 +93,6 @@ export default function ViewInvoice() {
         }
       })
       .catch((err) => {
-        console.log(err);
         handleOpenSnackBar("Something went wrong");
       });
   };
