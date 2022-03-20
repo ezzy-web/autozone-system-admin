@@ -14,7 +14,6 @@ export default function VehiclePage({ vehicle, relatedVehicles }) {
 }
 
 export async function getServerSideProps({ params }) {
-  require("dotenv").config();
   const { stockNo } = params;
 
   var response = await fetch(`${process.env.BASE_URL}api/getVehicle`, {

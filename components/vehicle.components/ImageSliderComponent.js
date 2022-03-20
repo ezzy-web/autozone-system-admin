@@ -30,9 +30,8 @@ export default function ImageSliderComponent({ vehicle, ...props }) {
                 :
                 <Box>
                     <Slider allowThumbs={true} data={vehicle.images} renderItem={({ item, index }) => (
-                        <VStack height={'full'} overflow='hidden' justifyContent={'center'} alignItems={'center'}>
-                            <Image alt={vehicle.title} _hover={{ cursor: 'pointer' }} width={'full'} src={item.url} onClick={() => openLightBox(index)} />
-                        </VStack>
+                        <Image alt={vehicle.title} _hover={{ cursor: 'pointer' }} width={'full'} src={item.url} onClick={() => openLightBox(index)} />
+
                     )}
                         thumbRender={({ item }) => (
                             <VStack _hover={{ cursor: 'pointer' }} justifyContent={'center'} alignItems={'center'} borderRadius={10} width={'full'} height={70} overflow={'hidden'}>
@@ -45,7 +44,7 @@ export default function ImageSliderComponent({ vehicle, ...props }) {
 
             <FsLightbox
                 toggler={toggler.toggler}
-                source={vehicle.images.map(img => img.url)}
+                sources={vehicle.images.map(img => img.url)}
                 sourceIndex={toggler.srcIndex}
                 type='image'
                 key={vehicle.images.length}

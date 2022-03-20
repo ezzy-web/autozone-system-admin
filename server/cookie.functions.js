@@ -10,7 +10,7 @@ export default () => {
 
 
         addRecentVehicle: (id) => {
-            Cookies.set(`recent-${id}`, JSON.stringify({id, timeStamp: + new Date() }), { expires: 10 })
+            Cookies.set(`recent-${id}`, JSON.stringify({id, timeStamp: + new Date() }), { expires: 2 })
         },
 
         isSaved: (id) => {

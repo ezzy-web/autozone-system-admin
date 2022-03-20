@@ -19,6 +19,10 @@ export default function Slider({ data, renderItem, isResponsive, allowThumbs, th
         },
 
         breakpoints: isResponsive ? {
+            340: {
+                slidesPerView: 1,
+                spaceBetween: 4
+            },
             640: {
                 slidesPerView: 1,
                 spaceBetween: 5
@@ -44,17 +48,21 @@ export default function Slider({ data, renderItem, isResponsive, allowThumbs, th
         modules: [Thumbs],
         onSwiper: setThumbsSwiper,
         breakpoints: {
+            340: {
+                slidesPerView: 4,
+                spaceBetween: 8
+            },
             640: {
                 slidesPerView: 5,
                 spaceBetween: 8
             },
             768: {
                 slidesPerView: 5,
-                spaceBetween: 12,
+                spaceBetween: 8,
             },
             1024: {
                 slidesPerView: 5,
-                spaceBetween: 12,
+                spaceBetween: 8,
             }
         }
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, HStack, Heading, Text, VStack, Badge } from '@chakra-ui/react'
+import { Box, HStack, Heading, Text, VStack, Badge } from '@chakra-ui/react'
 import numeral from 'numeral'
 
 
@@ -11,7 +11,6 @@ export default function VehicleInfoComponent({ vehicle, ...props }) {
                     <Text color={'gray.400'}>{vehicle?.history}</Text>
                     <Heading lineHeight={1} size={'md'}>{vehicle?.title}</Heading>
                 </VStack>
-                { vehicle.isAvailable ? <Badge size={'md'} colorScheme={'red'}>2 Saved</Badge> : <></> }
             </HStack>
 
             <Text fontSize={'lg'} color={'gray.600'}>{`${numeral(vehicle.mileage).format('0,0')} mi`}</Text>

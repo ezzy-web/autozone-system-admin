@@ -11,6 +11,7 @@ import BodyTypes from "../home.components/BodyTypes";
 import SearchInventoryForm from "../home.components/SearchInventoryForm";
 import Container from "../elements/Container";
 import Slider from "../elements/Slider";
+import Footer from "../elements/Footer";
 
 
 function HomeLayout({ recents, newArrival, featured, makes }) {
@@ -96,9 +97,7 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
 
                 </Container>
             </Box>
-
-            <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={1} width='full' ></Box>
-
+            <Footer />
         </>
     );
 }

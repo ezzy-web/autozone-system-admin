@@ -18,3 +18,15 @@ export function getRecentVehicleFromCookie(cookies) {
     return recents
 
 }
+
+export function getSavedVehicleFromCookie(cookies) {
+    var saved = []
+    for (const [key, value] of Object.entries(cookies)) {
+        if (key.includes('saved')) {
+            saved.push(JSON.parse(value))
+        }
+    }
+    return saved
+
+}
+

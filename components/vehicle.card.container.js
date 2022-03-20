@@ -73,7 +73,7 @@ function VehicleCard({ vehicle }) {
 
                     {vehicle?.isAvailable ? (
                         <Box {...overlayBoxStyle}>
-                            <IconButton onClick={handleSaveButton} padding={0} variant={'link'} position={'absolute'} right={2} top={3} icon={<FeatherIcon color={saved ? 'white' : 'rgb(150, 61, 61)'} fill={saved ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
+                            <IconButton onClick={handleSaveButton} padding={0} variant={'link'} position={'absolute'} right={2} top={3} icon={<FeatherIcon color={saved ? 'rgb(150, 61, 61)' : 'white'} fill={saved ? 'rgb(150, 61, 61)' : 'white' } icon={'heart'} />} />
                         </Box>
                     ) : (
                         <Box  {...overlayBoxStyle} color={'gray.200'} display='flex' justifyContent={'center'} alignItems={'center'}>

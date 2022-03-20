@@ -21,9 +21,12 @@ export default function BreadcrumbContainer({ params = {} }) {
                     <BreadcrumbLink href='/'>Home</BreadcrumbLink>
                 </BreadcrumbItem>
 
-                <BreadcrumbItem isCurrentPage={queryParams.make ? false : true}>
-                    <BreadcrumbLink href='/inventory'>Inventory</BreadcrumbLink>
-                </BreadcrumbItem>
+                {queryParams.saved ? <></> :
+                    <BreadcrumbItem isCurrentPage={queryParams.make ? false : true}>
+                        <BreadcrumbLink href='/inventory'>Inventory</BreadcrumbLink>
+                    </BreadcrumbItem>
+                }
+
 
                 {queryParams.make ? (
                     <BreadcrumbItem isCurrentPage={queryParams.model ? false : true}>
@@ -38,8 +41,14 @@ export default function BreadcrumbContainer({ params = {} }) {
                 ) : null}
 
                 {queryParams.vehicle ? (
-                    <BreadcrumbItem isCurrentPage >
+                    <BreadcrumbItem isCurrentPage={queryParams.saved ? false : true} >
                         <BreadcrumbLink href={'/'}>{queryParams.vehicle}</BreadcrumbLink >
+                    </BreadcrumbItem>
+                ) : null}
+
+                {queryParams.saved ? (
+                    <BreadcrumbItem isCurrentPage >
+                        <BreadcrumbLink href={'/'}>Saved</BreadcrumbLink >
                     </BreadcrumbItem>
                 ) : null}
 

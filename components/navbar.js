@@ -48,8 +48,8 @@ function NavbarItems({ isDrawer, light }) {
     <>
       <Link passHref href={"/"}><Box {...style} ><Text  fontSize={'sm'}>Home</Text> </Box></Link>
       <Link passHref href={"/inventory"}><Box {...style} ><Text  fontSize={'sm'}>Inventory</Text></Box></Link>
-      <Link passHref href={"about"}><Box {...style} ><Text  fontSize={'sm'}>About Us</Text></Box></Link>
-      <Link passHref href={"contact"}><Box {...style} ><Text  fontSize={'sm'}>Contact Us</Text></Box></Link>
+      <Link passHref href={"/about"}><Box {...style} ><Text  fontSize={'sm'}>About Us</Text></Box></Link>
+      <Link passHref href={"/contact"}><Box {...style} ><Text  fontSize={'sm'}>Contact Us</Text></Box></Link>
     </>
   );
 }
@@ -104,13 +104,17 @@ function Navbar({ light = false }) {
               <NavbarItems light={light} />
             </HStack>
 
+            <Link passHref href={'/saved'}>
             <IconButton variant="ghost" icon={<FeatherIcon size={20} color={light ? 'white' : 'rgb(150, 61, 61)'} fill={light ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
+            </Link>
+            
           </HStack>
 
         </Stack>
 
         <DrawerContainer isOpen={isOpen} onClose={onClose} />
       </Box>
+      { light ? <></> : <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={'5px'} width='full' ></Box>}
     </>
   );
 }

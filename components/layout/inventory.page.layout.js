@@ -9,6 +9,7 @@ import Banner from '../elements/Banner'
 import Select from 'react-select'
 import InventoryContent from '../inventory.components/InventoryContent'
 import FilterInventory from '../inventory.components/FilterInventory'
+import Footer from '../elements/Footer'
 
 
 
@@ -79,11 +80,11 @@ export default function InventoryLayout({ paginationData, params, makes }) {
     return (
         <>
             <Navbar />
-            <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={1} width='full' ></Box>
+            
             <Banner />
             <BreadcrumbContainer params={currentParams} />
 
-            <Grid marginTop={10} templateRows={'repeat(2, 1fr)'} templateColumns={'repeat(12, 1fr)'}>
+            <Grid marginTop={10} templateColumns={'repeat(12, 1fr)'}>
 
                 <GridItem paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
                         <Box padding={5} bgColor={'gray.100'}>
@@ -106,7 +107,7 @@ export default function InventoryLayout({ paginationData, params, makes }) {
 
                             </SimpleGrid>
                         </Box>
-                        <Box  position={'sticky'} top={0}>
+                        <Box position={'sticky'} top={0}>
                             <Accordion>
                                 <AccordionItem>
                                     <AccordionButton paddingY={5}>
@@ -152,6 +153,7 @@ export default function InventoryLayout({ paginationData, params, makes }) {
                 </GridItem>
 
             </Grid>
+            <Footer />
         </>
 
     )

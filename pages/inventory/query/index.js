@@ -13,9 +13,6 @@ function Inventory({ paginationData, params, makes }) {
 export default Inventory;
 
 export async function getServerSideProps({ query }) {
-    require('dotenv').config();
-
-
     var paginationData
     var makes = []
 

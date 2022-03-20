@@ -3,7 +3,6 @@ const { firebase } = require('../utils/firebase.config')
 
 
 const INVENTORY_COLLECTION = 'Inventory'
-
 const firestore = firebase.firestore()
 const makeCollection = firestore.collection('Makes')
 const inventoryCollection = firestore.collection(INVENTORY_COLLECTION).where('isVisible', '==', true)
@@ -31,9 +30,6 @@ const getFeatured = async () => {
 const getNewArrivals = async () => {
     try {
         var now = + new Date()
-        // var date = new Date(now.)
-        // const timeStamp = firebase.firestore.Timestamp.fromDate(now)
-        console.log(now - 604800000)
         const query = inventoryCollection.where('location', '==', 'On lot').where('arrival', '>=', (now - 604800)).limit(6)
         const querySnap = await query.get()
 

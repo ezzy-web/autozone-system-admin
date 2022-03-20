@@ -29,7 +29,6 @@ export default Home;
 
 
 export async function getServerSideProps(context) {
-  require('dotenv').config();
 
 
   const cookies = parseCookies(context.req)
