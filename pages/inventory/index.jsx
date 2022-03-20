@@ -1,5 +1,3 @@
-
-
 import InventoryLayout from "../../components/layout/inventory.page.layout";
 
 function Inventory({ paginationData, makes }) {
@@ -13,16 +11,21 @@ function Inventory({ paginationData, makes }) {
 export default Inventory;
 
 export async function getServerSideProps() {
+  var paginationData;
+  var makes = [];
 
-  var paginationData
-  var makes = []
+  var response = await fetch(`${process.env.BASE_URL}api/getMakes`).catch(
+    (error) => console.log(error)
+  );
+  makes = response ? await response.json() : [];
 
-  var response = await fetch(`${process.env.BASE_URL}api/getMakes`)
-  makes = await response.json()
-
-
-  response = await fetch(`${process.env.BASE_URL}api/getInventory`)
-  paginationData = await response.json()
+  response = null;
+  response = await fetch(`${process.env.BASE_URL}api/getInventory`).catch(
+    (error) => console.log(error)
+  );
+  paginationData = response
+    ? await response.json()
+    : { lastDocumentId: "", docs: [] };
 
   return { props: { paginationData, makes } };
 }

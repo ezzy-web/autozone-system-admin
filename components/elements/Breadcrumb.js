@@ -11,7 +11,7 @@ export default function BreadcrumbContainer({ params = {} }) {
 
     React.useEffect(() => {
         setQueryParams(params)
-    }, [params])
+    }, [])
 
 
     return (

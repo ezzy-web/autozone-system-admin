@@ -22,7 +22,7 @@ export default function TabComponent({ id, ...props }) {
     }
 
     return (
-        <Box {...props} sho >
+        <Box {...props} >
             <HStack justifyContent={'flex-start'}>
                 <Button leftIcon={<FeatherIcon size={16} icon={'share-2'} />} >
                 <Text fontSize={'sm'} >Share This</Text>
@@ -30,7 +30,7 @@ export default function TabComponent({ id, ...props }) {
                 <Button leftIcon={<FeatherIcon size={16} icon={'printer'} />}>
                     <Text fontSize={'sm'} >Print Page</Text>
                 </Button>
-                <Button onClick={handleSaveButton} leftIcon={<FeatherIcon size={16} icon={'heart'} color={saved ? 'red' : null} fill={saved ? 'red' : null} />}>
+                <Button onClick={handleSaveButton} leftIcon={<FeatherIcon size={16} icon={'heart'} color={saved ? 'rgb(150, 61, 61)' : 'black'} fill={saved ? 'rgb(150, 61, 61)' : 'black'} />}>
                 <Text fontSize={'sm'} >{ saved ? "Saved" : "Save Vehicle"}</Text>
                 </Button>
             </HStack>

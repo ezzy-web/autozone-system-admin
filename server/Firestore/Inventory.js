@@ -56,7 +56,7 @@ const getInventory = async (lastDocumentId = null, limit = 9) => {
     }
 }
 
-const queryInventory = async (lastDocumentId = null, queryParams, limit = 9) => {
+const queryInventory = async (lastDocumentId = null, queryParams, limit = 12) => {
     try {
         const lastSnap = lastDocumentId ? await inventoryCollection.where('id', '==', lastDocumentId).get() : null
         
