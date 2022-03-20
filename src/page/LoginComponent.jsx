@@ -211,7 +211,7 @@ export default function LoginComponent(props) {
                 {errorMsg}
               </Typography>
             </form>
-            <Button href="javvysauto.com" className="w-100 my-4" size="small" variant="text">
+            <Button href="https://javvysauto.com/" className="w-100 my-4" size="small" variant="text">
               Back to Website
             </Button>
             {isAdmin ? (
