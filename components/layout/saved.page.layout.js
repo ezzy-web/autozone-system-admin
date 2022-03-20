@@ -43,7 +43,7 @@ export default function SavedPageLayout({ savedVehicle }) {
 
                         <GridItem colSpan={{ base: 12, md: 5 }} >
                             <Center>
-                                <Image src='/assets/saved-bg.png' width={'90%'} />
+                                <Image alt='' src='/assets/saved-bg.png' width={'90%'} />
                             </Center>
                         </GridItem>
                     </Grid>
