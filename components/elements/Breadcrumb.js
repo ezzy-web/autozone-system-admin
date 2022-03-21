@@ -11,6 +11,7 @@ export default function BreadcrumbContainer({ params = {} }) {
 
     React.useEffect(() => {
         setQueryParams(params)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

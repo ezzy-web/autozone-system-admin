@@ -13,7 +13,7 @@ export default function Footer() {
             <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={'5px'} width='full' ></Box>
 
             <Box bgColor={'blackAlpha.900'}>
-                <Box paddingY={10} paddingX={{ base: 12, sm: 10, md: 20 }}>
+                <Box paddingY={10} paddingX={{ base: 5, md: 10 }}>
                     <Grid templateColumns={'repeat(12, 2fr)'}>
 
                         <GridItem colSpan={{ base: 12, md: 7 }} >

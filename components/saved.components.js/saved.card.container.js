@@ -1,20 +1,13 @@
 
 import React from 'react'
 
-import { Box, HStack, Text, VStack, Heading, Image, Button, IconButton } from '@chakra-ui/react'
+import { Box, HStack, Text, VStack, Heading, Image, Button } from '@chakra-ui/react'
 import FeatherIcon from 'feather-icons-react'
 
 import numeral from 'numeral'
-import { CookieContext } from '../../server/utils/context'
-import { getSavedVehicleFromCookie } from '../../server/utils/lib'
-
 
 
 export default function SavedCard({ vehicle, removeVehicle }) {
-    const { isSaved } = React.useContext(CookieContext)
-    const [saved, setSaved] = React.useState(isSaved(vehicle.id))
-
-
     const href = '/inventory/vehicle/' + vehicle?.id
     const mainBoxStyle = {
         my: "20px",
@@ -97,9 +90,10 @@ export default function SavedCard({ vehicle, removeVehicle }) {
                     </VStack>
                 </HStack>
 
-                <HStack alignItems={'center'} marginTop={5}>
+                <HStack justifyContent={'space-evenly'} alignItems={'center'} marginTop={5}>
                     <Button as={'a'} href={href} fontSize={'14px'} width={'full'} rightIcon={<FeatherIcon size={14} icon={'arrow-up-right'} />} >More Details</Button>
-                    <IconButton onClick={() => removeVehicle(vehicle.id)} icon={<FeatherIcon color={saved ? 'rgb(150, 61, 61)' : 'white'} fill={saved ? 'rgb(150, 61, 61)' : 'white'} icon={'heart'} />} />
+                    
+                    <Button paddingX={10} fontSize={'14px'} onClick={() => removeVehicle(vehicle.id)} leftIcon={<FeatherIcon size={14} icon={'x'} />}>Remove</Button>
                 </HStack>
 
             </Box>

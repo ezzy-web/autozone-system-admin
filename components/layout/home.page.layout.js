@@ -1,7 +1,7 @@
 import Navbar from "../navbar";
 import React from "react";
 import {
-    Box, Stack, Heading, Tabs, TabList, TabPanel, TabPanels, Tab, HStack, Button, Image, VStack
+    Box, Stack, Heading, Tabs, TabList, TabPanel, TabPanels, Tab, HStack, Button
 } from "@chakra-ui/react"
 import Typed from "react-typed"
 
@@ -12,6 +12,7 @@ import SearchInventoryForm from "../home.components/SearchInventoryForm";
 import Container from "../elements/Container";
 import Slider from "../elements/Slider";
 import Footer from "../elements/Footer";
+import AboutUsContainer from "../home.components/AboutUsContainer";
 
 
 function HomeLayout({ recents, newArrival, featured, makes }) {
@@ -93,9 +94,7 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
             </Container>
 
             <Box bg={'whitesmoke'} boxShadow={'inset 1px 1px 39px -10px rgba(0, 0, 0, 0.4)'}>
-                <Container>
-
-                </Container>
+                <AboutUsContainer />
             </Box>
             <Footer />
         </>
