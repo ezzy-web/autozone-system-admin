@@ -199,7 +199,7 @@ function Contact() {
           <Divider my={5} />
 
           <Text>
-            <Text fontWeight={"medium"}>Javvy's Autozone Ltd.</Text>
+            <Text fontWeight={"medium"}>{"Javvy's Autozone Ltd."}</Text>
             <p>Four Paths,</p>
             <p>May Pen</p>
             <p>Clarendon, Jamaica</p>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Divider, Grid, GridItem, Heading, HStack, List, ListItem, Text, VStack } from '@chakra-ui/react'
 import Link from 'next/link'
-import Container from './Container'
 import FeatherIcon from 'feather-icons-react'
 
 
