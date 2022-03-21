@@ -30,7 +30,7 @@ export default function VehiclePageLayout({ vehicle, related }) {
 
                 <GridItem padding={5} colSpan={{ base: 12, sm: 12, md: 7 }}>
                     {/* Tab Component */}
-                    {vehicle.isAvailable ? <TabComponent id={vehicle?.id} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
+                    {vehicle.isAvailable ? <TabComponent vehicle={vehicle} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
 
 
                     {/* Image Slider Component */}

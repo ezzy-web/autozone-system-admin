@@ -34,6 +34,7 @@
     "react-select": "^5.2.2",
     "react-slick": "^0.28.1",
     "react-typed": "^1.2.0",
+    "react-web-share": "^1.1.5",
     "styled-components": "^5.3.3",
     "swiper": "^8.0.7",
     "uuid": "^8.3.2",

@@ -3674,6 +3674,11 @@ react-typed@^1.2.0:
     prop-types "^15.6.0"
     typed.js "^2.0.6"
 
+react-web-share@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-web-share/-/react-web-share-1.1.5.tgz#36d83ee355acd68072f4eaf84e29341bf237d1df"
+  integrity sha512-muMgWiBd3lEnbsxSt0KHbOOf9ErwybXDX5QLCNWNaMfQG2x4NJ1d2LxJq6+au7VlznN2pX6M9QHwZAhXGlRHjg==
+
 react@17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
