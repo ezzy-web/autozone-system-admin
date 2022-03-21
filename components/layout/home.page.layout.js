@@ -16,7 +16,7 @@ import AboutUsContainer from "../home.components/AboutUsContainer";
 
 
 function HomeLayout({ recents, newArrival, featured, makes }) {
-    const typedStrings = ["Hello Me", "Hello You", "Hello World"]
+    const typedStrings = ["Superior Quality", "Supreme Service", "Great Deals"]
     return (
         <>
 
@@ -31,7 +31,7 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
                             <Heading textColor={"white"} align="center" size='2xl'>Search Inventory</Heading>
 
                             <Stack pt={2} px={{ base: 30, md: 150 }}>
-                                <Box overflow="hidden" height={31} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} size="lg" /></Typed></Box>
+                                <Box overflow="hidden" height={30} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} size="md" /></Typed></Box>
                                 <QuickSearchForm makes={makes} />
                             </Stack>
                         </Stack>

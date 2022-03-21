@@ -5,7 +5,7 @@ import Container from "../elements/Container";
 
 export default function AboutUsContainer() {
     return <Container>
-        <Heading mb={10}>
+        <Heading mb={10} size={'lg'} >
             Why Choose Us?
         </Heading>
 
@@ -23,6 +23,7 @@ export default function AboutUsContainer() {
                 </HStack>
             </GridItem>
             <GridItem padding={5} colSpan={{ base: 12, md: 4 }} >
+                
                 <HStack justifyContent={'flex-start'} alignItems={'flex-start'}>
                     <Box width={'20%'}>
                         <Image width={'full'} alt="" src="/assets/1x/icon-2.png" />
