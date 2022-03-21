@@ -46,22 +46,33 @@ function NavbarItems({ isDrawer, light }) {
 
   return (
     <>
-      <Link passHref href={"/"}><Box {...style} ><Text  fontSize={'sm'}>Home</Text> </Box></Link>
-      <Link passHref href={"/inventory"}><Box {...style} ><Text  fontSize={'sm'}>Inventory</Text></Box></Link>
-      <Link passHref href={"/about"}><Box {...style} ><Text  fontSize={'sm'}>About Us</Text></Box></Link>
-      <Link passHref href={"/contact"}><Box {...style} ><Text  fontSize={'sm'}>Contact Us</Text></Box></Link>
+      <Link passHref href={"/"}><Box {...style} ><Text fontSize={'sm'}>Home</Text> </Box></Link>
+      <Link passHref href={"/inventory"}><Box {...style} ><Text fontSize={'sm'}>Inventory</Text></Box></Link>
+      <Link passHref href={"/about"}><Box {...style} ><Text fontSize={'sm'}>About Us</Text></Box></Link>
+      <Link passHref href={"/contact"}><Box {...style} ><Text fontSize={'sm'}>Contact Us</Text></Box></Link>
     </>
   );
 }
 
 function DrawerContainer({ onClose, isOpen }) {
+  const socialButton = {
+    borderRadius: 'full',
+    bgColor: 'red.300',
+    color: 'white',
+    padding: 2,
+    fontSize: 'sm',
+    transition: '0.5s',
+    _hover: {
+      bgColor: 'red.600'
+    }
+  };
   return (
     <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
           <Link passHref href={"/"}>
-            <Image _hover={{cursor: 'pointer'}} alt={'javvys autozone'} src="/assets/image.png" width={10} />
+            <Image _hover={{ cursor: 'pointer' }} alt={'javvys autozone'} src="/assets/image.png" width={10} />
           </Link>
           <DrawerCloseButton></DrawerCloseButton>
         </DrawerHeader>
@@ -73,7 +84,18 @@ function DrawerContainer({ onClose, isOpen }) {
         </DrawerBody>
 
         <DrawerFooter>
-          Socials Links
+          <HStack>
+            <a href="#">
+              <Box {...socialButton}>
+                <FeatherIcon fill={'white'} icon={"facebook"} />
+              </Box>
+            </a>
+            <a href="#">
+              <Box {...socialButton}>
+                <FeatherIcon icon={"instagram"} />
+              </Box>
+            </a>
+          </HStack>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -84,7 +106,7 @@ function Navbar({ light = false }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box py={5} px={{base: 2, md: 5}}>
+      <Box py={5} px={{ base: 2, md: 5 }}>
         <Stack isInline justify="space-between">
           <Stack align="center" isInline justify="left">
             <IconButton
@@ -95,7 +117,7 @@ function Navbar({ light = false }) {
             />
             <Stack display={{ base: "none", md: "flex" }}>
               <Link passHref href={"/"}>
-                <Image _hover={{cursor: 'pointer'}} alt={'javvys autonzone'} src="/assets/image.png" width={10} />
+                <Image _hover={{ cursor: 'pointer' }} alt={'javvys autonzone'} src="/assets/image.png" width={10} />
               </Link>
             </Stack>
           </Stack>
@@ -105,16 +127,16 @@ function Navbar({ light = false }) {
             </HStack>
 
             <Link passHref href={'/saved'}>
-            <IconButton variant="ghost" icon={<FeatherIcon size={20} color={light ? 'white' : 'rgb(150, 61, 61)'} fill={light ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
+              <IconButton variant="ghost" icon={<FeatherIcon size={20} color={light ? 'white' : 'rgb(150, 61, 61)'} fill={light ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
             </Link>
-            
+
           </HStack>
 
         </Stack>
 
         <DrawerContainer isOpen={isOpen} onClose={onClose} />
       </Box>
-      { light ? <></> : <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={'5px'} width='full' ></Box>}
+      {light ? <></> : <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={'5px'} width='full' ></Box>}
     </>
   );
 }

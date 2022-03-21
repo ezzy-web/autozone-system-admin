@@ -14,7 +14,7 @@ export default function ContactFormComponent() {
     const { showAlert } = React.useContext(AlertContext)
 
     const inputStyle = {
-        variant: 'flushed'
+        variant: 'filled'
     }
 
     const schema = yup.object().shape({
