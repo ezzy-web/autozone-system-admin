@@ -1,16 +1,24 @@
 import { useRouter } from "next/router";
+import Head from "next/head";
 import React from "react";
 import VehiclePageLayout from "../../../components/layout/vehicle.page.layout";
 import { CookieContext } from "../../../server/utils/context";
 
 export default function VehiclePage({ vehicle, relatedVehicles }) {
+  const { addRecentVehicle } = React.useContext(CookieContext);
+  relatedVehicles.docs = relatedVehicles.docs.filter(
+    (doc) => vehicle.id != doc.id
+  );
+  React.useEffect(() => addRecentVehicle(vehicle.id));
 
-  const { addRecentVehicle } = React.useContext(CookieContext)
-  relatedVehicles.docs = relatedVehicles.docs.filter((doc) => vehicle.id != doc.id);
-  React.useEffect(() => addRecentVehicle(vehicle.id))
-
-
-  return <VehiclePageLayout vehicle={vehicle} related={relatedVehicles} />;
+  return (
+    <>
+      <Head>
+        <title>Javvys Autozone - {vehicle?.title}</title>
+      </Head>
+      <VehiclePageLayout vehicle={vehicle} related={relatedVehicles} />
+    </>
+  );
 }
 
 export async function getServerSideProps({ params }) {

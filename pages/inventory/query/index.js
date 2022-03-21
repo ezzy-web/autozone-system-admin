@@ -1,10 +1,16 @@
 
 
 import InventoryLayout from "../../../components/layout/inventory.page.layout";
+import Head from 'next/head'
+
+
 
 function Inventory({ paginationData, params, makes }) {
     return (
         <>
+            <Head>
+                <title>Javvys Autozone - Inventory Filter</title>
+            </Head>
             <InventoryLayout paginationData={paginationData} params={params} makes={makes} />
         </>
     );

@@ -35,6 +35,9 @@ export default function VehiclePageLayout({ vehicle, related }) {
 
                     {/* Image Slider Component */}
                     <ImageSliderComponent vehicle={vehicle} mt={10} mb={5} />
+
+                    {/* Vehicle Information COmponent */}
+                    <VehicleInfoComponent vehicle={vehicle} mb={5} />
                 </GridItem>
 
 
@@ -49,8 +52,7 @@ export default function VehiclePageLayout({ vehicle, related }) {
             <Box px={{ base: 5, md: 40 }}>
                 <Grid templateColumns={'repeat(12,1fr)'}>
                     <GridItem paddingX={5} colSpan={{ base: 12, sm: 12, md: 7 }}>
-                        {/* Vehicle Information COmponent */}
-                        <VehicleInfoComponent vehicle={vehicle} mb={5} />
+                        
 
 
                         <VehicleSpecification vehicle={vehicle} my={5} />

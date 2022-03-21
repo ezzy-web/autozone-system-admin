@@ -2,6 +2,7 @@ import React from 'react'
 
 import HomeLayout from "../components/layout/home.page.layout";
 import InventoryContent from "../components/inventory.components/InventoryContent";
+import Head from 'next/head'
 
 import { getRecentVehicleFromCookie, parseCookies } from "../server/utils/lib";
 
@@ -18,8 +19,13 @@ function Home({ featured , newArrival, makes, recents }) {
     makes,
   };
 
+  const titleContent = 'Javvys Autozone - Home'
+
   return (
     <>
+    <Head>
+      <title>{titleContent}</title>
+    </Head>
       <HomeLayout {...components} />
     </>
   );
