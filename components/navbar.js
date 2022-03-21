@@ -61,7 +61,7 @@ function DrawerContainer({ onClose, isOpen }) {
       <DrawerContent>
         <DrawerHeader>
           <Link passHref href={"/"}>
-            <Image _hover={{cursor: 'pointer'}} alt={'javvys autonzone'} src="/assets/image.png" width={10} />
+            <Image _hover={{cursor: 'pointer'}} alt={'javvys autozone'} src="/assets/image.png" width={10} />
           </Link>
           <DrawerCloseButton></DrawerCloseButton>
         </DrawerHeader>
@@ -84,7 +84,7 @@ function Navbar({ light = false }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box py={5} px={10}>
+      <Box py={5} px={{base: 2, md: 5}}>
         <Stack isInline justify="space-between">
           <Stack align="center" isInline justify="left">
             <IconButton

@@ -2,9 +2,7 @@ import React from 'react'
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Heading, Spinner, HStack, VStack, Grid, GridItem } from '@chakra-ui/react';
 import VehicleCard from '../vehicle.card.container';
-import SavedCard from '../saved.components.js/saved.card.container';
-
-export default function InventoryContent({ paginationState, isMore, isConstant, params, saved, ...props }) {
+export default function InventoryContent({ paginationState, isMore, isConstant, params }) {
 
     const [vehicles, setVehicles] = React.useState([])
     const [hasMore, setHasMore] = React.useState(false)
@@ -66,7 +64,7 @@ export default function InventoryContent({ paginationState, isMore, isConstant, 
                         {vehicles.map((vehicle, key) => {
                             return (
                                 <GridItem colSpan={{ base: 12, sm: 6, lg: 4 }} key={key}>
-                                   { saved ? <SavedCard vehicle={vehicle} removeVehicle={props.removeVehicle} /> : <VehicleCard vehicle={vehicle} /> }
+                                   <VehicleCard vehicle={vehicle} />
                                 </GridItem>
                             )
                         })}

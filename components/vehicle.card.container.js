@@ -99,9 +99,9 @@ function VehicleCard({ vehicle }) {
                     <VStack overflow={'hidden'} bgColor={'yellow.400'} borderRadius={5}>
                         <Box paddingX={2} paddingY={1} width={'full'} bgColor={'gray.700'}>
                             {vehicle?.isAvailable ? (
-                                <Text lineHeight={1} color={'white'} textAlign={'center'} fontSize={'12px'} >{vehicle?.price_visible ? numeral(vehicle?.price).format('$ 0,0') : 'Contact Us'}</Text>
+                                <Text fontWeight={'medium'} lineHeight={1} color={'white'} textAlign={'center'} fontSize={'12px'} >{vehicle?.price_visible ? numeral(vehicle?.price).format('$ 0,0') : 'Contact Us'}</Text>
                             ) : (
-                                <Text lineHeight={1} color={'white'} textAlign={'center'} fontSize={'12px'}>SOLD</Text>
+                                <Text fontWeight={'medium'} lineHeight={1} color={'white'} textAlign={'center'} fontSize={'12px'}>SOLD</Text>
                             )}
                         </Box>
                         <Box paddingX={1} paddingBottom={1}>

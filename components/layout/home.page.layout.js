@@ -21,9 +21,9 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
 
             <Box position={"relative"} overflow={"hidden"} w="100%" height={"70vh"}>
                 <Box display={'flex'} justifyContent={'center'} alignItems={'center'} overflow="hidden" w="100%" height="70vh">
-                    <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1514910440960-0b0fe5b56501?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1990&q=80')`} bgSize='cover' bgPosition={'center'} />
+                    <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=983&q=80')`} bgSize='cover' bgPosition={'center'} />
                 </Box>
-                <Box bg="rgba(0, 0, 0, 0.834)" position="absolute" top="0" w="100%" >
+                <Box bg="rgba(0, 0, 0, 0.634)" position="absolute" top="0" w="100%" >
                     <Navbar light={true} />
                     <Box h={"70vh"}>
                         <Stack height={'full'} paddingY={{ base: 30, md: 30 }} >
