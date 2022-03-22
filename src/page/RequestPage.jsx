@@ -54,11 +54,67 @@ export default function RequestPage(props) {
       selector: (row) => (
         <div className="d-flex flex-column">
           <Typography variant="button">
-            <small>{row?.id}</small>
+            <small>{row?.vehicle.id}</small>
           </Typography>
         </div>
       ),
     },
+    {
+      name: (
+        <>
+          <Typography variant="button">Vehicle</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+          <Typography variant="button">
+            <small>{row?.vehicle.title}</small>
+          </Typography>
+        </div>
+      ),
+    },
+    {
+      name: (
+        <>
+          <Typography variant="button">Client</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+          <Typography variant="button">
+            <small>{`${row?.firstName} ${row?.lastName}`}</small>
+          </Typography>
+        </div>
+      ),
+    },
+
+    {
+      name: (
+        <>
+          <Typography variant="button">Client Email</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+            <small>{`${row?.email}`}</small>
+        </div>
+      ),
+    },
+
+    {
+      name: (
+        <>
+          <Typography variant="button">Client Mobile</Typography>
+        </>
+      ),
+      selector: (row) => (
+        <div className="d-flex flex-column">
+          <Typography variant="button" >
+            <small>{`${row?.mobile && row?.mobile !== '' ? row?.mobile : 'NA'}`}</small>
+          </Typography>
+        </div>
+      ),
+    }
   ];
 
   const getRequests = () => {
@@ -73,7 +129,10 @@ export default function RequestPage(props) {
             body.content.map((data, index) => ({
               index: index,
               match: [
-                data?.id
+                data?.vehicle.id,
+                data?.vehicle.title,
+                data?.firstName,
+                data?.lastName
               ],
             }))
           );

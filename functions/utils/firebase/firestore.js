@@ -388,8 +388,6 @@ class InvoiceManager {
     }
 }
 
-
-
 class MakeModelManager {
 
     constructor() {
@@ -419,6 +417,42 @@ class MakeModelManager {
 
 }
 
+
+class RequestManager {
+    constructor() {
+        this.collection = collection(db, "Requests")
+    }
+
+
+    async getAllRequests() {
+        const docs = await getDocs(this.collection).catch(err => {
+            console.log(err)
+            throw err
+        })
+        return docs.docs
+    }
+
+    async getRequest(id, ref = null) {
+        const docRef = ref ? ref : doc(db, "Requests", id)
+
+        const snap = await getDoc(docRef).catch(err => {
+            console.log(err)
+            throw err
+        })
+
+        if (snap.exists()) {
+            return snap.data()
+        } else {
+            console.log("Data does't exist")
+            throw new Error("Data doesn't Exist")
+        }
+    }
+}
+
+const getRequestManager = () => {
+    return new RequestManager()
+}
+
 const getClientManager = () => {
     return new ClientManager()
 }
@@ -444,5 +478,6 @@ module.exports = {
     getInventoryManager,
     getClientManager,
     getInvoiceManager,
-    getActivityManger
+    getActivityManger,
+    getRequestManager
 }
