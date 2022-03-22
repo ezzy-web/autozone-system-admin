@@ -77,7 +77,7 @@ export default function Footer() {
                     <Divider width={'full'} borderColor={'gray.900'} my={10} />
 
                     <Center>
-                        <Text color={'gray.700'} textTransform={'uppercase'} >Copyright &copy; 2022 All Rights Reserved by Javvy's Autozone.</Text>
+                        <Text color={'gray.700'} textTransform={'uppercase'} >{`Copyright &copy; 2022 All Rights Reserved by Javvy's Autozone.`}</Text>
                     </Center>
                 </Box>
 

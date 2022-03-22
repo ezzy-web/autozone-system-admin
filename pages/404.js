@@ -17,7 +17,7 @@ function PageNotFound() {
                             <Grid width={'70%'} templateColumns={'repeat(12, 1fr)'} >
                                 <GridItem colSpan={{ base: 12, md: 4 }} >
                                     <Box maxWidth={500}>
-                                        <Image width={'full'} src="/assets/saved-bg.png" />
+                                        <Image alt="Javvy's Autozone Ltd." width={'full'} src="/assets/saved-bg.png" />
                                     </Box>
                                 </GridItem>
 
