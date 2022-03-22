@@ -8,6 +8,8 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
+import Head from 'next/head'
+
 import Navbar from "../components/navbar";
 import Footer from "../components/elements/Footer";
 import Container from "../components/elements/Container";
@@ -18,6 +20,9 @@ import { getSavedVehicleFromCookie } from "../server/utils/lib";
 function About({ cookies }) {
   return (
     <>
+    <Head>
+        <title>{`Javvy's Autozone - Jamaica Used Car Dealer | About Us`}</title>
+      </Head>
       <Box position={"relative"} overflow={"hidden"} w="100%" height={"40vh"}>
         <Box
           display={"flex"}

@@ -1,32 +1,40 @@
-import { Box, Button, Center, Grid, GridItem, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Center, Grid, GridItem, Heading, HStack, Image, Text } from "@chakra-ui/react"
 import Container from '../components/elements/Container'
+
+import Head from 'next/head'
 
 function PageNotFound() {
     return (
-        <Box py={40} width={'full'} height={'full'} bgColor={'linear-gradient(242deg,rgba(204, 204, 204, 1) 0%,rgba(255, 255, 255, 1) 49%,rgba(214, 204, 204, 1) 100%)'}>
-            <Container width={'full'} height={'full'} >
-                <HStack height={'full'} width={'full'} justifyContent={'center'} alignItems={'center'} >
-                    <Center>
-                        <Grid width={'70%'} templateColumns={'repeat(12, 1fr)'} >
-                            <GridItem colSpan={{ base: 12, md: 4 }} >
-                                <Box maxWidth={500}>
-                                    <Image width={'full'} src="/assets/saved-bg.png" />
-                                </Box>
-                            </GridItem>
+        <>
+            <Head>
+                <title>{`Javvy's Autozone - Jamaica Used Car Dealer | Page Not Found`}</title>
+            </Head>
 
-                            <GridItem colSpan={{ base: 12, md: 8 }} >
-                                <Box paddingX={5}>
-                                    <Heading width={'full'}>Page Not Found <Text color={'red.400'} >404</Text></Heading>
-                                    <Button my={10} width={'50%'} as={'a'} href={'/'} color={'white'} bgColor={'red.600'} >Back Home</Button>
-                                </Box>
-                            </GridItem>
-                        </Grid>
-                    </Center>
+            <Box py={40} width={'full'} height={'full'} bgColor={'linear-gradient(242deg,rgba(204, 204, 204, 1) 0%,rgba(255, 255, 255, 1) 49%,rgba(214, 204, 204, 1) 100%)'}>
+                <Container width={'full'} height={'full'} >
+                    <HStack height={'full'} width={'full'} justifyContent={'center'} alignItems={'center'} >
+                        <Center>
+                            <Grid width={'70%'} templateColumns={'repeat(12, 1fr)'} >
+                                <GridItem colSpan={{ base: 12, md: 4 }} >
+                                    <Box maxWidth={500}>
+                                        <Image width={'full'} src="/assets/saved-bg.png" />
+                                    </Box>
+                                </GridItem>
 
-                </HStack>
+                                <GridItem colSpan={{ base: 12, md: 8 }} >
+                                    <Box paddingX={5}>
+                                        <Heading width={'full'}>Page Not Found <Text color={'red.400'} >404</Text></Heading>
+                                        <Button my={10} width={'50%'} as={'a'} href={'/'} color={'white'} bgColor={'red.600'} >Back Home</Button>
+                                    </Box>
+                                </GridItem>
+                            </Grid>
+                        </Center>
 
-            </Container>
-        </Box>
+                    </HStack>
+
+                </Container>
+            </Box>
+        </>
     )
 }
 

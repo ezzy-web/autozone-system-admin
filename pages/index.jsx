@@ -19,7 +19,7 @@ function Home({ featured , newArrival, makes, recents, cookies }) {
     makes,
   };
 
-  const titleContent = 'Javvys Autozone - Home'
+  const titleContent = `Javvy's Autozone - Jamaica Used Car Dealer`
 
   return (
     <>

@@ -13,6 +13,8 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
+import Head from "next/head";
+
 import Navbar from "../components/navbar";
 import Footer from "../components/elements/Footer";
 import FeatherIcon from "feather-icons-react";
@@ -57,15 +59,21 @@ function Contact({ cookies }) {
     reset,
     control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema), defaultValues: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    message: ''
-  } });
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      message: "",
+    },
+  });
 
   return (
     <>
+      <Head>
+        <title>{`Javvy's Autozone - Jamaica Used Car Dealer | Contact Us`}</title>
+      </Head>
       <Box position={"relative"} overflow={"hidden"} w="100%" height={"40vh"}>
         <Box
           display={"flex"}
@@ -84,7 +92,10 @@ function Contact({ cookies }) {
           />
         </Box>
         <Box bg="rgba(0, 0, 0, 0.434)" position="absolute" top="0" w="100%">
-          <Navbar light={true} savedCount={getSavedVehicleFromCookie(cookies).length} />
+          <Navbar
+            light={true}
+            savedCount={getSavedVehicleFromCookie(cookies).length}
+          />
           <Box paddingX={10} h={"40vh"}>
             <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
               <Heading textColor={"white"} textAlign={"center"} size="2xl">
@@ -102,7 +113,7 @@ function Contact({ cookies }) {
         >
           <Heading size={"lg"}>Contact Us Today</Heading>
 
-          <form onSubmit={handleSubmit((data) => console.log(data))} >
+          <form onSubmit={handleSubmit((data) => console.log(data))}>
             <Box paddingX={5}>
               <HStack my={5} width={"full"} justifyContent={"space-between"}>
                 <Box width={"full"}>
@@ -205,9 +216,12 @@ function Contact({ cookies }) {
           <Divider my={5} />
 
           <Text>
-            <Box fontWeight={"medium"}>{"Javvy's Autozone Ltd."}</Box><br />
-            <span>Four Paths,</span><br />
-            <span>May Pen</span><br />
+            <Box fontWeight={"medium"}>{"Javvy's Autozone Ltd."}</Box>
+            <br />
+            <span>Four Paths,</span>
+            <br />
+            <span>May Pen</span>
+            <br />
             <span>Clarendon, Jamaica</span>
           </Text>
 
@@ -244,7 +258,10 @@ function Contact({ cookies }) {
 
           <Text fontWeight={"medium"}>
             <span>Phone Number: </span>
-            <a href="#" onClick={() => window.open('tel:8763561017')}>876 356-1017</a> <br />
+            <a href="#" onClick={() => window.open("tel:8763561017")}>
+              876 356-1017
+            </a>{" "}
+            <br />
             <span>Email: </span>
             <a href="mailto:javvysauto@gmail.com">javvysauto@gmail.com</a>
           </Text>
