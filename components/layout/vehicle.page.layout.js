@@ -43,7 +43,7 @@ export default function VehiclePageLayout({ vehicle, related }) {
 
                 <GridItem paddingX={{ base: 5, sm: 5, md: 10 }} colSpan={{ base: 12, sm: 12, md: 5 }}>
                     {/* Contact Form Component */}
-                    <ContactFormComponent />
+                    <ContactFormComponent vehicle={vehicle} />
                 </GridItem>
 
             </Grid>

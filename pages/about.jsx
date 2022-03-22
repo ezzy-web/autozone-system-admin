@@ -57,7 +57,7 @@ function About() {
             </Heading>
             <Box>
               <Text my={5}>
-                {`Welcome to Javvy's Autozone Limited, certified used car dealers located in Four Paths, Clarendon.`}
+                {`Welcome to Javvy's Autozone Limited, certified used car dealer located in Four Paths, Clarendon.`}
               </Text>
 
               <Text my={5}>

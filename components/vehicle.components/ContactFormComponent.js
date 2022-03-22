@@ -10,7 +10,7 @@ import { AlertContext } from '../../server/utils/context'
 const options = require('../../content/select.options')
 
 
-export default function ContactFormComponent() {
+export default function ContactFormComponent({ vehicle }) {
     const { showAlert } = React.useContext(AlertContext)
 
     const inputStyle = {
@@ -28,6 +28,7 @@ export default function ContactFormComponent() {
 
     const { handleSubmit, reset, control, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
     const handleContactFormSubmit = async (data) => {
+        data['vehicle'] = vehicle.id
         const response = await fetch(`${window.location.origin}/api/sendRequest`, {
             method: 'POST',
             body: JSON.stringify({ request: data })
