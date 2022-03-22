@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Divider, Grid, GridItem, Heading, HStack, List, ListItem, Text, VStack } from '@chakra-ui/react'
+import { Box, Center, Divider, Grid, GridItem, Heading, HStack, List, ListItem, Text, VStack } from '@chakra-ui/react'
 import Link from 'next/link'
 import FeatherIcon from 'feather-icons-react'
 
@@ -25,7 +25,7 @@ export default function Footer() {
                                     </Box>
                                 </GridItem>
                                 <GridItem colSpan={{ base: 12, md: 3 }}>
-                                    <VStack height={'full'} justifyContent={'center'} verticalAlign={'center'} color={'gray.600'}>
+                                    <VStack height={'full'} justifyContent={'center'} verticalAlign={'center'} color={'gray.700'}>
                                         <Box textAlign={{ base: 'center', sm: 'center', md: 'left' }} fontWeight={'bold'}>
                                             <Text>Four Paths,</Text>
                                             <Text>May Pen,</Text>
@@ -34,7 +34,7 @@ export default function Footer() {
 
                                         <HStack width={'full'} justifyContent={{ base: 'center', sm: 'center', md: 'left' }} alignItems={'center'}>
                                             <FeatherIcon size={18} icon={'phone'} />
-                                            <Text fontSize={18} color={'red.600'}>xxx-xxx-xxxx</Text>
+                                            <Text _hover={{ cursor: 'pointer' }} onClick={() => window.open('tel:8763561017')} fontSize={18} color={'red.600'}>876-356-1017</Text>
                                         </HStack>
                                     </VStack>
                                 </GridItem>
@@ -47,7 +47,7 @@ export default function Footer() {
 
                                 <List textAlign={{ base: 'center', sm: 'center', md: 'left' }}>
                                     <Heading fontSize={'lg'} color={'white'}>MENU</Heading>
-                                    <ListItem color={'gray.600'}>
+                                    <ListItem color={'gray.700'}>
                                         <Link passHref href={'/'} >
                                             <Text _hover={onHover} >Home</Text>
                                         </Link>
@@ -60,7 +60,7 @@ export default function Footer() {
                                             <Text _hover={onHover} >About Us</Text>
                                         </Link>
 
-                                        <Link passHref href={'contact'} >
+                                        <Link passHref href={'/contact'} >
                                             <Text _hover={onHover}  >Contact Us</Text>
                                         </Link>
 
@@ -74,7 +74,11 @@ export default function Footer() {
 
                     </Grid>
 
-                    <Divider width={'full'} color={'gray.600'} my={10} />
+                    <Divider width={'full'} borderColor={'gray.900'} my={10} />
+
+                    <Center>
+                        <Text color={'gray.700'} >Copyright &copy; 2022 All Rights Reserved by Javvy's Autozone.</Text>
+                    </Center>
                 </Box>
 
             </Box>

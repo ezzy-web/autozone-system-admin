@@ -56,7 +56,12 @@ function Contact() {
     reset,
     control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({ resolver: yupResolver(schema), defaultValues: {
+    firstName: '',
+    lastName: '',
+    email: '',
+    message: ''
+  } });
 
   return (
     <>
@@ -96,7 +101,7 @@ function Contact() {
         >
           <Heading size={"lg"}>Contact Us Today</Heading>
 
-          <form onSubmit={() => console.log('done')} >
+          <form onSubmit={handleSubmit((data) => console.log(data))} >
             <Box paddingX={5}>
               <HStack my={5} width={"full"} justifyContent={"space-between"}>
                 <Box width={"full"}>
@@ -184,12 +189,12 @@ function Contact() {
             </HStack>
           </Heading>
           <HStack>
-            <a href="#">
+            <a href="https://www.facebook.com/profile.php?id=100064338601745">
               <Box {...socialButton}>
                 <FeatherIcon fill={"white"} icon={"facebook"} />
               </Box>
             </a>
-            <a href="#">
+            <a href="https://www.instagram.com/javvys_autozone_limited/">
               <Box {...socialButton}>
                 <FeatherIcon icon={"instagram"} />
               </Box>
@@ -199,10 +204,10 @@ function Contact() {
           <Divider my={5} />
 
           <Text>
-            <Text fontWeight={"medium"}>{"Javvy's Autozone Ltd."}</Text>
-            <p>Four Paths,</p>
-            <p>May Pen</p>
-            <p>Clarendon, Jamaica</p>
+            <Box fontWeight={"medium"}>{"Javvy's Autozone Ltd."}</Box><br />
+            <span>Four Paths,</span><br />
+            <span>May Pen</span><br />
+            <span>Clarendon, Jamaica</span>
           </Text>
 
           <Divider my={5} />
@@ -238,9 +243,9 @@ function Contact() {
 
           <Text fontWeight={"medium"}>
             <span>Phone Number: </span>
-            <a href="#">876 356-1017</a> <br />
+            <a href="#" onClick={() => window.open('tel:8763561017')}>876 356-1017</a> <br />
             <span>Email: </span>
-            <a href="#">javvysauto@gmail.com</a>
+            <a href="mailto:javvysauto@gmail.com">javvysauto@gmail.com</a>
           </Text>
         </GridItem>
       </Grid>

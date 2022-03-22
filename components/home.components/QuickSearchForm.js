@@ -18,16 +18,16 @@ function QuickSearchForm({ makes }) {
     var makeOptions = [{ value: "", label: "Select Make" }]
     makeOptions = [...makeOptions, ...makes.map(make => { return { value: make.make, label: make.make } })]
 
-    const [modelOptions, setModelOptions] = React.useState([{ value: "", label: "Select Make" }])
+    const [modelOptions, setModelOptions] = React.useState([{ value: "", label: "Select Model" }])
     const handleMakeChange = (e) => {
         const match = makes.filter((make) => {
             return make.make === e.value
         })
 
         if (match.length > 0) {
-            setModelOptions([{ value: "", label: "Select Make" }, ...match[0].models.map(model => { return { value: model, label: model } })])
+            setModelOptions([{ value: "", label: "Select Model" }, ...match[0].models.map(model => { return { value: model, label: model } })])
         } else {
-            setModelOptions([{ value: "", label: "Select Make" }])
+            setModelOptions([{ value: "", label: "Select Model" }])
         }
     }
 

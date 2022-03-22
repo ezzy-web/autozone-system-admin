@@ -85,12 +85,12 @@ function DrawerContainer({ onClose, isOpen }) {
 
         <DrawerFooter>
           <HStack>
-            <a href="#">
+            <a href="https://www.facebook.com/profile.php?id=100064338601745">
               <Box {...socialButton}>
                 <FeatherIcon fill={'white'} icon={"facebook"} />
               </Box>
             </a>
-            <a href="#">
+            <a href="https://www.instagram.com/javvys_autozone_limited/">
               <Box {...socialButton}>
                 <FeatherIcon icon={"instagram"} />
               </Box>

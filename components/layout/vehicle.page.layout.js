@@ -2,7 +2,6 @@ import React from 'react'
 import Navbar from '../navbar'
 import Banner from '../elements/Banner'
 import BreadcrumbContainer from '../elements/Breadcrumb'
-import Container from '../elements/Container'
 
 import { Box, Button, Grid, GridItem, Heading, VStack, Text } from '@chakra-ui/react'
 import TabComponent from '../vehicle.components/TabComponent'
@@ -72,7 +71,7 @@ export default function VehiclePageLayout({ vehicle, related }) {
                                     Get answers, see the car, or find a good time for a test
                                     drive. Take the next step contact us.
                                 </Text>
-                                <Button my={5}>Contact Us</Button>
+                                <Button as={'a'} href={'/contact'} my={5}>Contact Us</Button>
                             </Box>
                         </VStack>
                     </GridItem>

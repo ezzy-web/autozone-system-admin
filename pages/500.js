@@ -1,7 +1,7 @@
 import { Box, Button, Center, Grid, GridItem, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
 import Container from '../components/elements/Container'
 
-function PageNotFound() {
+function ServerError() {
     return (
         <Box py={40} width={'full'} height={'full'} bgColor={'linear-gradient(242deg,rgba(204, 204, 204, 1) 0%,rgba(255, 255, 255, 1) 49%,rgba(214, 204, 204, 1) 100%)'}>
             <Container width={'full'} height={'full'} >
@@ -16,7 +16,7 @@ function PageNotFound() {
 
                             <GridItem colSpan={{ base: 12, md: 8 }} >
                                 <Box paddingX={5}>
-                                    <Heading width={'full'}>Page Not Found <Text color={'red.400'} >404</Text></Heading>
+                                    <Heading width={'full'}>Something went wrong, try again later <Text color={'red.400'} >500</Text></Heading>
                                     <Button my={10} width={'50%'} as={'a'} href={'/'} color={'white'} bgColor={'red.600'} >Back Home</Button>
                                 </Box>
                             </GridItem>
@@ -31,4 +31,4 @@ function PageNotFound() {
 }
 
 
-export default PageNotFound
+export default ServerError
