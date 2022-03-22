@@ -20,8 +20,9 @@ import FeatherIcon from "feather-icons-react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { getSavedVehicleFromCookie } from "../server/utils/lib";
 
-function Contact() {
+function Contact({ cookies }) {
   const socialButton = {
     mt: 5,
     borderRadius: "full",
@@ -83,7 +84,7 @@ function Contact() {
           />
         </Box>
         <Box bg="rgba(0, 0, 0, 0.434)" position="absolute" top="0" w="100%">
-          <Navbar light={true} />
+          <Navbar light={true} savedCount={getSavedVehicleFromCookie(cookies).length} />
           <Box paddingX={10} h={"40vh"}>
             <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
               <Heading textColor={"white"} textAlign={"center"} size="2xl">

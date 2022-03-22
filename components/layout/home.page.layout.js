@@ -15,7 +15,7 @@ import Footer from "../elements/Footer";
 import AboutUsContainer from "../home.components/AboutUsContainer";
 
 
-function HomeLayout({ recents, newArrival, featured, makes }) {
+function HomeLayout({ recents, newArrival, featured, makes, saved }) {
     const typedStrings = ["Superior Quality", "Supreme Service", "Great Deals"]
     return (
         <>
@@ -25,7 +25,7 @@ function HomeLayout({ recents, newArrival, featured, makes }) {
                     <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=983&q=80')`} bgSize='cover' bgPosition={'center'} />
                 </Box>
                 <Box bg="rgba(0, 0, 0, 0.634)" position="absolute" top="0" w="100%" >
-                    <Navbar light={true} />
+                    <Navbar light={true} savedCount={saved.length} />
                     <Box h={"70vh"}>
                         <Stack height={'full'} paddingY={{ base: 30, md: 30 }} >
                             <Heading textColor={"white"} align="center" size='2xl'>Search Inventory</Heading>

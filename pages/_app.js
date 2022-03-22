@@ -10,7 +10,7 @@ import '../styles/style.css'
 
 
 
-function MyApp({ Component, pageProps, ...cookies }) {
+function MyApp({ Component, pageProps, cookies }) {
   const [alertState, setAlertState] = useState({
     show: false,
     message: '',

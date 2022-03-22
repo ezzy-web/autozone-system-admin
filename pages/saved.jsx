@@ -4,10 +4,10 @@ import { getSavedVehicleFromCookie, parseCookies } from "../server/utils/lib";
 
 import SavedPageLayout from "../components/layout/saved.page.layout";
 
-
 function Saved({ saved }) {
-
-  const [savedVehicles, setSavedVehicles] = React.useState(saved.filter( vehicle => vehicle !== null));
+  const [savedVehicles, setSavedVehicles] = React.useState(
+    saved.filter((vehicle) => vehicle !== null)
+  );
 
   return (
     <>

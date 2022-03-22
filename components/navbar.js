@@ -14,6 +14,8 @@ import {
   VStack,
   Image,
   Text,
+  Button,
+  Badge,
 } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -102,7 +104,7 @@ function DrawerContainer({ onClose, isOpen }) {
   );
 }
 
-function Navbar({ light = false }) {
+function Navbar({ light = false, savedCount }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -127,7 +129,7 @@ function Navbar({ light = false }) {
             </HStack>
 
             <Link passHref href={'/saved'}>
-              <IconButton variant="ghost" icon={<FeatherIcon size={20} color={light ? 'white' : 'rgb(150, 61, 61)'} fill={light ? 'white' : 'rgb(150, 61, 61)'} icon={'heart'} />} />
+              <Button _hover={{ bgColor: 'rgba(255,255,255,0.2)'}} color={ light ? 'white' : 'rgb(150, 61, 61)'} borderRadius={2} fontSize={'xs'} size={'sm'} variant={'ghost'} > Saved Vehicles <Badge colorScheme={'red'} ml={2}>{savedCount ? savedCount : 0}</Badge></Button>
             </Link>
 
           </HStack>

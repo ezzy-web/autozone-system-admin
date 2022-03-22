@@ -4,7 +4,7 @@ import React from "react";
 import VehiclePageLayout from "../../../components/layout/vehicle.page.layout";
 import { CookieContext } from "../../../server/utils/context";
 
-export default function VehiclePage({ vehicle, relatedVehicles }) {
+export default function VehiclePage({ vehicle, relatedVehicles, cookies }) {
   const { addRecentVehicle } = React.useContext(CookieContext);
   relatedVehicles.docs = relatedVehicles.docs.filter(
     (doc) => vehicle.id != doc.id
@@ -16,7 +16,7 @@ export default function VehiclePage({ vehicle, relatedVehicles }) {
       <Head>
         <title>Javvys Autozone - {vehicle?.title}</title>
       </Head>
-      <VehiclePageLayout vehicle={vehicle} related={relatedVehicles} />
+      <VehiclePageLayout vehicle={vehicle} related={relatedVehicles} cookies={cookies} />
     </>
   );
 }

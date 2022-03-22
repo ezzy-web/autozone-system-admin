@@ -1,4 +1,4 @@
-import { Grid, GridItem, SimpleGrid, Box, Accordion, AccordionButton, AccordionItem, Heading, AccordionIcon, HStack, AccordionPanel, Text, IconButton } from '@chakra-ui/react'
+import { Grid, GridItem, SimpleGrid, Box, Accordion, AccordionButton, AccordionItem, Heading, AccordionIcon, HStack, AccordionPanel, Text, IconButton, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useRouter } from 'next/router'
 import Navbar from '../navbar'
@@ -13,7 +13,9 @@ import Footer from '../elements/Footer'
 
 
 
-export default function InventoryLayout({ paginationData, params, makes }) {
+import { getSavedVehicleFromCookie } from '../../server/utils/lib'
+
+export default function InventoryLayout({ paginationData, params, makes, cookies }) {
     const router = useRouter()
     const [queryParams, setQueryParams] = React.useState(null)
     const [paginationState, setPaginationState] = React.useState(paginationData)
@@ -22,12 +24,12 @@ export default function InventoryLayout({ paginationData, params, makes }) {
 
     const removeParam = (key) => {
         var newParamState = JSON.parse(JSON.stringify(currentParams))
-        
+
         if (key === 'make') {
             newParamState['model'] = null
         }
         newParamState[key] = null
-        
+
         var isQuery = false
         var query = {}
         for (const [key, value] of Object.entries(newParamState)) {
@@ -70,7 +72,7 @@ export default function InventoryLayout({ paginationData, params, makes }) {
         setPaginationState(data)
         setRefresh(false)
     }
-    
+
     React.useEffect(() => {
         handleQueryParamsChange()
         if (refresh) refreshData()
@@ -79,73 +81,77 @@ export default function InventoryLayout({ paginationData, params, makes }) {
 
     return (
         <>
-            <Navbar />
-            
+            <Navbar savedCount={getSavedVehicleFromCookie(cookies).length} />
+
             <Banner />
             <BreadcrumbContainer params={currentParams} />
 
             <Grid marginTop={10} templateColumns={'repeat(12, 1fr)'}>
 
                 <GridItem paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
-                        <Box padding={5} bgColor={'gray.100'}>
-                            <Text fontWeight={'medium'} fontSize={'md'} color={'gray.600'}>{`${paginationState?.resultsCount} ${paginationState?.resultsCount === 1 ? 'Result' : 'Results'}`} Found</Text>
-                        </Box>
-                        <Box padding={2}>
-                            <SimpleGrid minChildWidth={100}>
-                                {queryParams ? (
-                                    <>
-                                        {queryParams.map((query, key) => {
-                                            return (
-                                                <HStack key={key} marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
-                                                    <Text fontSize={'sm'} isTruncated>{ query.value }</Text>
-                                                    <IconButton variant={'ghost'} size={'xs'} onClick={() => removeParam(query.key)} icon={<FeatherIcon size={14} icon='x' />} />
-                                                </HStack>
-                                            )
-                                        })}
-                                    </>
-                                ) : (<></>)}
+                    <Box padding={5} bgColor={'gray.100'}>
+                        <Text fontWeight={'medium'} fontSize={'md'} color={'gray.600'}>{`${paginationState?.resultsCount} ${paginationState?.resultsCount === 1 ? 'Result' : 'Results'}`} Found</Text>
+                    </Box>
+                    <Box padding={2}>
+                        <SimpleGrid minChildWidth={100}>
+                            {queryParams ? (
+                                <>
+                                    {queryParams.map((query, key) => {
+                                        return (
+                                            <HStack key={key} marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
+                                                <VStack>
+                                                    <Text lineHeight={1} fontWeight={'medium'} fontSize={'xs'} textTransform={'uppercase'} >{query?.key}</Text>
+                                                    <Text lineHeight={1} fontSize={'xs'} isTruncated>{query.value}</Text>
+                                                </VStack>
 
-                            </SimpleGrid>
-                        </Box>
-                        <Box position={'sticky'} top={0}>
-                            <Accordion>
-                                <AccordionItem>
-                                    <AccordionButton paddingY={5}>
-                                        <HStack width={'full'} justifyContent={'space-between'}>
-                                            <Heading size={'sm'}>
-                                                Sort Inventory
-                                            </Heading>
+                                                <IconButton variant={'ghost'} size={'xs'} onClick={() => removeParam(query.key)} icon={<FeatherIcon size={14} icon='x' />} />
+                                            </HStack>
+                                        )
+                                    })}
+                                </>
+                            ) : (<></>)}
 
-                                            <AccordionIcon />
-                                        </HStack>
-                                    </AccordionButton>
+                        </SimpleGrid>
+                    </Box>
+                    <Box position={'sticky'} top={0}>
+                        <Accordion>
+                            <AccordionItem>
+                                <AccordionButton paddingY={5}>
+                                    <HStack width={'full'} justifyContent={'space-between'}>
+                                        <Heading size={'sm'}>
+                                            Sort Inventory
+                                        </Heading>
 
-                                    <AccordionPanel>
-                                        <Select
-                                            options={[]}
-                                            placeholder='Sort by'
-                                            classNamePrefix="form-select-index"
-                                        />
-                                    </AccordionPanel>
-                                </AccordionItem>
-                                <AccordionItem>
-                                    <AccordionButton paddingY={5}>
-                                        <HStack width={'full'} justifyContent={'space-between'}>
-                                            <Heading size={'sm'}>
-                                                Filter Inventory
-                                            </Heading>
+                                        <AccordionIcon />
+                                    </HStack>
+                                </AccordionButton>
 
-                                            <AccordionIcon />
-                                        </HStack>
+                                <AccordionPanel>
+                                    <Select
+                                        options={[]}
+                                        placeholder='Sort by'
+                                        classNamePrefix="form-select-index"
+                                    />
+                                </AccordionPanel>
+                            </AccordionItem>
+                            <AccordionItem>
+                                <AccordionButton paddingY={5}>
+                                    <HStack width={'full'} justifyContent={'space-between'}>
+                                        <Heading size={'sm'}>
+                                            Filter Inventory
+                                        </Heading>
 
-                                    </AccordionButton>
+                                        <AccordionIcon />
+                                    </HStack>
 
-                                    <AccordionPanel>
-                                        <FilterInventory makes={makes} setCurrentParams={setCurrentParams} setRefresh={setRefresh} currentParams={currentParams} />
-                                    </AccordionPanel>
-                                </AccordionItem>
-                            </Accordion>
-                        </Box>
+                                </AccordionButton>
+
+                                <AccordionPanel>
+                                    <FilterInventory makes={makes} setCurrentParams={setCurrentParams} setRefresh={setRefresh} currentParams={currentParams} />
+                                </AccordionPanel>
+                            </AccordionItem>
+                        </Accordion>
+                    </Box>
                 </GridItem>
 
                 <GridItem rowSpan={2} colSpan={{ base: 12, md: 9 }} >

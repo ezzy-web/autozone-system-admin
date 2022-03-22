@@ -14,13 +14,13 @@ import VehicleSpecification from '../vehicle.components/VehicleSpecification'
 import InventoryContent from '../inventory.components/InventoryContent'
 import Footer from '../elements/Footer'
 
+import { getSavedVehicleFromCookie } from '../../server/utils/lib'
 
 
-
-export default function VehiclePageLayout({ vehicle, related }) {
+export default function VehiclePageLayout({ vehicle, related, cookies }) {
     return (
         <>
-            <Navbar />
+            <Navbar savedCount={getSavedVehicleFromCookie(cookies).length} />
             <Banner />
             <BreadcrumbContainer params={{ make: vehicle?.make, model: vehicle?.model, vehicle: vehicle?.title }} />
 

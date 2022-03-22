@@ -5,13 +5,13 @@ import Head from 'next/head'
 
 
 
-function Inventory({ paginationData, params, makes }) {
+function Inventory({ paginationData, params, makes, cookies }) {
     return (
         <>
             <Head>
                 <title>Javvys Autozone - Inventory Filter</title>
             </Head>
-            <InventoryLayout paginationData={paginationData} params={params} makes={makes} />
+            <InventoryLayout paginationData={paginationData} params={params} makes={makes} cookies={cookies} />
         </>
     );
 }

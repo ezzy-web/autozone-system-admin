@@ -133,7 +133,7 @@ export default function ContactFormComponent({ vehicle }) {
                         )}
                     />
                 </Box>
-                <Button type='submit' width={'full'} mt={10} >Contact Us</Button>
+                <Button colorScheme={'red'} type='submit' width={'full'} mt={10} >Contact Us</Button>
             </form>
         </Box>
     )

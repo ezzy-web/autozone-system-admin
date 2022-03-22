@@ -13,8 +13,9 @@ import Footer from "../components/elements/Footer";
 import Container from "../components/elements/Container";
 import AboutUsContainer from "../components/home.components/AboutUsContainer";
 import FeatherIcon from "feather-icons-react";
+import { getSavedVehicleFromCookie } from "../server/utils/lib";
 
-function About() {
+function About({ cookies }) {
   return (
     <>
       <Box position={"relative"} overflow={"hidden"} w="100%" height={"40vh"}>
@@ -35,7 +36,7 @@ function About() {
           />
         </Box>
         <Box bg="rgba(0, 0, 0, 0.434)" position="absolute" top="0" w="100%">
-          <Navbar light={true} />
+          <Navbar light={true} savedCount={getSavedVehicleFromCookie(cookies).length} />
           <Box paddingX={10} h={"40vh"}>
             <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
               <Heading textAlign={"center"} textColor={"white"} size="2xl">

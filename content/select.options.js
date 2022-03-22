@@ -47,7 +47,7 @@ module.exports = {
     ],
 
     reasons: [
-        { value: "other", label: "Other" },
+        { value: "Other", label: "Other" },
         { value: "Purchase Interest", label: "Purchase Interest" },
         { value: "Price Negotiation", label: "Price Negotiation" },
     ]

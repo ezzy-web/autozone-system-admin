@@ -4,12 +4,12 @@ import HomeLayout from "../components/layout/home.page.layout";
 import InventoryContent from "../components/inventory.components/InventoryContent";
 import Head from 'next/head'
 
-import { getRecentVehicleFromCookie, parseCookies } from "../server/utils/lib";
+import { getRecentVehicleFromCookie, getSavedVehicleFromCookie, parseCookies } from "../server/utils/lib";
 
 
-function Home({ featured , newArrival, makes, recents }) {
+function Home({ featured , newArrival, makes, recents, cookies }) {
   recents = recents.filter((doc) => doc ? true : false);
-  const saved = [];
+  const saved = getSavedVehicleFromCookie(cookies);
 
   const components = {
     saved,

@@ -18,7 +18,7 @@ export default function AboutUsContainer() {
                     </Box>
                     <Box paddingX={5} width={'full'}>
                         <Heading mb={5} size={'md'} >Great Customer Experience</Heading>
-                        <Text>Working as the Manufacturers’ Authorized Representative we keep your car in the best condition, helping you stay safe on the road for many more years to come.</Text>
+                        <Text></Text>
                     </Box>
                 </HStack>
             </GridItem>

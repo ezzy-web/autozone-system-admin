@@ -1,4 +1,4 @@
-import { Box, Center, Grid, GridItem, Heading, Image, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Grid, GridItem, Heading, Image, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import Banner from '../elements/Banner'
 import BreadcrumbContainer from '../elements/Breadcrumb'
@@ -29,7 +29,7 @@ export default function SavedPageLayout({ savedVehicle }) {
 
     return (
         <>
-            <Navbar />
+            <Navbar savedCount={savedVehicle.length} />
             <Banner />
             <BreadcrumbContainer params={{ saved: true }} />
 
@@ -42,7 +42,7 @@ export default function SavedPageLayout({ savedVehicle }) {
                                 <Text color={'gray.700'} my={3} fontWeight={'medium'} fontSize={'lg'}>
                                     Keep track of all the vehicles you like, all in one place
                                 </Text>
-                                <List>
+                                {/* <List>
                                     <ListItem>
                                         <ListIcon><FeatherIcon icon={'arrow-up-right'} /></ListIcon>
                                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod autem aut doloribus?
@@ -52,7 +52,8 @@ export default function SavedPageLayout({ savedVehicle }) {
                                         <ListIcon><FeatherIcon icon={'arrow-up-right'} /></ListIcon>
                                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Est.
                                     </ListItem>
-                                </List>
+                                </List> */}
+                                <Button my={5} size={'lg'} as={'a'} href={'/inventory'} >Explore Our Inventory</Button>
                             </VStack>
                         </GridItem>
 
