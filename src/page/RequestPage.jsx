@@ -48,26 +48,12 @@ export default function RequestPage(props) {
     {
       name: (
         <>
-          <Typography variant="button">Stock No.</Typography>
-        </>
-      ),
-      selector: (row) => (
-        <div className="d-flex flex-column">
-          <Typography variant="button">
-            <small>{row?.vehicle.id}</small>
-          </Typography>
-        </div>
-      ),
-    },
-    {
-      name: (
-        <>
           <Typography variant="button">Vehicle</Typography>
         </>
       ),
       selector: (row) => (
         <div className="d-flex flex-column">
-          <Typography variant="button">
+          <Typography component={'a'} href={`/admin/management/inventory/vehicle?stck=${row?.vehicle.id}`} variant="button">
             <small>{row?.vehicle.title}</small>
           </Typography>
         </div>
@@ -95,9 +81,9 @@ export default function RequestPage(props) {
         </>
       ),
       selector: (row) => (
-        <div className="d-flex flex-column">
+        <a href={`mailto:${row?.email}`} className="d-flex flex-column">
             <small>{`${row?.email}`}</small>
-        </div>
+        </a>
       ),
     },
 
@@ -109,7 +95,7 @@ export default function RequestPage(props) {
       ),
       selector: (row) => (
         <div className="d-flex flex-column">
-          <Typography variant="button" >
+          <Typography component={'a'} href={row?.mobile && row?.mobile !== '' ? `tel:${row?.mobile}` : '#'} variant="button" >
             <small>{`${row?.mobile && row?.mobile !== '' ? row?.mobile : 'NA'}`}</small>
           </Typography>
         </div>
