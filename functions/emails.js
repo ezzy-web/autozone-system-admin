@@ -3,7 +3,7 @@
 const mail = require("@sendgrid/mail")
 
 
-const SENDGRID_API = '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'
+const SENDGRID_API = ''
 const FROM_EMAIL = `Javvy's Autozone Ltd. <javvysauto@gmail.com>`
 const COMPANY_EMAIL = `javvysauto@gmail.com`
 const COMFIRMATION_TEMPLATE_ID = 'd-6ec84b892c1a4de38fec1cb291f0e759'
