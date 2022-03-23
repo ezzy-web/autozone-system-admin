@@ -32,10 +32,13 @@ export default function Footer() {
                                             <Text>Clarendon, Jamaica</Text>
                                         </Box>
 
-                                        <HStack width={'full'} justifyContent={{ base: 'center', sm: 'center', md: 'left' }} alignItems={'center'}>
-                                            <FeatherIcon size={18} icon={'phone'} />
-                                            <Text _hover={{ cursor: 'pointer' }} onClick={() => window.open('tel:8763561017')} fontSize={18} color={'red.600'}>876-356-1017</Text>
-                                        </HStack>
+                                        <VStack width={'full'} justifyContent={{ base: 'center', sm: 'center', md: 'left' }} alignItems={'center'}>
+                                            <FeatherIcon size={14} icon={'phone'} />
+
+                                            <Text _hover={{ cursor: 'pointer' }} onClick={() => window.open('tel:8763561017')} fontSize={'sm'} color={'red.600'}>(876) 356-1017</Text>
+
+                                            <Text _hover={{ cursor: 'pointer' }} onClick={() => window.open('tel:8768659667')} fontSize={'sm'} color={'red.600'}>(876) 865-9667</Text>
+                                        </VStack>
                                     </VStack>
                                 </GridItem>
                             </Grid>
@@ -47,7 +50,7 @@ export default function Footer() {
 
                                 <List textAlign={{ base: 'center', sm: 'center', md: 'left' }}>
                                     <Heading fontSize={'lg'} color={'white'}>MENU</Heading>
-                                    <ListItem color={'gray.700'}>
+                                    <ListItem color={'gray.600'}>
                                         <Link passHref href={'/'} >
                                             <Text _hover={onHover} >Home</Text>
                                         </Link>
@@ -77,7 +80,7 @@ export default function Footer() {
                     <Divider width={'full'} borderColor={'gray.900'} my={10} />
 
                     <Center>
-                        <Text color={'gray.700'} textTransform={'uppercase'} >{`Copyright &copy; 2022 All Rights Reserved by Javvy's Autozone.`}</Text>
+                        <Text fontSize={'sm'} color={'gray.600'} >{`Copyright &copy; 2022 All Rights Reserved by Javvy's Autozone.`}</Text>
                     </Center>
                 </Box>
 
