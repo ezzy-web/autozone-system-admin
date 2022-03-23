@@ -9,7 +9,7 @@ function Inventory({ paginationData, params, makes, cookies }) {
     return (
         <>
             <Head>
-                <title>{`Javvy's Autozone - Jamaica Used Card Dealer | Search Inventory`}</title>
+                <title>{`Javvy's Autozone - Jamaica Used Car Dealer | Search Inventory`}</title>
             </Head>
             <InventoryLayout paginationData={paginationData} params={params} makes={makes} cookies={cookies} />
         </>

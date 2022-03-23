@@ -14,7 +14,7 @@ export default function VehiclePage({ vehicle, relatedVehicles, cookies }) {
   return (
     <>
       <Head>
-        <title>{`Javvys Autozone - Jamaica Used Card Dealer | ${vehicle?.title}`}</title>
+        <title>{`Javvys Autozone - Jamaica Used Car Dealer | ${vehicle?.title}`}</title>
       </Head>
       <VehiclePageLayout vehicle={vehicle} related={relatedVehicles} cookies={cookies} />
     </>
