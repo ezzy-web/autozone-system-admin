@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
         var data = JSON.parse(event.body)
         const arrival = data?.arrival ? data.arrival === "" ? null : data.arrival.split("-") : null
         if (arrival) {
-            data.arrival = new Date().setFullYear(arrival[0], arrival[1], arrival[2])
+            data.arrival = new Date(arrival[0], arrival[1], arrival[2]).getTime()
         }
 
         try {
