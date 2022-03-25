@@ -14,7 +14,6 @@ export default function UserExpand(props) {
   const currentUser = props.current;
   const handleOpenSnackBar = props.handleOpenSnackBar;
 
-  var date_joined = new Date(data?.timeStamp?.nanoseconds);
   const [access, setAccess] = React.useState(data?.access);
   const accessOptions = [
     { value: "admin", label: "Administrator" },
@@ -87,7 +86,7 @@ export default function UserExpand(props) {
               <small>Date Added</small>
             </div>
             <div className="text-muted">
-              <small>{date_joined?.toLocaleDateString()}</small>
+              <small> {new Date(parseInt(data?.timeStamp?.seconds) * 1000 + parseInt(data?.timeStamp?.nanoseconds) / 1000000).toLocaleString()}</small>
             </div>
 
             {data?.added_by ? (

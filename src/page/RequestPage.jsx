@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   CircularProgress,
@@ -9,8 +8,43 @@ import {
   Button,
 } from "@material-ui/core";
 import { TextField } from "@mui/material";
-import {httpClient} from "../httpClient";
+import { httpClient } from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
+
+function RequestExpansion({ data }) {
+  return (
+    <>
+      <div className="w-100 p-5">
+        <div>
+          <>
+          <div className="d-flex justify-space-start my-3">
+              <Typography variant="button">
+                <small>Reason</small>
+              </Typography>
+              <Typography>
+                <small className="px-4">
+                  {data.reason}
+                </small>
+              </Typography>
+            </div>
+            <div className="d-flex justify-space-start">
+              <Typography variant="button">
+                <small>Additional Details</small>
+              </Typography>
+              <Typography>
+                <small className="px-4">
+                  {data.comment && data.comment !== ""
+                    ? data.comment
+                    : "No Additional Detail"}
+                </small>
+              </Typography>
+            </div>
+          </>
+        </div>
+      </div>
+    </>
+  );
+}
 
 export default function RequestPage(props) {
   const [requests, setRequests] = useState([]);
@@ -53,7 +87,11 @@ export default function RequestPage(props) {
       ),
       selector: (row) => (
         <div className="d-flex flex-column">
-          <Typography component={'a'} href={`/admin/management/inventory/vehicle?stck=${row?.vehicle.id}`} variant="button">
+          <Typography
+            component={"a"}
+            href={`/admin/management/inventory/vehicle?stck=${row?.vehicle.id}`}
+            variant="button"
+          >
             <small>{row?.vehicle.title}</small>
           </Typography>
         </div>
@@ -82,7 +120,7 @@ export default function RequestPage(props) {
       ),
       selector: (row) => (
         <a href={`mailto:${row?.email}`} className="d-flex flex-column">
-            <small>{`${row?.email}`}</small>
+          <small>{`${row?.email}`}</small>
         </a>
       ),
     },
@@ -95,12 +133,20 @@ export default function RequestPage(props) {
       ),
       selector: (row) => (
         <div className="d-flex flex-column">
-          <Typography component={'a'} href={row?.mobile && row?.mobile !== '' ? `tel:${row?.mobile}` : '#'} variant="button" >
-            <small>{`${row?.mobile && row?.mobile !== '' ? row?.mobile : 'NA'}`}</small>
+          <Typography
+            component={"a"}
+            href={
+              row?.mobile && row?.mobile !== "" ? `tel:${row?.mobile}` : "#"
+            }
+            variant="button"
+          >
+            <small>{`${
+              row?.mobile && row?.mobile !== "" ? row?.mobile : "NA"
+            }`}</small>
           </Typography>
         </div>
       ),
-    }
+    },
   ];
 
   const getRequests = () => {
@@ -118,7 +164,7 @@ export default function RequestPage(props) {
                 data?.vehicle.id,
                 data?.vehicle.title,
                 data?.firstName,
-                data?.lastName
+                data?.lastName,
               ],
             }))
           );
@@ -144,7 +190,7 @@ export default function RequestPage(props) {
             Request Management{" "}
           </Typography>
           <TextField
-          variant="standard"
+            variant="standard"
             className="mx-4 w-75"
             value={search}
             onChange={handleSearch}
@@ -156,7 +202,12 @@ export default function RequestPage(props) {
           <div className="col-md-8 col-sm-12">
             <Card>
               {loaded ? (
-                <TableComponent columns={columns} data={serachResults} />
+                <TableComponent
+                  columns={columns}
+                  data={serachResults}
+                  expandableRows={true}
+                  expandableRowsComponent={RequestExpansion}
+                />
               ) : (
                 <div className="table-loading">
                   <CircularProgress />

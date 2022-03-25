@@ -13,14 +13,17 @@ import {
 } from "@material-ui/core";
 import {httpClient} from "../httpClient";
 import TableComponent from "../components/DatatableComponent/DataTable";
+import UserExpand from "../components/user-components/UserExpand";
+
+
 
 const NewUserForm = React.lazy(() =>
   import("../components/user-components/NewUserForm.jsx")
 );
 
-const Expanded = React.lazy(() =>
-  import("../components/user-components/UserExpand")
-);
+// const Expanded = React.lazy(() =>
+//   import("../components/user-components/UserExpand")
+// );
 
 export default function UserPage(props) {
   const currentUser = props.state?.user;
@@ -123,7 +126,7 @@ export default function UserPage(props) {
                   data={users}
                   expandableRows={true}
                   expandableRowsComponent={(props) => (
-                    <Expanded {...props} current={currentUser} handleOpenSnackBar={handleOpenSnackBar} />
+                    <UserExpand {...props} current={currentUser} handleOpenSnackBar={handleOpenSnackBar} />
                   )}
                 />
               ) : (
