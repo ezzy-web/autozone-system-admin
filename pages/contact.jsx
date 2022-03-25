@@ -13,7 +13,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import React from 'react'
+import React from "react";
 
 import Head from "next/head";
 
@@ -29,8 +29,7 @@ import { getSavedVehicleFromCookie } from "../server/utils/lib";
 import { AlertContext } from "../server/utils/context";
 
 function Contact({ cookies }) {
-  const { showAlert, isLoading } = React.useContext(AlertContext)
-
+  const { showAlert, isLoading } = React.useContext(AlertContext);
 
   const socialButton = {
     mt: 5,
@@ -76,20 +75,28 @@ function Contact({ cookies }) {
     },
   });
 
-
-
   const handleContactSubmit = async (data) => {
-    isLoading(true)
-    const response = await fetch(`${window.location.origin}/api/clientContact`, {
-      method: 'POST',
-      body: JSON.stringify({ contact: data })
-    }).catch( error => {isLoading(false); showAlert({ show: true, message: 'Something went wrong', status: 'error' }) })
+    isLoading(true);
+    const response = await fetch(
+      `${window.location.origin}/api/clientContact`,
+      {
+        method: "POST",
+        body: JSON.stringify({ contact: data }),
+      }
+    ).catch((error) => {
+      isLoading(false);
+      showAlert({
+        show: true,
+        message: "Something went wrong",
+        status: "error",
+      });
+    });
     isLoading(false);
     if (response) {
-      reset()
-      showAlert({ show: true, message: 'Message Sent', status: 'success' })
+      reset();
+      showAlert({ show: true, message: "Message Sent", status: "success" });
     }
-  }
+  };
 
   return (
     <>
@@ -282,7 +289,8 @@ function Contact({ cookies }) {
             <span>Phone Number: </span>
             <a href="#" onClick={() => window.open("tel:8763561017")}>
               (876) 356-1017
-            </a>{" "}<a href="#" onClick={() => window.open("tel:8768659667")}>
+            </a>{" "}
+            <a href="#" onClick={() => window.open("tel:8768659667")}>
               (876) 865-9667
             </a>{" "}
             <br />

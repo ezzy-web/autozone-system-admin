@@ -29,8 +29,8 @@ const getFeatured = async () => {
 
 const getNewArrivals = async () => {
     try {
-        var now = + new Date()
-        const query = inventoryCollection.where('location', '==', 'On lot').where('arrival', '>=', (now - 604800)).limit(6)
+        var now = new Date().getTime()
+        const query = inventoryCollection.where('location', '==', 'On Lot').where('arrival', '>=', (now - 604800000)).limit(6)
         const querySnap = await query.get()
 
         return querySnap.docs
@@ -60,8 +60,7 @@ const queryInventory = async (lastDocumentId = null, queryParams, limit = 12) =>
     try {
         const lastSnap = lastDocumentId ? await inventoryCollection.where('id', '==', lastDocumentId).get() : null
         
-        
-        var query = queryParams.year ? inventoryCollection : inventoryCollection.orderBy('year', 'desc')
+        var query = queryParams.year | queryParams.newArrival === 'true' ? inventoryCollection : inventoryCollection.orderBy('year', 'desc')
         query = lastSnap ? query.startAfter(lastSnap.docs[0]).limit(limit) : query.limit(limit)
         
         
@@ -74,6 +73,13 @@ const queryInventory = async (lastDocumentId = null, queryParams, limit = 12) =>
             } else if (key === 'yearMax') {
                 query = query.where('year', '<=', value)
                 queryAll = queryAll.where('year', '<=', value)
+            } else if (key === 'newArrival') {
+                var now = new Date().getTime()
+                queryAll = queryAll.where('location', '==', 'On Lot').where('arrival', '>=', (now - 604800000))
+                query = query.where('location', '==', 'On Lot').where('arrival', '>=', (now - 604800000))
+            } else if (key === 'featured' ) {
+                queryAll = queryAll.where('isFeatured', '==', true)
+                query = query.where('isFeatured', '==', true)
             } else {
                 query = query.where(key, '==', value)
                 queryAll = queryAll.where(key, '==', value)

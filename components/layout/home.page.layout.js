@@ -75,7 +75,7 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
                         <TabPanel>
                             <HStack justifyContent={'space-between'} alignItems={'center'}>
                                 <Heading mb={10} size="md">Featured Vehicles</Heading>
-                                <Button variant={'link'}>See All</Button>
+                                <Button  href={'/inventory/query?featured=true'} as={'a'} variant={'link'}>See All</Button>
                             </HStack>
 
                             {featured}
@@ -83,7 +83,7 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
                         <TabPanel>
                             <HStack justifyContent={'space-between'} alignItems={'center'}>
                                 <Heading mb={10} size="md">New Arrivals</Heading>
-                                <Button variant={'link'}>See All</Button>
+                                <Button href={'/inventory/query?newArrival=true'} as={'a'} variant={'link'}>See All</Button>
                             </HStack>
 
 

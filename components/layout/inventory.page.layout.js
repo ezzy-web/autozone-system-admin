@@ -100,8 +100,8 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
                                         return (
                                             <HStack key={key} marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
                                                 <VStack>
-                                                    <Text lineHeight={1} fontWeight={'medium'} fontSize={'xs'} textTransform={'uppercase'} >{query?.key}</Text>
-                                                    <Text lineHeight={1} fontSize={'xs'} isTruncated>{query.value}</Text>
+                                                    <Text lineHeight={1} fontWeight={'medium'} fontSize={'xs'} textTransform={'uppercase'} >{query?.key === 'newArrival' ? 'New Arrival' : query?.key}</Text>
+                                                    { query?.key === 'newArrival' | query?.key === 'featured' ? <></> :  <Text lineHeight={1} fontSize={'xs'} isTruncated>{query.value}</Text> }
                                                 </VStack>
 
                                                 <IconButton variant={'ghost'} size={'xs'} onClick={() => removeParam(query.key)} icon={<FeatherIcon size={14} icon='x' />} />

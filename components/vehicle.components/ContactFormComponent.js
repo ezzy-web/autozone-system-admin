@@ -33,14 +33,12 @@ export default function ContactFormComponent({ vehicle }) {
         const response = await fetch(`${window.location.origin}/api/sendRequest`, {
             method: 'POST',
             body: JSON.stringify({ request: data })
-        }).catch(error => {isLoading(false); showAlert({ show: true, message: 'Something went wrong', status: 'error' }) })
+        }).catch(error => { isLoading(false); showAlert({ show: true, message: 'Something went wrong', status: 'error' }) })
         isLoading(false)
         if (response) {
-            showAlert({ show: true, message: 'Request Sent', status: 'success' })
             reset()
-            return
+            showAlert({ show: true, message: 'Request Sent', status: 'success' })
         }
-        showAlert({ show: true, message: 'Failed to send request', status: 'error' })
     }
 
 
@@ -134,6 +132,8 @@ export default function ContactFormComponent({ vehicle }) {
                         )}
                     />
                 </Box>
+               
+               
                 <Button colorScheme={'red'} type='submit' width={'full'} mt={10} >Contact Us</Button>
             </form>
         </Box>
