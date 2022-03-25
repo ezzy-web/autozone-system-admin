@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { Center, ChakraProvider, Spinner } from '@chakra-ui/react'
 import { useMemo, useState } from 'react'
 import { CookieContext, AlertContext } from '../server/utils/context'
 import { parseCookies } from '../server/utils/lib'
@@ -15,7 +15,8 @@ function MyApp({ Component, pageProps, cookies }) {
     show: false,
     message: '',
     status: '',
-    title: null
+    title: null,
+    loading: false
   })
 
   const cookieContext = useMemo(() => {
@@ -31,6 +32,15 @@ function MyApp({ Component, pageProps, cookies }) {
           message: '',
           status: ''
         }), 5000)
+      },
+
+      isLoading: (loading) => {
+        if (loading) {
+          setAlertState({ show: true, loading: true })
+          return
+        }
+        setAlertState({ show: false, loading: false })
+        
       }
     }
   }, [])
@@ -42,12 +52,18 @@ function MyApp({ Component, pageProps, cookies }) {
         <AlertContext.Provider value={alertContext}>
           {alertState.show ? (
             <Alert width={'1/3'} position={'fixed'} bottom={5} right={5} left={5} zIndex={100} status={alertState.status}>
-              <AlertIcon />
-              <Box flex='1'>
-                <AlertTitle>{alertState?.title ? alertState.title : ''}</AlertTitle>
-                <AlertDescription display='block'>{alertState.message}</AlertDescription>
-              </Box>
-              <CloseButton position='absolute' right='8px' top='8px' />
+              {alertState.loading ? <Center width={'full'}><Spinner /></Center> :
+                <>
+                  <AlertIcon />
+                  <Box flex='1'>
+                    <AlertTitle>{alertState?.title ? alertState.title : ''}</AlertTitle>
+                    <AlertDescription display='block'>{alertState.message}</AlertDescription>
+                  </Box>
+                  <CloseButton position='absolute' right='8px' top='8px' />
+                </>
+
+              }
+
             </Alert>
           ) : <></>}
           <Component {...pageProps} cookies={cookies} />

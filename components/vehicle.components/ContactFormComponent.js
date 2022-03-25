@@ -11,7 +11,7 @@ const options = require('../../content/select.options')
 
 
 export default function ContactFormComponent({ vehicle }) {
-    const { showAlert } = React.useContext(AlertContext)
+    const { showAlert, isLoading } = React.useContext(AlertContext)
 
     const inputStyle = {
         variant: 'filled'
@@ -28,12 +28,13 @@ export default function ContactFormComponent({ vehicle }) {
 
     const { handleSubmit, reset, control, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
     const handleContactFormSubmit = async (data) => {
+        isLoading(true)
         data['vehicle'] = vehicle.id
         const response = await fetch(`${window.location.origin}/api/sendRequest`, {
             method: 'POST',
             body: JSON.stringify({ request: data })
-        }).catch(error => console.log(error))
-
+        }).catch(error => {isLoading(false); showAlert({ show: true, message: 'Something went wrong', status: 'error' }) })
+        isLoading(false)
         if (response) {
             showAlert({ show: true, message: 'Request Sent', status: 'success' })
             reset()

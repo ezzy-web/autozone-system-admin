@@ -13,6 +13,8 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
+import React from 'react'
+
 import Head from "next/head";
 
 import Navbar from "../components/navbar";
@@ -24,7 +26,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { getSavedVehicleFromCookie } from "../server/utils/lib";
 
+import { AlertContext } from "../server/utils/context";
+
 function Contact({ cookies }) {
+  const { showAlert, isLoading } = React.useContext(AlertContext)
+
+
   const socialButton = {
     mt: 5,
     borderRadius: "full",
@@ -68,6 +75,21 @@ function Contact({ cookies }) {
       message: "",
     },
   });
+
+
+
+  const handleContactSubmit = async (data) => {
+    isLoading(true)
+    const response = await fetch(`${window.location.origin}/api/clientContact`, {
+      method: 'POST',
+      body: JSON.stringify({ contact: data })
+    }).catch( error => {isLoading(false); showAlert({ show: true, message: 'Something went wrong', status: 'error' }) })
+    isLoading(false);
+    if (response) {
+      reset()
+      showAlert({ show: true, message: 'Message Sent', status: 'success' })
+    }
+  }
 
   return (
     <>
@@ -113,7 +135,7 @@ function Contact({ cookies }) {
         >
           <Heading size={"lg"}>Contact Us Today</Heading>
 
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form onSubmit={handleSubmit((data) => handleContactSubmit(data))}>
             <Box paddingX={5}>
               <HStack my={5} width={"full"} justifyContent={"space-between"}>
                 <Box width={"full"}>

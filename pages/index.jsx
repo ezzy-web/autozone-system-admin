@@ -25,6 +25,8 @@ function Home({ featured , newArrival, makes, recents, cookies }) {
     <>
     <Head>
       <title>{titleContent}</title>
+      <meta name='description' content={`Javvy's Autozone Ltd. here to provide you with the very best services a competitive and affordable prices. Come experience the quality service you deserve and the supreme quality you expect.`} />
+      <link rel='icon' href='/favicon.ico' />
     </Head>
       <HomeLayout {...components} />
     </>
