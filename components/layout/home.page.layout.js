@@ -20,21 +20,21 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
     return (
         <>
 
-            <Box position={"relative"} overflow={"hidden"} w="100%" height={"70vh"}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'} overflow="hidden" w="100%" height="70vh">
+            <Box position={"relative"} overflow={"hidden"} w="100%" height={"fit-content"}>
+                <Box display={'flex'} justifyContent={'center'} alignItems={'center'} overflow="hidden" w="100%" h={'70vh'}>
                     <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=983&q=80')`} bgSize='cover' bgPosition={'center'} />
                 </Box>
-                <Box bg="rgba(0, 0, 0, 0.634)" position="absolute" top="0" w="100%" >
+                <Box bg="rgba(0, 0, 0, 0.634)" position="absolute" top={0} w="100%" >
                     <Navbar light={true} savedCount={saved.length} />
-                    <Box h={"70vh"}>
-                        <Stack height={'full'} paddingY={{ base: 30, md: 30 }} >
-                            <Heading textColor={"white"} align="center" size='2xl'>Search Inventory</Heading>
+                    <Box h={'70vh'}>
+                        <Box height={'full'} paddingY={{ base: 30, md: 30 }} >
+                            <Heading textColor={"white"} align="center" fontSize={{ base: '200%', md: '3xl' }}>Search Inventory</Heading>
 
                             <Stack pt={2} px={{ base: 30, md: 150 }}>
-                                <Box overflow="hidden" height={30} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} size="md" /></Typed></Box>
+                                <Box overflow="hidden" height={30} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} fontSize={'100%'} /></Typed></Box>
                                 <QuickSearchForm makes={makes} />
                             </Stack>
-                        </Stack>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
@@ -61,12 +61,12 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
             <Container>
                 <Tabs>
                     <TabList>
-                        <Tab _activeStep={{ color: 'red.500' }} >Search Inventory</Tab>
-                        <Tab _activeStep={{ color: 'red.500' }}>Featured Vehicles</Tab>
-                        <Tab _activeStep={{ color: 'red.500' }} >New Arrivals</Tab>
+                        <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'} >Search Inventory</Tab>
+                        <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'} >Featured Vehicles</Tab>
+                        <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'}>New Arrivals</Tab>
                     </TabList>
 
-                    <TabPanels>
+                    <TabPanels mt={10}>
                         <TabPanel>
                             <Heading mb={10} size="md">Search Our Inventory</Heading>
 

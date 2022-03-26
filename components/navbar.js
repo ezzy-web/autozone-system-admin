@@ -27,6 +27,9 @@ function NavbarItems({ isDrawer, light }) {
     _hover: {
       bg: "rgba(189, 69, 53, 0.29)",
     },
+    _active: {
+      bg: "rgba(189, 69, 53, 0.29)"
+    },
     borderRadius: "5px",
     px: 4,
     py: 2,
@@ -76,7 +79,7 @@ function DrawerContainer({ onClose, isOpen }) {
           <Link passHref href={"/"}>
             <Image _hover={{ cursor: 'pointer' }} alt={'javvys autozone'} src="/assets/image.png" width={10} />
           </Link>
-          <DrawerCloseButton></DrawerCloseButton>
+          <DrawerCloseButton _focus={{boxShadow: 'none', outline: 'none'}} />
         </DrawerHeader>
 
         <DrawerBody>

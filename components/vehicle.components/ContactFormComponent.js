@@ -26,7 +26,24 @@ export default function ContactFormComponent({ vehicle }) {
         comment: yup.string()
     })
 
-    const { handleSubmit, reset, control, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
+    const {
+        handleSubmit,
+        reset,
+        control,
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            mobile: '',
+            email: '',
+            comment: ''
+        }
+    })
+
+
+
     const handleContactFormSubmit = async (data) => {
         isLoading(true)
         data['vehicle'] = vehicle.id
@@ -41,7 +58,6 @@ export default function ContactFormComponent({ vehicle }) {
         }
     }
 
-
     const cardStyle = {
         mt: { base: 0, md: 5 },
         mb: 10,
@@ -52,6 +68,8 @@ export default function ContactFormComponent({ vehicle }) {
         borderRadius: 5,
         overflow: 'hidden'
     }
+
+
     return (
         <Box {...cardStyle} >
             <Heading mb={10} fontWeight={'medium'} size={'lg'}>Contact Us</Heading>
@@ -89,7 +107,7 @@ export default function ContactFormComponent({ vehicle }) {
                         name='email'
                         control={control}
                         render={({ field: { onChange, value } }) => (
-                            <Input {...inputStyle} type={'email'} value={value} placeholder='yourmail@email.com' onChange={(e) => onChange(e.target.value)} />
+                            <Input {...inputStyle} type={'email'} value={value} placeholder='Email' onChange={(e) => onChange(e.target.value)} />
                         )}
                     />
                 </Box>
@@ -100,7 +118,7 @@ export default function ContactFormComponent({ vehicle }) {
                         name='mobile'
                         control={control}
                         render={({ field: { onChange, value } }) => (
-                            <Input {...inputStyle} value={value} placeholder='Mobile No.' onChange={(e) => onChange(e.target.value)} />
+                            <Input {...inputStyle} type={'tel'} value={value} placeholder='Mobile No.' onChange={(e) => onChange(e.target.value)} />
                         )}
                     />
                 </Box>
@@ -114,7 +132,6 @@ export default function ContactFormComponent({ vehicle }) {
                             <Select
                                 classNamePrefix="form-select-index"
                                 placeholder={'Select Reason'}
-                                value={value}
                                 options={options.reasons}
                                 onChange={(e) => onChange(e.value)}
                             />
@@ -132,8 +149,8 @@ export default function ContactFormComponent({ vehicle }) {
                         )}
                     />
                 </Box>
-               
-               
+
+
                 <Button colorScheme={'red'} type='submit' width={'full'} mt={10} >Contact Us</Button>
             </form>
         </Box>

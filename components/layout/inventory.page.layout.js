@@ -114,8 +114,8 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
                         </SimpleGrid>
                     </Box>
                     <Box position={'sticky'} top={0}>
-                        <Accordion>
-                            <AccordionItem>
+                        <Accordion allowToggle={true} >
+                            {/* <AccordionItem>
                                 <AccordionButton paddingY={5}>
                                     <HStack width={'full'} justifyContent={'space-between'}>
                                         <Heading size={'sm'}>
@@ -133,9 +133,9 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
                                         classNamePrefix="form-select-index"
                                     />
                                 </AccordionPanel>
-                            </AccordionItem>
+                            </AccordionItem> */}
                             <AccordionItem>
-                                <AccordionButton paddingY={5}>
+                                <AccordionButton _focus={{boxShadow: 'none', outline: 'none'}} paddingY={5}>
                                     <HStack width={'full'} justifyContent={'space-between'}>
                                         <Heading size={'sm'}>
                                             Filter Inventory

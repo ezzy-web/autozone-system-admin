@@ -10,7 +10,7 @@ import { getRecentVehicleFromCookie, getSavedVehicleFromCookie, parseCookies } f
 function Home({ featured , newArrival, makes, recents, cookies }) {
   recents = recents.filter((doc) => doc ? true : false);
   const saved = getSavedVehicleFromCookie(cookies);
-
+  
   const components = {
     saved,
     recents: recents.length === 0 ? null : recents,

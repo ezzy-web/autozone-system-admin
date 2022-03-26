@@ -25,6 +25,7 @@ function QuickSearchForm({ makes }) {
         })
 
         if (match.length > 0) {
+            match[0].models.sort()
             setModelOptions([{ value: "", label: "Select Model" }, ...match[0].models.map(model => { return { value: model, label: model } })])
         } else {
             setModelOptions([{ value: "", label: "Select Model" }])
