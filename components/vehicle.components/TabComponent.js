@@ -32,7 +32,7 @@ export default function TabComponent({ vehicle, ...props }) {
         <Box {...props} >
             <HStack justifyContent={'flex-start'}>
                 <RWebShare data={shareData}>
-                    <Button leftIcon={<FeatherIcon size={16} icon={'share-2'} />} >
+                    <Button borderRadius={2} colorScheme={'gray'} leftIcon={<FeatherIcon size={16} icon={'share-2'} />} >
                         <Text fontSize={'sm'} >Share This</Text>
                     </Button>
                 </RWebShare>
@@ -41,7 +41,7 @@ export default function TabComponent({ vehicle, ...props }) {
                     <Text fontSize={'sm'} >Print Page</Text>
                 </Button> */}
 
-                <Button onClick={handleSaveButton} leftIcon={<FeatherIcon size={16} icon={'heart'} color={saved ? 'rgb(150, 61, 61)' : 'black'} fill={saved ? 'rgb(150, 61, 61)' : 'black'} />}>
+                <Button borderRadius={2} colorScheme={'gray'} onClick={handleSaveButton} leftIcon={<FeatherIcon size={16} icon={'heart'} color={saved ? 'rgb(150, 61, 61)' : 'black'} fill={saved ? 'rgb(150, 61, 61)' : 'black'} />}>
                     <Text fontSize={'sm'} >{saved ? "Saved" : "Save Vehicle"}</Text>
                 </Button>
             </HStack>

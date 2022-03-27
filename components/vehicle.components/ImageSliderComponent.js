@@ -1,7 +1,6 @@
 import React from 'react'
-import { Box, IconButton, Image, VStack } from '@chakra-ui/react'
+import { Box, Image, VStack } from '@chakra-ui/react'
 import FsLightbox from 'fslightbox-react'
-import FeatherIcon from 'feather-icons-react'
 
 import Slider from '../elements/Slider'
 

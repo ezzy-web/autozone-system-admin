@@ -6,8 +6,8 @@ import numeral from 'numeral'
 export default function VehicleSpecification({ vehicle, ...props }) {
     const cardStyle = {
         my: "10px",
-        paddingY: 8,
-        paddingX: 10,
+        paddingY: {base: 5, md: 8},
+        paddingX: {base: 5, md: 10},
         boxShadow: '1px 1px 39px -10px rgba(0, 0, 0, 0.2)',
         transition: 0.5,
         borderRadius: 5,
@@ -51,7 +51,7 @@ export default function VehicleSpecification({ vehicle, ...props }) {
 
                 <HStack mt={3} justifyContent={'space-between'}>
                     <Text fontWeight={'bold'} fontSize={'lg'}>Mileage</Text>
-                    <Text fontWeight={'medium'} fontSize={'lg'}>{`${numeral(vehicle.mileage).format('0,0')} mi`}</Text>
+                    <Text fontWeight={'medium'} fontSize={'lg'}>{vehicle.mileage && vehicle.mileage != 'n/a' ? `${numeral(vehicle.mileage).format('0,0')} mi` : 'n/a'}</Text>
                 </HStack>
                 <Divider color={'gray.200'} my={2} />
 

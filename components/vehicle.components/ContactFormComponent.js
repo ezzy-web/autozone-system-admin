@@ -61,8 +61,8 @@ export default function ContactFormComponent({ vehicle }) {
     const cardStyle = {
         mt: { base: 0, md: 5 },
         mb: 10,
-        paddingY: 8,
-        paddingX: 10,
+        paddingY: {base: 5, md: 8},
+        paddingX: {base: 5, md: 10},
         boxShadow: '1px 1px 39px -10px rgba(0, 0, 0, 0.2)',
         transition: 0.5,
         borderRadius: 5,

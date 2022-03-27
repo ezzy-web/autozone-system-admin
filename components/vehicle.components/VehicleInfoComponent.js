@@ -13,7 +13,8 @@ export default function VehicleInfoComponent({ vehicle, ...props }) {
                 </VStack>
             </HStack>
 
-            <Text fontSize={'lg'} color={'gray.600'}>{`${numeral(vehicle.mileage).format('0,0')} mi`}</Text>
+            {vehicle.mileage && vehicle.mileage != 'n/a' ?
+                <Text fontSize={'lg'} color={'gray.600'}>{`${numeral(vehicle.mileage).format('0,0')} mi`}</Text> : <></>}
 
             {vehicle.isAvailable ?
                 <>
