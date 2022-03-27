@@ -37,11 +37,11 @@ function BodyTypes() {
                     </Stack>
                 </div>
             </Link>
-            <Link passHref href={{ pathname: '/inventory/query', query: { body: 'Pickup' } }}>
+            <Link passHref href={{ pathname: '/inventory/query', query: { body: 'Truck' } }}>
                 <div>
                     <Stack {...stackStyle} >
-                        <Image alt={'javvys autonzone pickup'} justifyContent={"center"} w="85%" src="./assets/pick-up.png" />
-                        <Heading mt={"20px"} align="center" size='sm'>Pick-up</Heading>
+                        <Image alt={'javvys autonzone pickup'} justifyContent={"center"} w="65%" src="./assets/truck.png" />
+                        <Heading mt={"20px"} align="center" size='sm'>Truck</Heading>
                     </Stack>
                 </div>
             </Link>

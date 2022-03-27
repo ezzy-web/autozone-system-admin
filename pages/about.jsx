@@ -67,11 +67,11 @@ function About({ cookies }) {
               </Text>
 
               <Text my={5}>
-                {`It is always a pleasure to provide our customers with the very best service, and we're happy to be your guide through the journey of puchasing your ride. We provide a wide variety of motor vehicles; including cars, buses, trucks and SUVs. Whether it be for business, work or pleasure, we have something here for you. Our team is always a call away to help throughout the process.`}
+                {`It is always a pleasure to provide our customers with the very best service, and we're happy to be your guide through the journey of puchasing your ride. We provide a wide variety of motor vehicles; including cars, buses, trucks and SUVs. Whether it be for business, work or pleasure, we have something here for you. Our team is always a call away to help you throughout the process.`}
               </Text>
 
               <Text my={5}>
-                {`We import high quality units from Canada, USA, Singapore and Japan. Additionally upon arrival, units are thoroughly evaluated and serviced to meet our high quality standards. It is our firm believe that customers should get their money's worth, and as such we are guided by this principle. Javvy's Autozone Ltd. is here for you, with open arms we welcome you to our family. Come experience the Supreme Service you deserve, and the Superior Quality you expect.`}
+                {`We import high quality units from Canada, USA, Singapore and Japan. Additionally, upon arrival, units are thoroughly evaluated and serviced to meet our high quality standards. It is our firm belief that customers should get their money's worth, and as such we are guided by this principle. Javvy's Autozone Ltd. is here for you, with open arms we welcome you to our family. Come experience the Supreme Service you deserve, and the Superior Quality you expect.`}
               </Text>
 
               <Text

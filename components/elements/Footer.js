@@ -36,8 +36,6 @@ export default function Footer() {
                                             <FeatherIcon size={14} icon={'phone'} />
 
                                             <Text _hover={{ cursor: 'pointer' }} onClick={() => window.open('tel:8763561017')} fontSize={'sm'} color={'red.600'}>(876) 356-1017</Text>
-
-                                            <Text _hover={{ cursor: 'pointer' }} onClick={() => window.open('tel:8768659667')} fontSize={'sm'} color={'red.600'}>(876) 865-9667</Text>
                                         </VStack>
                                     </VStack>
                                 </GridItem>
@@ -80,7 +78,7 @@ export default function Footer() {
                     <Divider width={'full'} borderColor={'gray.900'} my={10} />
 
                     <Center>
-                        <Text fontSize={'sm'} color={'gray.600'} >{`Copyright &copy; 2022 All Rights Reserved by Javvy's Autozone.`}</Text>
+                        <Text fontSize={'sm'} color={'gray.600'} >Copyright &copy; 2022 All Rights Reserved by{` Javvy's Autozone Limited`}</Text>
                     </Center>
                 </Box>
 

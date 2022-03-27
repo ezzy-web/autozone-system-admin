@@ -290,9 +290,6 @@ function Contact({ cookies }) {
             <a href="#" onClick={() => window.open("tel:8763561017")}>
               (876) 356-1017
             </a>{" "}
-            <a href="#" onClick={() => window.open("tel:8768659667")}>
-              (876) 865-9667
-            </a>{" "}
             <br />
             <span>Email: </span>
             <a href="mailto:javvysauto@gmail.com">javvysauto@gmail.com</a>
