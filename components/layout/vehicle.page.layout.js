@@ -27,9 +27,9 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
 
             <Grid px={{ base: 2, md: 40 }} templateColumns={'repeat(12,1fr)'}>
 
-                <GridItem padding={5} colSpan={{ base: 12, sm: 12, md: 7 }}>
+                <GridItem padding={{ base: 0, md: 5 }} colSpan={{ base: 12, sm: 12, md: 7 }}>
                     {/* Tab Component */}
-                    {vehicle.isAvailable ? <TabComponent vehicle={vehicle} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
+                    {vehicle.isAvailable ? <TabComponent paddingY={5} vehicle={vehicle} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
 
 
                     {/* Image Slider Component */}
@@ -40,7 +40,7 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
                 </GridItem>
 
 
-                <GridItem paddingX={{ base: 5, sm: 5, md: 10 }} colSpan={{ base: 12, sm: 12, md: 5 }}>
+                <GridItem paddingX={{ base: 0, md: 10 }} colSpan={{ base: 12, sm: 12, md: 5 }}>
                     {/* Contact Form Component */}
                     <ContactFormComponent vehicle={vehicle} />
                 </GridItem>
@@ -48,9 +48,9 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
             </Grid>
 
 
-            <Box px={{ base: 5, md: 40 }}>
+            <Box  px={{ base: 2, md: 40 }}>
                 <Grid templateColumns={'repeat(12,1fr)'}>
-                    <GridItem paddingX={5} colSpan={{ base: 12, sm: 12, md: 7 }}>
+                    <GridItem colSpan={{ base: 12, sm: 12, md: 7 }}>
                         
 
 
@@ -60,8 +60,8 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
                         <FeaturesComponent vehicleFeatures={vehicle.features} my={5} />
                     </GridItem>
 
-                    <GridItem padding={5} colSpan={{ base: 12, sm: 12, md: 5 }}>
-                        <VStack>
+                    <GridItem colSpan={{ base: 12, sm: 12, md: 5 }}>
+                        <VStack padding={{ base: 0, md: 5 }}>
                             {/* Vehicle Description Component */}
                             <DescriptionComponent />
 
@@ -71,7 +71,7 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
                                     Get answers, see the car, or find a good time for a test
                                     drive. Take the next step contact us.
                                 </Text>
-                                <Button as={'a'} href={'/contact'} my={5}>Contact Us</Button>
+                                <Button borderRadius={2} colorScheme={'red'} as={'a'} href={'/contact'} my={5}>Contact Us</Button>
                             </Box>
                         </VStack>
                     </GridItem>
