@@ -96,7 +96,7 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
 
             <Grid marginTop={10} templateColumns={'repeat(12, 1fr)'}>
 
-                <GridItem zIndex={'popover'} paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
+                <GridItem zIndex={'dropdown'} paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
                     <Box padding={5} bgColor={'gray.100'}>
                         <Text fontWeight={'medium'} fontSize={'md'} color={'gray.600'}>{`${paginationState?.resultsCount} ${paginationState?.resultsCount === 1 ? 'Result' : 'Results'}`} Found</Text>
                     </Box>
