@@ -6,7 +6,7 @@ import { Box } from '@chakra-ui/react'
 
 
 function Container({ children }) {
-    return (<Box px={{ base: '2px', md: 40 }} py={10} >{children}</Box>)
+    return (<Box px={{ base: 2, md: 40 }} py={10} >{children}</Box>)
 }
 
 

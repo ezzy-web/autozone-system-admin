@@ -5,7 +5,7 @@ import Container from "../elements/Container";
 
 export default function AboutUsContainer() {
     return <Container>
-        <Heading mb={10} size={'lg'} >
+        <Heading px={5} mb={10} size={'lg'} >
             Why Choose Us?
         </Heading>
 

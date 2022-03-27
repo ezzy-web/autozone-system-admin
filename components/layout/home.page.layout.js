@@ -66,23 +66,23 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
                         <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'}>New Arrivals</Tab>
                     </TabList>
 
-                    <TabPanels mt={10}>
+                    <TabPanels padding={0} mt={10}>
                         <TabPanel>
                             <Heading mb={10} size="md">Search Our Inventory</Heading>
 
                             <SearchInventoryForm makes={makes} />
                         </TabPanel>
-                        <TabPanel>
+                        <TabPanel padding={0}>
                             <HStack justifyContent={'space-between'} alignItems={'center'}>
-                                <Heading mb={10} size="md">Featured Vehicles</Heading>
+                                <Heading px={5} mb={10} size="md">Featured Vehicles</Heading>
                                 <Button  href={'/inventory/query?featured=true'} as={'a'} variant={'link'}>See All</Button>
                             </HStack>
 
                             {featured}
                         </TabPanel>
-                        <TabPanel>
+                        <TabPanel padding={0}>
                             <HStack justifyContent={'space-between'} alignItems={'center'}>
-                                <Heading mb={10} size="md">New Arrivals</Heading>
+                                <Heading px={5} mb={10} size="md">New Arrivals</Heading>
                                 <Button href={'/inventory/query?newArrival=true'} as={'a'} variant={'link'}>See All</Button>
                             </HStack>
 
