@@ -30,7 +30,7 @@ export default function SavedPageLayout({ savedVehicle }) {
     return (
         <>
             <Navbar savedCount={savedVehicle.length} />
-            <Banner />
+            {/* <Banner /> */}
             <BreadcrumbContainer params={{ saved: true }} />
 
             <Container>

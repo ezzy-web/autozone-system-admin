@@ -103,14 +103,14 @@ function Contact({ cookies }) {
       <Head>
         <title>{`Javvy's Autozone - Jamaica Used Car Dealer | Contact Us`}</title>
       </Head>
-      <Box position={"relative"} overflow={"hidden"} w="100%" height={"30vh"}>
+      <Box position={"relative"} overflow={"hidden"} w="100%" height={"35vh"}>
         <Box
           display={"flex"}
           justifyContent={"center"}
           alignItems={"center"}
           overflow="hidden"
           w="100%"
-          height="30vh"
+          height="full"
         >
           <Box
             width={"100vw"}
@@ -125,7 +125,7 @@ function Contact({ cookies }) {
             light={true}
             savedCount={getSavedVehicleFromCookie(cookies).length}
           />
-          <Box paddingX={10} h={"30vh"}>
+          <Box paddingX={10} h={"full"}>
             <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
               <Heading textColor={"white"} textAlign={"center"} size="2xl">
                 Contact Us

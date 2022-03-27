@@ -83,7 +83,7 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
         <>
             <Navbar savedCount={getSavedVehicleFromCookie(cookies).length} />
 
-            <Banner />
+            {/* <Banner /> */}
             <BreadcrumbContainer params={currentParams} />
 
             <Grid marginTop={10} templateColumns={'repeat(12, 1fr)'}>

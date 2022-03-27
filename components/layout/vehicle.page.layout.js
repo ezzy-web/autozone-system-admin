@@ -21,7 +21,7 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
     return (
         <>
             <Navbar savedCount={getSavedVehicleFromCookie(cookies).length} />
-            <Banner />
+            {/* <Banner /> */}
             <BreadcrumbContainer params={{ make: vehicle?.make, model: vehicle?.model, vehicle: vehicle?.title }} />
 
 
