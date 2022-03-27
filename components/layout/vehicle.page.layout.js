@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../navbar'
-import Banner from '../elements/Banner'
+// import Banner from '../elements/Banner'
 import BreadcrumbContainer from '../elements/Breadcrumb'
 
 import { Box, Button, Grid, GridItem, Heading, VStack, Text } from '@chakra-ui/react'

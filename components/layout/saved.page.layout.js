@@ -1,13 +1,13 @@
-import { Box, Button, Center, Grid, GridItem, Heading, Image, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Grid, GridItem, Heading, Image, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
-import Banner from '../elements/Banner'
+// import Banner from '../elements/Banner'
 import BreadcrumbContainer from '../elements/Breadcrumb'
 import Container from '../elements/Container'
 import Footer from '../elements/Footer'
 import Navbar from '../navbar'
 
 
-import FeatherIcon from 'feather-icons-react'
+// import FeatherIcon from 'feather-icons-react'
 import SavedCard from '../saved.components.js/saved.card.container'
 
 import { CookieContext } from '../../server/utils/context'

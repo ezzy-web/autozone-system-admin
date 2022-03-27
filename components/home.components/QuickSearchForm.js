@@ -66,7 +66,7 @@ function QuickSearchForm({ makes }) {
     return (
         <form onSubmit={handleSubmit(data => handleFormSubmit(data))}>
             <SimpleGrid minChildWidth={175} spacing={15}>
-                <Box>
+                <Box >
                     <Controller
                         name='year'
                         control={control}

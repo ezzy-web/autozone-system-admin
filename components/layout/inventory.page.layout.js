@@ -5,8 +5,8 @@ import Navbar from '../navbar'
 import BreadcrumbContainer from '../elements/Breadcrumb'
 
 import FeatherIcon from 'feather-icons-react'
-import Banner from '../elements/Banner'
-import Select from 'react-select'
+// import Banner from '../elements/Banner'
+// import Select from 'react-select'
 import InventoryContent from '../inventory.components/InventoryContent'
 import FilterInventory from '../inventory.components/FilterInventory'
 import Footer from '../elements/Footer'
@@ -63,14 +63,22 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
     }
 
     const refreshData = async () => {
-        const response = await fetch('http://localhost:3000/api/queryInventory', {
+        const response = await fetch(`${window.location.origin}/api/queryInventory`, {
             method: 'POST',
             body: JSON.stringify({ query: currentParams })
         }).catch(error => console.log(error))
 
-        const data = await response.json().catch(error => console.log(error))
-        setPaginationState(data)
+        console.log(response)
+
+        if (response) {
+            const data = await response.json().catch(error => console.log(error))
+            setPaginationState(data)
+            return
+        }
+
+        
         setRefresh(false)
+
     }
 
     React.useEffect(() => {
@@ -88,7 +96,7 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
 
             <Grid marginTop={10} templateColumns={'repeat(12, 1fr)'}>
 
-                <GridItem paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
+                <GridItem zIndex={'popover'} paddingX={2} rowSpan={2} colSpan={{ base: 12, md: 3 }} >
                     <Box padding={5} bgColor={'gray.100'}>
                         <Text fontWeight={'medium'} fontSize={'md'} color={'gray.600'}>{`${paginationState?.resultsCount} ${paginationState?.resultsCount === 1 ? 'Result' : 'Results'}`} Found</Text>
                     </Box>
@@ -101,7 +109,7 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
                                             <HStack key={key} marginY={1} borderRadius={3} paddingY={1} paddingX={2} bgColor={'gray.200'} maxWidth={100} justifyContent={'space-between'} alignItems={'center'}>
                                                 <VStack>
                                                     <Text lineHeight={1} fontWeight={'medium'} fontSize={'xs'} textTransform={'uppercase'} >{query?.key === 'newArrival' ? 'New Arrival' : query?.key}</Text>
-                                                    { query?.key === 'newArrival' | query?.key === 'featured' ? <></> :  <Text lineHeight={1} fontSize={'xs'} isTruncated>{query.value}</Text> }
+                                                    {query?.key === 'newArrival' | query?.key === 'featured' ? <></> : <Text lineHeight={1} fontSize={'xs'} isTruncated>{query.value}</Text>}
                                                 </VStack>
 
                                                 <IconButton variant={'ghost'} size={'xs'} onClick={() => removeParam(query.key)} icon={<FeatherIcon size={14} icon='x' />} />
@@ -135,7 +143,7 @@ export default function InventoryLayout({ paginationData, params, makes, cookies
                                 </AccordionPanel>
                             </AccordionItem> */}
                             <AccordionItem>
-                                <AccordionButton _focus={{boxShadow: 'none', outline: 'none'}} paddingY={5}>
+                                <AccordionButton _focus={{ boxShadow: 'none', outline: 'none' }} paddingY={5}>
                                     <HStack width={'full'} justifyContent={'space-between'}>
                                         <Heading size={'sm'}>
                                             Filter Inventory

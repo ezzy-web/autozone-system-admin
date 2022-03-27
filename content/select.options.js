@@ -1,5 +1,6 @@
 module.exports = {
     year: [
+        { value: "", label: "Any" },
         { value: 2010, label: "2010" },
         { value: 2011, label: "2011" },
         { value: 2012, label: "2012" },
@@ -16,6 +17,7 @@ module.exports = {
     ],
 
     body: [
+        { value: "", label: "Any" },
         { value: "Hatchback", label: "Hatchback" },
         { value: "Sedan", label: "Sedan" },
         { value: "Coupe", label: "Coupe" },
@@ -26,6 +28,7 @@ module.exports = {
     ],
 
     location: [
+        { value: "", label: "Any" },
         { value: "Transit", label: "In Transit" },
         { value: "On Lot", label: "On Lot" },
     ],
@@ -36,6 +39,7 @@ module.exports = {
     ],
 
     trans: [
+        { value: "", label: "Any" },
         { value: "Automatic", label: "Automatic" },
         { value: "Manual", label: "Manual" },
         { value: "Tiptronic", label: "Tiptronic" },
