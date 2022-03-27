@@ -16,7 +16,7 @@ import { TextField } from "@mui/material";
 import { httpClient, post } from "../httpClient";
 
 function ChangeInfo(props) {
-  const openSnack = props.openSnack
+  const openSnack = props.openSnack;
   const modalToggle = props.toggleModal;
   const [email, changeEmail] = React.useState("");
   const updateUser = props?.updateUser;
@@ -29,10 +29,10 @@ function ChangeInfo(props) {
         if (res.data.status) {
           updateUser();
           modalToggle(false);
-          openSnack("Email changed to " + email)
+          openSnack("Email changed to " + email);
           return;
         }
-        openSnack("Failed to change email")
+        openSnack("Failed to change email");
       })
       .catch((err) => openSnack("Failed to change email"));
   };
@@ -75,7 +75,6 @@ function ChangeInfo(props) {
 }
 
 export default function ProfilePage(props) {
-
   const [user, setUser] = React.useState(props?.state?.user?.customClaims);
   const [openBar, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -252,43 +251,50 @@ export default function ProfilePage(props) {
               <Typography variant="h6">Your Recent Activities</Typography>
 
               <div className="sparator my-3"></div>
-
-              {user.activities ? (
-                user?.activities?.map((activity) => {
-                  const seconds = parseInt(activity.timeStamp.seconds);
-                  const nanoseconds = parseInt(activity.timeStamp.nanoseconds);
-                  var date = new Date(seconds * 1000 + nanoseconds / 1000000);
-                  return (
-                    <div key={date.toLocaleString()}>
-                      <div className="fw-bolder">
-                        <small>
-                          {" "}
-                          {activity.title}{" "}
-                          <span className="text-muted">
+              <Box style={{maxHeight: '500px', overflowY: 'scroll'}} >
+                {user.activities ? (
+                  user?.activities?.map((activity) => {
+                    const seconds = parseInt(activity.timeStamp.seconds);
+                    const nanoseconds = parseInt(
+                      activity.timeStamp.nanoseconds
+                    );
+                    var date = new Date(seconds * 1000 + nanoseconds / 1000000);
+                    return (
+                      <div key={date.toLocaleString()}>
+                        <div className="fw-bolder">
+                          <small>
                             {" "}
-                            {date.toLocaleString()}{" "}
-                          </span>{" "}
-                        </small>
+                            {activity.title}{" "}
+                            <span className="text-muted">
+                              {" "}
+                              {date.toLocaleString()}{" "}
+                            </span>{" "}
+                          </small>
+                        </div>
+                        <div className="text-muted">
+                          {" "}
+                          <small>{activity.details} </small>{" "}
+                        </div>
+                        <div className="separator my-2"></div>
                       </div>
-                      <div className="text-muted">
-                        {" "}
-                        <small>{activity.details} </small>{" "}
-                      </div>
-                      <div className="separator my-2"></div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="table-loading">
-                  <CircularProgress />
-                </div>
-              )}
+                    );
+                  })
+                ) : (
+                  <div className="table-loading">
+                    <CircularProgress />
+                  </div>
+                )}
+              </Box>
             </div>
           </Card>
         </div>
       </div>
       <Modal className="modal-containe" show={modal} onHide={closeModal}>
-        <ChangeInfo openSnack={handleOpenSnackBar} toggleModal={setModal} updateUser={getUserData} />
+        <ChangeInfo
+          openSnack={handleOpenSnackBar}
+          toggleModal={setModal}
+          updateUser={getUserData}
+        />
       </Modal>
       <Snackbar
         open={openBar}

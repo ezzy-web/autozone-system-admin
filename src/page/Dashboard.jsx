@@ -80,7 +80,7 @@ export default function Dashboard() {
           Recent Activities{" "}
         </Typography>
         <div className="separator my-2"></div>
-        <Card>
+        <Card style={{maxHeight: '500px', overflowY: 'scroll'}} >
           <div className="container mt-2">
             {activities.map((activity) => {
               const seconds = parseInt(activity.timeStamp.seconds);
