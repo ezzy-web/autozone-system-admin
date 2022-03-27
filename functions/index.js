@@ -31,7 +31,7 @@ exports.requestAlert = functions.firestore
 
 
         const request = snap.data()
-        const query = db.collection('Users').select(['email', 'emailVerified'])
+        const query = db.collection('Users').where('emailVerified', '==', true)
         const users = await query.get().catch(error => console.log(error))
 
         const emails = []
@@ -39,7 +39,7 @@ exports.requestAlert = functions.firestore
         if (users) {
             users.docs.forEach(userSnap => {
                 const user = userSnap.data()
-                if (user.emailVerified) emails.push(user.email)
+                emails.push(user.email)
             })
 
             await requestAlert({ emails, clientName: `${request.firstName} ${request.lastName}` }).catch(error => console.log(error))
