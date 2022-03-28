@@ -29,13 +29,13 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
 
                 <GridItem padding={{ base: 0, md: 5 }} colSpan={{ base: 12, sm: 12, md: 7 }}>
                     {/* Tab Component */}
-                    {vehicle.isAvailable ? <TabComponent paddingY={5} vehicle={vehicle} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
+                    {vehicle.isAvailable ? <TabComponent paddingTop={5} vehicle={vehicle} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
 
 
                     {/* Image Slider Component */}
-                    <ImageSliderComponent vehicle={vehicle} mt={10} mb={5} />
+                    <ImageSliderComponent vehicle={vehicle} mt={5} mb={5} />
 
-                    {/* Vehicle Information COmponent */}
+                    {/* Vehicle Information Component */}
                     <VehicleInfoComponent vehicle={vehicle} mb={5} />
                 </GridItem>
 

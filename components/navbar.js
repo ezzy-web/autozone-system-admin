@@ -132,7 +132,7 @@ function Navbar({ light = false, savedCount }) {
             </HStack>
 
             <Link passHref href={'/saved'}>
-              <Button _hover={{ bgColor: 'rgba(255,255,255,0.2)'}} color={ light ? 'white' : 'rgb(150, 61, 61)'} borderRadius={2} fontSize={'xs'} size={'sm'} variant={'ghost'} > Saved Vehicles <Badge colorScheme={'red'} ml={2}>{savedCount ? savedCount : 0}</Badge></Button>
+              <Button _hover={{ bgColor: 'rgba(255,255,255,0.2)'}} color={ light ? 'white' : 'rgb(150, 61, 61)'} borderRadius={2} fontSize={'xs'} size={'sm'} variant={'ghost'} > Favourites <Badge colorScheme={'red'} ml={2}>{savedCount ? savedCount : 0}</Badge></Button>
             </Link>
 
           </HStack>

@@ -914,6 +914,16 @@
   dependencies:
     tslib "^2.1.0"
 
+"@fontsource/jost@^4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@fontsource/jost/-/jost-4.5.6.tgz#0625eb72a2f6936b928b338de930eba839d861d8"
+  integrity sha512-qPelIv5eAo249dils+1XDwBiUAdyFHucm3xKzHiUc8Cj1T1mIN11J3R8p3FYMlO48Jb65JGJmgIG6W98oLkU0w==
+
+"@fontsource/open-sans@^4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-4.5.8.tgz#31f727353e89ce886e1076bd58536834e0778fda"
+  integrity sha512-3b94XDdRLqL7OlE7OjWg/4pgG825Juw8PLVEDm6h5pio0gMU89ICxfatGxHsBxMGfqad+wnvdmUweZWlELDFpQ==
+
 "@google-cloud/common@^3.8.1":
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.10.0.tgz#454d1155bb512109cd83c6183aabbd39f9aabda7"

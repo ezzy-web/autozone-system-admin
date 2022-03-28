@@ -38,7 +38,7 @@ export default function SavedPageLayout({ savedVehicle }) {
                     <Grid minHeight={'30vh'} templateColumns={'repeat(12, 1fr)'}>
                         <GridItem padding={5} colSpan={{ base: 12, md: 7 }} >
                             <VStack height={'full'} alignItems={'left'} justifyContent={'center'} >
-                                <Heading color={'gray.700'} size={'3xl'} >Saved Cars</Heading>
+                                <Heading color={'gray.700'} size={'3xl'} >Your Favourites</Heading>
                                 <Text color={'gray.700'} my={3} fontWeight={'medium'} fontSize={'lg'}>
                                     Keep track of all the vehicles you like, all in one place
                                 </Text>

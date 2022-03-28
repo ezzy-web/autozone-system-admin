@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, HStack, Text } from '@chakra-ui/react'
+import { Box, Button, HStack, Text, Tooltip } from '@chakra-ui/react'
 import FeatherIcon from 'feather-icons-react'
 
 import { CookieContext } from '../../server/utils/context'
@@ -40,10 +40,12 @@ export default function TabComponent({ vehicle, ...props }) {
                 {/* <Button leftIcon={<FeatherIcon size={16} icon={'printer'} />}>
                     <Text fontSize={'sm'} >Print Page</Text>
                 </Button> */}
+                <Tooltip label={saved ? 'Remove from Favourites' : 'Add to Favourites'}>
+                    <Button borderRadius={2} colorScheme={'gray'} onClick={handleSaveButton} leftIcon={<FeatherIcon size={16} icon={'heart'} color={saved ? 'rgb(150, 61, 61)' : 'black'} fill={saved ? 'rgb(150, 61, 61)' : 'black'} />}>
+                        <Text fontSize={'sm'} >{saved ? "Saved" : "Save Vehicle"}</Text>
+                    </Button>
+                </Tooltip>
 
-                <Button borderRadius={2} colorScheme={'gray'} onClick={handleSaveButton} leftIcon={<FeatherIcon size={16} icon={'heart'} color={saved ? 'rgb(150, 61, 61)' : 'black'} fill={saved ? 'rgb(150, 61, 61)' : 'black'} />}>
-                    <Text fontSize={'sm'} >{saved ? "Saved" : "Save Vehicle"}</Text>
-                </Button>
             </HStack>
         </Box>
     )

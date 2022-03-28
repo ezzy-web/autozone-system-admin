@@ -12,7 +12,7 @@ function Saved({ saved }) {
   return (
     <>
       <Head>
-        <title>{`Javvy's Autozone - Jamaica Used Car Dealer | Saved Vehicles`}</title>
+        <title>{`Javvy's Autozone - Jamaica Used Car Dealer | Favourites`}</title>
       </Head>
       <SavedPageLayout savedVehicle={savedVehicles} />
     </>

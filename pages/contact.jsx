@@ -110,11 +110,11 @@ function Contact({ cookies }) {
           alignItems={"center"}
           overflow="hidden"
           w="100%"
-          height="full"
+          height="35vh"
         >
           <Box
             width={"100vw"}
-            height="full"
+            height="35vh"
             bgImage={`url('/assets/Banner.jpg')`}
             bgSize="cover"
             bgPosition={"center"}
@@ -125,7 +125,7 @@ function Contact({ cookies }) {
             light={true}
             savedCount={getSavedVehicleFromCookie(cookies).length}
           />
-          <Box paddingX={10} h={"full"}>
+          <Box paddingX={10} h={"35vh"}>
             <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
               <Heading textColor={"white"} textAlign={"center"} size="2xl">
                 Contact Us
@@ -137,12 +137,12 @@ function Contact({ cookies }) {
       <Grid templateColumns={"repeat(12, 1fr)"}>
         <GridItem
           paddingY={10}
-          paddingX={{ base: 5, md: 40 }}
+          paddingX={{ base: 0, md: 40 }}
           colSpan={{ base: 12, md: 7 }}
         >
-          <Heading size={"lg"}>Contact Us Today</Heading>
+          <Heading pl={2} size={"lg"}>Get In Touch</Heading>
 
-          <form onSubmit={handleSubmit((data) => handleContactSubmit(data))}>
+          <form style={{padding: '0 10px'}} onSubmit={handleSubmit((data) => handleContactSubmit(data))}>
             <Box paddingX={5}>
               <HStack my={5} width={"full"} justifyContent={"space-between"}>
                 <Box width={"full"}>

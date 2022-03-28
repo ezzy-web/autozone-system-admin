@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-import { Box, HStack, Text, VStack, Heading, Image, Button, IconButton } from '@chakra-ui/react'
+import { Box, HStack, Text, VStack, Heading, Image, Button, IconButton, Tooltip } from '@chakra-ui/react'
 import FeatherIcon from 'feather-icons-react'
 
 import numeral from 'numeral'
@@ -42,7 +42,7 @@ function VehicleCard({ vehicle }) {
         top: "0",
         w: "100%",
         h: "100%",
-        transition: .5,
+        transition: '.5s',
         _hover: {
             bg: "rgba(0, 0, 0, 0.234)",
             cursor: 'pointer'
@@ -73,7 +73,10 @@ function VehicleCard({ vehicle }) {
 
                     {vehicle?.isAvailable ? (
                         <Box {...overlayBoxStyle}>
-                            <IconButton onClick={handleSaveButton} padding={0} variant={'link'} position={'absolute'} right={2} top={3} icon={<FeatherIcon color={saved ? 'rgb(150, 61, 61)' : 'white'} fill={saved ? 'rgb(150, 61, 61)' : 'white' } icon={'heart'} />} />
+                            <Tooltip label={saved ? 'Remove from Favourites' : 'Add to Favourites'} >
+                                <IconButton onClick={handleSaveButton} padding={0} variant={'link'} position={'absolute'} right={2} top={3} icon={<FeatherIcon color={saved ? 'rgb(150, 61, 61)' : 'white'} fill={saved ? 'rgb(150, 61, 61)' : 'white'} icon={'heart'} />} />
+                            </Tooltip>
+
                         </Box>
                     ) : (
                         <Box  {...overlayBoxStyle} color={'gray.200'} display='flex' justifyContent={'center'} alignItems={'center'}>
@@ -88,6 +91,7 @@ function VehicleCard({ vehicle }) {
                     <VStack alignItems={'flex-start'} >
                         <a href={href}>
                             <Heading lineHeight={1.5} size={'xs'} isTruncated> {vehicle?.title} </Heading>
+                            <Text color={'gray.700'} fontSize={'xs'}>{vehicle?.submodel}</Text>
                         </a>
                         <HStack>
                             <Text lineHeight={1} color={'gray.500'} fontSize={'xs'} >Stock No {vehicle?.id} - {vehicle?.location} - {vehicle?.trans?.toUpperCase()}</Text>

@@ -8,24 +8,8 @@ import { Box, Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from
 
 import '../styles/style.css'
 
+import { StyleExt } from '../styles/ChakraStyle'
 
-import { extendTheme } from '@chakra-ui/react'
-
-const focusBehaviour = extendTheme({
-  config: {
-    cssVarPrefix: 'autozone-ja'
-  },
-  components: {
-    Button: {
-      baseStyle: {
-        _focus: {
-          outline: 'none',
-          boxShadow: 'none'
-        }
-      }
-    }
-  }
-})
 
 function MyApp({ Component, pageProps, cookies }) {
   const [alertState, setAlertState] = useState({
@@ -65,7 +49,7 @@ function MyApp({ Component, pageProps, cookies }) {
 
   return (
     <CookieContext.Provider value={cookieContext}>
-      <ChakraProvider resetCSS theme={focusBehaviour} >
+      <ChakraProvider resetCSS theme={StyleExt} >
         <AlertContext.Provider value={alertContext}>
           {alertState.show ? (
             <Alert width={'1/3'} position={'fixed'} bottom={5} right={5} left={5} zIndex={100} status={alertState.loading ? 'success' : alertState.status}>

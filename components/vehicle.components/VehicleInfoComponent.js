@@ -10,6 +10,7 @@ export default function VehicleInfoComponent({ vehicle, ...props }) {
                 <VStack justifyContent={'start'} alignItems={'start'}>
                     <Text color={'gray.400'}>{vehicle?.history}</Text>
                     <Heading lineHeight={1} size={'md'}>{vehicle?.title}</Heading>
+                    <Text color={'gray.400'}>{vehicle?.submodel}</Text>
                 </VStack>
             </HStack>
 
@@ -23,7 +24,7 @@ export default function VehicleInfoComponent({ vehicle, ...props }) {
                             <Text fontWeight={'medium'} fontSize={'xl'} >{numeral(vehicle.price).format('$0,0')}</Text>
                             <Badge>{vehicle?.price_cond}</Badge>
                         </HStack>
-                    ) : <Text fontSize={'lg'}>Contact Us</Text>}
+                    ) : <Text fontSize={'lg'}>Contact Us for Price</Text>}
                 </>
                 :
                 <>

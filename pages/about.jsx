@@ -71,7 +71,7 @@ function About({ cookies }) {
               </Text>
 
               <Text my={5}>
-                {`We import high quality units from Canada, USA, Singapore and Japan. Additionally, upon arrival, units are thoroughly evaluated and serviced to meet our high quality standards. It is our firm belief that customers should get their money's worth, and as such we are guided by this principle. Javvy's Autozone Ltd. is here for you, with open arms we welcome you to our family. Come experience the Supreme Service you deserve, and the Superior Quality you expect.`}
+                {`We import high quality units from Canada, USA, Singapore and Japan. Additionally, upon arrival, units are thoroughly evaluated and serviced to meet our high quality standards. It is our firm belief that customers should get their money's worth, and as such, we are guided by this principle. Javvy's Autozone Ltd. is here for you, with open arms we welcome you to our family. Come experience the Supreme Service you deserve, and the Superior Quality you expect.`}
               </Text>
 
               <Text
