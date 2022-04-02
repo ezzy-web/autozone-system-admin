@@ -40,23 +40,6 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
             </Box>
 
 
-            <Container>
-                <Heading mb={10} size="md">Search by type</Heading>
-
-                <Box pt={15}>
-                    <BodyTypes />
-                </Box>
-            </Container>
-
-            {recents ? (
-                <Box bg="whitesmoke">
-                    <Container>
-                        <Heading mb={10} size="md">Recently Viewed</Heading>
-                        <Slider isResponsive={true} data={recents} renderItem={({ item }) => <RecentlyVisited recents={item} />} />
-                    </Container>
-                </Box>
-            ) : (<></>)}
-
 
             <Container>
                 <Tabs>
@@ -92,6 +75,26 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
                     </TabPanels>
                 </Tabs>
             </Container>
+
+            {recents ? (
+                <Box bg="whitesmoke">
+                    <Container>
+                        <Heading mb={10} size="md">Recently Viewed</Heading>
+                        <Slider isResponsive={true} data={recents} renderItem={({ item }) => <RecentlyVisited recents={item} />} />
+                    </Container>
+                </Box>
+            ) : (<></>)}
+
+            <Container>
+                <Heading mb={10} size="md">Search by type</Heading>
+
+                <Box pt={15}>
+                    <BodyTypes />
+                </Box>
+            </Container>
+
+
+
 
             <Box bg={'whitesmoke'} boxShadow={'inset 1px 1px 39px -10px rgba(0, 0, 0, 0.4)'}>
                 <AboutUsContainer />
