@@ -22,7 +22,7 @@ export default function SavedCard({ vehicle, removeVehicle }) {
 
     const imageBoxStyle = {
         overflow: "hidden",
-        h: { base: 275, md: 250 },
+        h: 240,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -49,7 +49,7 @@ export default function SavedCard({ vehicle, removeVehicle }) {
                 <Box overflow={'hidden'} position={'relative'}>
 
                     <Box {...imageBoxStyle}>
-                        <Image alt={vehicle?.title} src={vehicle?.images ? vehicle.images.length === 0 ? "/assets/placeholder.gif" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover'} h={'120%'} />
+                        <Image alt={vehicle?.title} src={vehicle?.images ? vehicle.images.length === 0 ? "/assets/placeholder.gif" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover !important'} minH={'full'} minW={'full'} />
                     </Box>
 
 

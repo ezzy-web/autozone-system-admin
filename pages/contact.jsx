@@ -126,7 +126,7 @@ function Contact({ cookies }) {
             savedCount={getSavedVehicleFromCookie(cookies).length}
           />
           <Box paddingX={10} h={"35vh"}>
-            <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
+            <Stack height={"full"} paddingY={{ base: 10, lg: 20 }}>
               <Heading textColor={"white"} textAlign={"center"} size="2xl">
                 Contact Us
               </Heading>
@@ -137,8 +137,8 @@ function Contact({ cookies }) {
       <Grid templateColumns={"repeat(12, 1fr)"}>
         <GridItem
           paddingY={10}
-          paddingX={{ base: 0, md: 40 }}
-          colSpan={{ base: 12, md: 7 }}
+          paddingX={{ base: 0, lg: 40 }}
+          colSpan={{ base: 12, lg: 7 }}
         >
           <Heading pl={2} size={"lg"}>Get In Touch</Heading>
 
@@ -219,8 +219,8 @@ function Contact({ cookies }) {
 
         <GridItem
           paddingY={10}
-          paddingX={{ base: 5, md: "90px" }}
-          colSpan={{ base: 12, md: 5 }}
+          paddingX={{ base: 5, lg: "90px" }}
+          colSpan={{ base: 12, lg: 5 }}
           bgColor={"whitesmoke"}
         >
           <Heading {...HeadingStyle} size={"md"} mt={10}>

@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     var data = req.method === 'POST' ? JSON.parse(req.body) : null
     
     try {
-        const response = await getInventory(data ? data.lastDocumentId : null)
+        const response = await getInventory(data ? data.lastDocumentId : null, 6)
         response.docs = response.docs.map( document => document.data())
         res.status(200).json(response)
 

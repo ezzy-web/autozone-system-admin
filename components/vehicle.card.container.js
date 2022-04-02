@@ -29,7 +29,7 @@ function VehicleCard({ vehicle }) {
 
     const imageBoxStyle = {
         overflow: "hidden",
-        h: { base: 275, md: 250 },
+        h: 240,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -67,7 +67,7 @@ function VehicleCard({ vehicle }) {
                 <Box overflow={'hidden'} position={'relative'}>
 
                     <Box {...imageBoxStyle}>
-                        <Image alt={vehicle?.title} src={vehicle?.images ? vehicle.images.length === 0 ? "/assets/placeholder.gif" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover'} h={'120%'} />
+                        <Image alt={vehicle?.title} src={vehicle?.images ? vehicle.images.length === 0 ? "/assets/placeholder.gif" : vehicle.images[0].url : "/assets/no-image.jpg"} objectFit={'cover !important'} minW={'full'} minH={'full'} />
                     </Box>
 
 
@@ -94,7 +94,7 @@ function VehicleCard({ vehicle }) {
                             <Text color={'gray.700'} fontSize={'xs'}>{vehicle?.submodel}</Text>
                         </a>
                         <HStack>
-                            <Text lineHeight={1} color={'gray.500'} fontSize={'xs'} >Stock No {vehicle?.id} - {vehicle?.location} - {vehicle?.trans?.toUpperCase()}</Text>
+                            <Text lineHeight={1} color={'gray.500'} fontSize={'xs'} >{vehicle?.id} - {vehicle?.location} - {vehicle?.trans?.toUpperCase()}</Text>
                         </HStack>
 
                     </VStack>

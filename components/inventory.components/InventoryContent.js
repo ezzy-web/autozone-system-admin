@@ -63,7 +63,7 @@ export default function InventoryContent({ paginationState, isMore, isConstant, 
 
                         {vehicles.map((vehicle, key) => {
                             return (
-                                <GridItem colSpan={{ base: 12, sm: 6, lg: 4 }} key={key}>
+                                <GridItem colSpan={{ base: 12, md: 6, lg: 4 }} key={key}>
                                    <VehicleCard vehicle={vehicle} />
                                 </GridItem>
                             )

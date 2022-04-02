@@ -36,7 +36,7 @@ export default function SavedPageLayout({ savedVehicle }) {
             <Container>
                 {vehicles.length === 0 ?
                     <Grid minHeight={'30vh'} templateColumns={'repeat(12, 1fr)'}>
-                        <GridItem padding={5} colSpan={{ base: 12, md: 7 }} >
+                        <GridItem padding={5} colSpan={{ base: 12, lg: 7 }} >
                             <VStack height={'full'} alignItems={'left'} justifyContent={'center'} >
                                 <Heading color={'gray.700'} size={'3xl'} >Your Favourites</Heading>
                                 <Text color={'gray.700'} my={3} fontWeight={'medium'} fontSize={'lg'}>
@@ -57,7 +57,7 @@ export default function SavedPageLayout({ savedVehicle }) {
                             </VStack>
                         </GridItem>
 
-                        <GridItem padding={5} colSpan={{ base: 12, md: 5 }} >
+                        <GridItem padding={5} colSpan={{ base: 12, lg: 5 }} >
                             <Center>
                                 <Image alt='' src='/assets/saved-bg.png' width={'90%'} />
                             </Center>
@@ -68,7 +68,7 @@ export default function SavedPageLayout({ savedVehicle }) {
                         <Box minH={'50vh'}>
                             <Grid templateColumns={'repeat(12, 1fr)'} gap={18} paddingX={2}>
                                 {vehicles.map((vehicle, key)=> (
-                                    <GridItem colSpan={{ base: 12, sm: 6, lg: 4 }} key={key}>
+                                    <GridItem colSpan={{ base: 12, md: 6, lg: 4 }} key={key}>
                                         <SavedCard vehicle={vehicle} removeVehicle={handleRemoveSaveVehicle} />
                                     </GridItem>
                                 ))}

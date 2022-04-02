@@ -73,7 +73,6 @@ function QuickSearchForm({ makes }) {
                         render={({ field: { onChange, value } }) => (
                             <Select
                                 classNamePrefix="form-select-over"
-                                maxMenuHeight={'150px'}
                                 options={options.year}
                                 onChange={(e) => onChange(e.value)}
                                 placeholder={'Select Year'}
@@ -89,7 +88,6 @@ function QuickSearchForm({ makes }) {
                         render={({ field: { onChange, value } }) => (
                             <Select
                                 classNamePrefix="form-select-over"
-                                maxMenuHeight={'200px'}
                                 options={makeOptions}
                                 onChange={(e) => { onChange(e.value); handleMakeChange(e) }}
                                 placeholder={'Select Make'}
@@ -105,7 +103,6 @@ function QuickSearchForm({ makes }) {
                         render={({ field: { onChange, value } }) => (
                             <Select
                                 classNamePrefix="form-select-over"
-                                maxMenuHeight={'200px'}
                                 options={modelOptions}
                                 onChange={(e) => onChange(e.value)}
                                 placeholder={'Select Model'}

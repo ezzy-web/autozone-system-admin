@@ -42,13 +42,14 @@ export default function RecentlyVisited({ recents }) {
         <a href={href}>
             <Box {...mainBoxStyle}>
                 <Box {...imageBoxStyle}>
-                    <Image alt={vehicle.title} src={vehicle.images.length === 0 ? "./assets/placeholder.gif" : vehicle.images[0].url} w={"100%"} />
+                    <Image alt={vehicle.title} src={vehicle.images.length === 0 ? "./assets/placeholder.gif" : vehicle.images[0].url}  objectFit={'cover !important'} minH={'full'} minW={'full'} />
                 </Box>
                 <Box {...overlayBoxStyle}>
 
                     <Stack p={"15px"}>
                         <Heading textColor={"white"} size={"md"} >{vehicle.title} { vehicle.isAvailable ? <></> : <Text color={'red.500'} >SOLD</Text>} </Heading>
-                        <Text color={'white'} fontSize={'xs'} >{(timeAgo.format(timeStamp).toUpperCase())}</Text>
+                        <Text lineHeight={1} color={'gray.200'} fontSize={'xs'} >{vehicle?.id} - {vehicle?.location} - {vehicle?.trans?.toUpperCase()}</Text>
+                        {/* <Text color={'white'} fontSize={'xs'} >{(timeAgo.format(timeStamp).toUpperCase())}</Text> */}
                     </Stack>
                 </Box>
             </Box>

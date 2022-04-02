@@ -43,7 +43,7 @@ function About({ cookies }) {
         <Box bg="rgba(0, 0, 0, 0.434)" position="absolute" top="0" w="100%">
           <Navbar light={true} savedCount={getSavedVehicleFromCookie(cookies).length} />
           <Box paddingX={10} h={"35vh"}>
-            <Stack height={"full"} paddingY={{ base: 10, md: 20 }}>
+            <Stack height={"full"} paddingY={{ base: 10, lg: 20 }}>
               <Heading textAlign={"center"} textColor={"white"} size="2xl">
                 About Us
               </Heading>
@@ -54,7 +54,7 @@ function About({ cookies }) {
 
       <Container>
         <Grid templateColumns={"repeat(12, 1fr)"}>
-          <GridItem paddingY={5} colSpan={{ base: 12, md: 7 }}>
+          <GridItem paddingY={5} colSpan={{ base: 12, lg: 7 }}>
             <Heading color={"red.800"} size={"md"} mb={10}>
               <HStack>
                 <Text>Javvys Autozone Limited</Text>{" "}
@@ -85,8 +85,8 @@ function About({ cookies }) {
             </Box>
           </GridItem>
 
-          <GridItem padding={{ base: 5, md: 10 }} colSpan={{ base: 12, md: 5 }}>
-            <Box bgColor={"whitesmoke"} padding={{ base: 5, md: 10 }}>
+          <GridItem padding={{ base: 5, lg: 10 }} colSpan={{ base: 12, lg: 5 }}>
+            <Box bgColor={"whitesmoke"} padding={{ base: 5, lg: 10 }}>
               <Heading color={"red.800"} size={"md"} my={10}>
                 <HStack>
                   <Text>Opening Hours</Text>{" "}

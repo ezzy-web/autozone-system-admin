@@ -25,9 +25,9 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
             <BreadcrumbContainer params={{ make: vehicle?.make, model: vehicle?.model, vehicle: vehicle?.title }} />
 
 
-            <Grid px={{ base: 2, md: 40 }} templateColumns={'repeat(12,1fr)'}>
+            <Grid px={{ base: 2, lg: 50 }} templateColumns={'repeat(12,1fr)'}>
 
-                <GridItem padding={{ base: 0, md: 5 }} colSpan={{ base: 12, sm: 12, md: 7 }}>
+                <GridItem padding={{ base: 0, lg: 5 }} colSpan={{ base: 12, md: 12, lg: 7 }}>
                     {/* Tab Component */}
                     {vehicle.isAvailable ? <TabComponent paddingTop={5} vehicle={vehicle} /> : <Text fontWeight={'medium'} fontSize={'md'}>{('Not available').toUpperCase()}</Text>}
 
@@ -40,7 +40,7 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
                 </GridItem>
 
 
-                <GridItem paddingX={{ base: 0, md: 10 }} colSpan={{ base: 12, sm: 12, md: 5 }}>
+                <GridItem paddingX={{ base: 0, lg: 10 }} colSpan={{ base: 12, md: 12, lg: 5 }}>
                     {/* Contact Form Component */}
                     <ContactFormComponent vehicle={vehicle} />
                 </GridItem>
@@ -48,10 +48,10 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
             </Grid>
 
 
-            <Box  px={{ base: 2, md: 40 }}>
+            <Box mb={10} px={{ base: 2, lg: 50 }}>
                 <Grid templateColumns={'repeat(12,1fr)'}>
-                    <GridItem colSpan={{ base: 12, sm: 12, md: 7 }}>
-                        
+                    <GridItem colSpan={{ base: 12, md: 12, lg: 7 }}>
+
 
 
                         <VehicleSpecification vehicle={vehicle} my={5} />
@@ -60,8 +60,8 @@ export default function VehiclePageLayout({ vehicle, related, cookies }) {
                         <FeaturesComponent vehicleFeatures={vehicle.features} my={5} />
                     </GridItem>
 
-                    <GridItem colSpan={{ base: 12, sm: 12, md: 5 }}>
-                        <VStack padding={{ base: 0, md: 5 }}>
+                    <GridItem colSpan={{ base: 12, md: 12, lg: 5 }}>
+                        <VStack padding={{ base: 0, lg: 5 }}>
                             {/* Vehicle Description Component */}
                             <DescriptionComponent />
 

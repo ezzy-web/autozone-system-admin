@@ -15,13 +15,13 @@ function ServerError() {
                     <HStack height={'full'} width={'full'} justifyContent={'center'} alignItems={'center'} >
                         <Center>
                             <Grid width={'70%'} templateColumns={'repeat(12, 1fr)'} >
-                                <GridItem colSpan={{ base: 12, md: 4 }} >
+                                <GridItem colSpan={{ base: 12, lg: 4 }} >
                                     <Box maxWidth={500}>
                                         <Image alt="Javvy's Autozone Ltd." width={'full'} src="/assets/saved-bg.png" />
                                     </Box>
                                 </GridItem>
 
-                                <GridItem colSpan={{ base: 12, md: 8 }} >
+                                <GridItem colSpan={{ base: 12, lg: 8 }} >
                                     <Box paddingX={5}>
                                         <Heading width={'full'}>Something went wrong, try again later <Text color={'red.400'} >500</Text></Heading>
                                         <Button my={10} width={'50%'} as={'a'} href={'/'} color={'white'} bgColor={'red.600'} >Back Home</Button>

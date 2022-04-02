@@ -20,23 +20,23 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
     return (
         <>
 
-            <Box position={"relative"} overflow={"hidden"} w="100%" height={"fit-content"}>
-                <Box display={'flex'} justifyContent={'center'} alignItems={'center'} overflow="hidden" w="100%" h={'70vh'}>
-                    <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=983&q=80')`} bgSize='cover' bgPosition={'center'} />
-                </Box>
-                <Box bg="rgba(0, 0, 0, 0.634)" position="absolute" top={0} w="100%" >
+            <Box position={"relative"} w="100%" height={"fit-content"}>
+                <Box zIndex={'overlay'} bg="rgba(0, 0, 0, 0.634)" w="full" >
                     <Navbar light={true} savedCount={saved.length} />
-                    <Box h={'70vh'}>
-                        <Box height={'full'} paddingY={{ base: 30, md: 30 }} >
-                            <Heading textColor={"white"} align="center" fontSize={{ base: '200%', md: '3xl' }}>Search Inventory</Heading>
+                    <Box pb={20}>
+                        <Box height={'full'} paddingY={{ base: 30, lg: 30 }} >
+                            <Heading textColor={"white"} align="center" fontSize={{ base: '200%', lg: '4xl' }}>Search Inventory</Heading>
 
-                            <Stack pt={2} px={{ base: 30, md: 150 }}>
-                                <Box overflow="hidden" height={30} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} fontSize={'100%'} /></Typed></Box>
+                            <Stack pt={2} px={{ base: 30, lg: 150 }}>
+                                <Box overflow="hidden" height={30} mb={5} align="center" ><Typed strings={typedStrings} typeSpeed={50} backSpeed={60} loop><Heading textColor={"white"} fontSize={'160%'} /></Typed></Box>
                                 <QuickSearchForm makes={makes} />
                             </Stack>
                         </Box>
                     </Box>
                 </Box>
+                <HStack zIndex={'hide'} position={'absolute'} top={0} bottom={0} left={0} right={0} justifyContent={'center'} alignItems={'center'}>
+                    <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=983&q=80')`} bgSize='cover' bgPosition={'center'} />
+                </HStack>
             </Box>
 
 
@@ -61,9 +61,9 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
             <Container>
                 <Tabs>
                     <TabList>
-                        <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'} >Search Inventory</Tab>
-                        <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'} >Featured Vehicles</Tab>
-                        <Tab _focus={{boxShadow: 'none', outline: 'none'}} fontSize={'90%'}>New Arrivals</Tab>
+                        <Tab _focus={{ boxShadow: 'none', outline: 'none' }} fontSize={'90%'} >Search Inventory</Tab>
+                        <Tab _focus={{ boxShadow: 'none', outline: 'none' }} fontSize={'90%'} >Featured Vehicles</Tab>
+                        <Tab _focus={{ boxShadow: 'none', outline: 'none' }} fontSize={'90%'}>New Arrivals</Tab>
                     </TabList>
 
                     <TabPanels padding={0} mt={10}>
@@ -75,7 +75,7 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
                         <TabPanel padding={0}>
                             <HStack justifyContent={'space-between'} alignItems={'center'}>
                                 <Heading px={5} mb={10} size="md">Featured Vehicles</Heading>
-                                <Button  href={'/inventory/query?featured=true'} as={'a'} variant={'link'}>See All</Button>
+                                <Button href={'/inventory/query?featured=true'} as={'a'} variant={'link'}>See All</Button>
                             </HStack>
 
                             {featured}
