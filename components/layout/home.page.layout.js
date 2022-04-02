@@ -35,7 +35,7 @@ function HomeLayout({ recents, newArrival, featured, makes, saved }) {
                     </Box>
                 </Box>
                 <HStack zIndex={'hide'} position={'absolute'} top={0} bottom={0} left={0} right={0} justifyContent={'center'} alignItems={'center'}>
-                    <Box width={'100vw'} height='full' bgImage={`url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=983&q=80')`} bgSize='cover' bgPosition={'center'} />
+                    <Box width={'100vw'} height='full' bgImage={`url('/assets/bg.webp')`} bgSize='cover' bgPosition={'center'} />
                 </HStack>
             </Box>
 
