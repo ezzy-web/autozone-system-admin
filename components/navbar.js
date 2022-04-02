@@ -21,7 +21,7 @@ import Link from "next/link";
 
 import FeatherIcon from 'feather-icons-react'
 
-function NavbarItems({ isDrawer, light }) {
+function NavbarItems({ isDrawer, light, savedCount }) {
 
   var style = {
     _hover: {
@@ -55,11 +55,14 @@ function NavbarItems({ isDrawer, light }) {
       <Link passHref href={"/inventory"}><Box {...style} ><Text fontSize={'sm'}>Inventory</Text></Box></Link>
       <Link passHref href={"/about"}><Box {...style} ><Text fontSize={'sm'}>About Us</Text></Box></Link>
       <Link passHref href={"/contact"}><Box {...style} ><Text fontSize={'sm'}>Contact Us</Text></Box></Link>
+      <Link passHref href={'/saved'}>
+        <HStack alignItems={'center'} {...style} ><Text fontSize={'sm'}> Favourites</Text> <Badge borderRadius={'full'} colorScheme={'red'} ml={2}>{savedCount ? savedCount : 0}</Badge></HStack>
+      </Link>
     </>
   );
 }
 
-function DrawerContainer({ onClose, isOpen }) {
+function DrawerContainer({ onClose, isOpen, savedCount }) {
   const socialButton = {
     borderRadius: 'full',
     bgColor: 'red.300',
@@ -79,12 +82,12 @@ function DrawerContainer({ onClose, isOpen }) {
           <Link passHref href={"/"}>
             <Image _hover={{ cursor: 'pointer' }} alt={'javvys autozone'} src="/assets/image.png" width={10} />
           </Link>
-          <DrawerCloseButton _focus={{boxShadow: 'none', outline: 'none'}} />
+          <DrawerCloseButton _focus={{ boxShadow: 'none', outline: 'none' }} />
         </DrawerHeader>
 
         <DrawerBody>
           <VStack align={"left"} >
-            <NavbarItems isDrawer={true} />
+            <NavbarItems isDrawer={true} savedCount={savedCount} />
           </VStack>
         </DrawerBody>
 
@@ -114,13 +117,8 @@ function Navbar({ light = false, savedCount }) {
       <Box py={5} px={{ base: 2, md: 5 }}>
         <Stack isInline justify="space-between">
           <Stack align="center" isInline justify="left">
-            <IconButton
-              onClick={onOpen}
-              display={{ base: "flex", md: "none" }}
-              variant="ghost"
-              icon={<FeatherIcon color={light ? 'white' : 'black'} icon={'menu'} />}
-            />
-            <Stack display={{ base: "none", md: "flex" }}>
+            
+            <Stack display={{ base: "unset", md: "flex" }}>
               <Link passHref href={"/"}>
                 <Image _hover={{ cursor: 'pointer' }} alt={'javvys autonzone'} src="/assets/image.png" width={10} />
               </Link>
@@ -128,18 +126,22 @@ function Navbar({ light = false, savedCount }) {
           </Stack>
           <HStack spacing={4} alignItems={'center'} justifyContent={'flex-end'}>
             <HStack display={{ base: "none", md: "flex" }} spacing="30px">
-              <NavbarItems light={light} />
+              <NavbarItems light={light} savedCount={savedCount} />
             </HStack>
 
-            <Link passHref href={'/saved'}>
-              <Button _hover={{ bgColor: 'rgba(255,255,255,0.2)'}} color={ light ? 'white' : 'rgb(150, 61, 61)'} borderRadius={2} fontSize={'xs'} size={'sm'} variant={'ghost'} > Favourites <Badge colorScheme={'red'} ml={2}>{savedCount ? savedCount : 0}</Badge></Button>
-            </Link>
-
+            <IconButton
+              onClick={onOpen}
+              display={{ base: "flex", md: "none" }}
+              variant="ghost"
+              icon={<FeatherIcon color={light ? 'white' : 'black'} icon={'menu'} />}
+            />
           </HStack>
+
+
 
         </Stack>
 
-        <DrawerContainer isOpen={isOpen} onClose={onClose} />
+        <DrawerContainer isOpen={isOpen} onClose={onClose} savedCount={savedCount} />
       </Box>
       {light ? <></> : <Box bg={'linear-gradient(90deg,#9b3e3e,#ff6d1e)'} h={'5px'} width='full' ></Box>}
     </>
