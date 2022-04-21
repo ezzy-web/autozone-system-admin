@@ -11,7 +11,6 @@ import {
   Avatar,
 } from "@material-ui/core";
 
-
 const drawerWidth = 40;
 const SidebarComponent = React.lazy(() =>
   import("../components/SidebarComponent.jsx")
@@ -51,7 +50,10 @@ function Layout(props) {
               <i className="lni lni-menu"></i>
             </span>
           </Button>
-          <LogoComponent />
+
+          <Box sx={{ display: 'none' }}>
+            <LogoComponent />
+          </Box>
 
           <Tooltip title="Account Profile">
             <Button size="medium" href={"/admin/profile"} variant="text">
@@ -105,11 +107,13 @@ function Layout(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: 1,
+          pb: 10,
+          pt: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <main>{props.render()}</main>
+        {props.render()}
       </Box>
     </Box>
   );

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import {
   CircularProgress,
-  Toolbar,
   Typography,
   Container,
   Card,
   Avatar,
   Button,
   Snackbar,
+  Box
 } from "@material-ui/core";
 import { httpClient } from "../httpClient";
 import { TextField } from "@mui/material";
@@ -178,19 +178,19 @@ export default function InventoryPage(props) {
   return (
     <>
       <Container>
-        <Toolbar className="my-2">
+        <Box className="my-2">
           <Typography variant="h5" component={"h1"}>
             Inventory Management{" "}
           </Typography>
           <TextField
             variant="standard"
-            className="mx-4 w-75"
+            className="mt-5 w-75"
             value={search}
             onChange={handleSearch}
             size="small"
             placeholder="Search Inventory"
           />
-        </Toolbar>
+        </Box>
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <Card>

@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from "react";
 import {
   CircularProgress,
-  Toolbar,
   Typography,
   Container,
   Card,
   Button,
+  Box
 } from "@material-ui/core";
 import { TextField } from "@mui/material";
 import {httpClient} from "../httpClient";
@@ -94,19 +94,19 @@ export default function RequestPage(props) {
   return (
     <>
       <Container>
-        <Toolbar className="my-2">
+        <Box className="my-2">
           <Typography variant="h5" component={"h1"}>
             Request Management{" "}
           </Typography>
           <TextField
           variant="standard"
-            className="mx-4 w-75"
+            className="mt-5 w-75"
             value={search}
             onChange={handleSearch}
             size="small"
             placeholder="Search Requests"
           />
-        </Toolbar>
+        </Box>
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <Card>
