@@ -1,13 +1,14 @@
 const response = require('./utils/formattedResponse')
 const { getInventoryManager } = require("./utils/firebase/firestore")
-const { auth } = require('./utils/firebase/firebaseAuth')
+const { verify } = require('./utils/firebase/firebaseAuth')
 
 
 const db = getInventoryManager()
 
 
 exports.handler = async (event) => {
-    const user = auth.currentUser
+    const { token, customToken } = JSON.parse(event.body)
+    const user = await verify(token, customToken)
     
     if (user) {
         const { id } = JSON.parse(event.body)

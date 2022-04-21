@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import {httpClient, addActivity} from ".././../httpClient";
+import {addActivity, post} from ".././../httpClient";
 
 
 export default function NewUserForm(props) {
@@ -29,19 +29,18 @@ export default function NewUserForm(props) {
     control,
   } = useForm({
     reValidateMode: "onChange",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema)
   });
 
   const registerUser = (data) => {
     setLoad(true)
-    httpClient()
-      .post("/createUser", data)
+    post("/createUser", data)
       .then((res) => {
         const body = res.data
         if (body.status) {
           toggleModal(false)
           addActivity("New Member", "New member was added to the system (" + data.email + ")")
-          handleOpenSnackBar("Successfully registered new member")
+          handleOpenSnackBar("Successfully registered new member. Email was sent to "+ data.email+", with more information.")
         } else {
           handleOpenSnackBar("Something went wrong")
         }
@@ -158,12 +157,11 @@ export default function NewUserForm(props) {
                         className="w-100"
                         placeholder={"User Access Level"}
                         error={errors.access ? true : false}
-                        helperText={errors?.access?.message ? errors?.access?.message  : "This defines the member's level in the system"}
+                        helperText={errors?.access?.message ? errors?.access?.message  : "This defines the member's access level to the system"}
                         value={value}
-                        defaultValue="normal"
                         onChange={onChange}
                       >
-                        {[{ value: "admin", label: "Administrator" }, { value: "normal", label: "Normal" } ].map( option => (
+                        {[{ value: "", label: "Select Access Level" }, { value: "admin", label: "Administrator" }, { value: "normal", label: "Normal" } ].map( option => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>

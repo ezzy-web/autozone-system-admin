@@ -1,15 +1,12 @@
-
-const { initializeApp } = require("firebase/app")
-const firebase = require("firebase-admin")
+const firebase = require("firebase/app")
+const auth = require("firebase/auth")
+const firebaseAdmin = require("firebase-admin");
 
 require('dotenv').config();
 
 
 
-
-
-
-const firebaseConfig = {
+const config = {
   apiKey: process.env.FIREBASE_API,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
@@ -19,18 +16,20 @@ const firebaseConfig = {
   appId: process.env.APP_ID,
   measurementId: process.env.MEASUREMENT_ID
 };
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(config)
 
 
-// const serviceAccount = require("../../../config.json");
-const { applicationDefault } = require("firebase-admin/app");
-firebase.initializeApp({
-  // credential: firebase.credential.cert(serviceAccount)
-  credential: applicationDefault()
+
+const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG)
+const appAdmin = firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount)
 })
+const admin = firebaseAdmin.auth(appAdmin)
+
 
 
 module.exports = {
   app,
-  admin: firebase
+  auth, 
+  admin
 }

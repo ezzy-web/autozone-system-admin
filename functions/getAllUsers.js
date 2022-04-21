@@ -20,7 +20,6 @@ exports.handler = async (event, context) => {
             for (var n = 0; n < user.activities.length; n++) {
                 try {
                     user.activities[n] = await activityDB.getActivity("", user.activities[n])
-                    console.log(user.activities)
                 } catch(err) {
                     console.log(err)
                 }

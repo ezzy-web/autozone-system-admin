@@ -15,7 +15,7 @@ import {
 import { Backdrop, TextField } from "@mui/material";
 import { Tabs, Tab, Skeleton } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
-import {httpClient, addActivity} from "../httpClient";
+import {httpClient, addActivity, post} from "../httpClient";
 
 const ContentContainer = React.lazy(() =>
   import("../components/vehicle-components/VehicleContentContainer")
@@ -187,8 +187,7 @@ export default function VehiclePage() {
 
   const saveChanges = () => {
     setBackdrop(true);
-    httpClient()
-      .post("/updateVehicle", vehicle)
+    post("/updateVehicle", vehicle)
       .then((res) => {
         const body = res.data;
         if (body.status) {
@@ -254,7 +253,6 @@ export default function VehiclePage() {
   // }
 
   window.onbeforeunload = (e) => {
-    console.log(changes);
     if (!changes) {
       delete e["returnValue"];
     } else {

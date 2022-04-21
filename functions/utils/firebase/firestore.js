@@ -12,7 +12,9 @@ const {
     deleteDoc,
     query,
     orderBy,
-    where
+    where,
+    arrayUnion,
+    limit
 } = require("firebase/firestore")
 
 const { simpleflake } = require('simpleflakes')
@@ -55,13 +57,13 @@ class ActivityManager {
                 lastDocument: lastDocSnap
             }
         } else {
-            const queryRef = query(this.collection, orderBy(order_by), limit(limitAmt))
+            const queryRef = query(this.collection, orderBy(order_by, 'desc'), limit(limitAmt))
             const snap = await getDocs(queryRef).catch(err => {
                 console.log(err)
                 throw err
             })
 
-            const docs = snap.docs()
+            const docs = snap.docs
             const lastDocSnap = limitAmt >= snap.size ? docs[-1] : null
 
 
@@ -126,8 +128,8 @@ class UserManager {
         })
     }
 
-    async getUser(id) {
-        const userDoc = doc(db, "Users", id)
+    async getUser(id, ref) {
+        const userDoc = ref ? ref : doc(db, "Users", id)
 
         const snap = await getDoc(userDoc).catch(err => {
             console.log(err)
@@ -165,6 +167,7 @@ class UserManager {
 class InventoryManager {
     constructor() {
         this.collection = collection(db, "Inventory")
+        this.makeManager = new MakeModelManager()
     }
 
     #generateStockNo() {
@@ -200,6 +203,9 @@ class InventoryManager {
             console.log(err)
             throw err
         })
+
+        await this.makeManager.addMakeModel(data.make, data.model)
+
         return data.id
     }
 
@@ -382,6 +388,70 @@ class InvoiceManager {
     }
 }
 
+class MakeModelManager {
+
+    constructor() {
+        this.collection = collection(db, "Makes")
+    }
+
+    async addMakeModel(make, model) {
+        const docRef = doc(db, "Makes", make)
+
+        const snap = await getDoc(docRef).catch(err => { console.log(err) })
+        if (snap.exists()) {
+
+            const queryRef = query(this.collection, where("models", "array-contains", model))
+            const snap = await getDocs(queryRef).catch(err => { console.log(err) })
+            if (snap.size === 0) {
+                await updateDoc(docRef, { models: arrayUnion(model) }).catch(err => console.log(err))
+            }
+
+            return;
+
+        }
+        const ref = doc(db, "Makes", make)
+        await setDoc(ref, { models: [model] }).catch(err => console.log(err))
+
+        return;
+    }
+
+}
+
+
+class RequestManager {
+    constructor() {
+        this.collection = collection(db, "Requests")
+    }
+
+
+    async getAllRequests() {
+        const docs = await getDocs(this.collection).catch(err => {
+            console.log(err)
+            throw err
+        })
+        return docs.docs
+    }
+
+    async getRequest(id, ref = null) {
+        const docRef = ref ? ref : doc(db, "Requests", id)
+
+        const snap = await getDoc(docRef).catch(err => {
+            console.log(err)
+            throw err
+        })
+
+        if (snap.exists()) {
+            return snap.data()
+        } else {
+            console.log("Data does't exist")
+            throw new Error("Data doesn't Exist")
+        }
+    }
+}
+
+const getRequestManager = () => {
+    return new RequestManager()
+}
 
 const getClientManager = () => {
     return new ClientManager()
@@ -408,5 +478,6 @@ module.exports = {
     getInventoryManager,
     getClientManager,
     getInvoiceManager,
-    getActivityManger
+    getActivityManger,
+    getRequestManager
 }

@@ -5,9 +5,11 @@ import {
   Avatar,
   CircularProgress,
   Typography,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { Modal } from "react-bootstrap";
-import { Visibility, VisibilityOff } from "@material-ui/icons"
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { TextField, Snackbar, InputAdornment, IconButton } from "@mui/material";
 import { Backdrop } from "@mui/material";
 import { httpClient } from "../httpClient.js";
@@ -15,9 +17,9 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const NewUserForm = React.lazy(() =>
-  import("../components/user-components/NewUserForm.jsx")
-);
+
+import NewUserForm from "../components/user-components/NewUserForm.jsx";
+
 
 export default function LoginComponent(props) {
   const [loaded, setLoad] = React.useState(false);
@@ -29,6 +31,8 @@ export default function LoginComponent(props) {
   const [message, setMessage] = React.useState("");
 
   const [passwordHidden, setPasswordState] = React.useState(true);
+  
+
 
   const handleOpenSnackBar = (message) => {
     setMessage(message);
@@ -49,6 +53,8 @@ export default function LoginComponent(props) {
       .string()
       .min(8, "Atleast 8 Characters are required")
       .required("Password is required"),
+
+    remember: yup.boolean().required()
   });
 
   const {
@@ -58,13 +64,15 @@ export default function LoginComponent(props) {
   } = useForm({
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
+    defaultValues: {
+      remember: false
+    }
   });
 
   const checkAdmin = () => {
     httpClient()
       .post("/systemCred", {})
       .then((res) => {
-        console.log(res);
         setIsAdmin(res.data.content);
       })
       .catch((err) => {
@@ -81,7 +89,7 @@ export default function LoginComponent(props) {
         const body = res.data;
         if (body.status) {
           const user = body.content;
-          props.setAdmin(user);
+          props.setCookies(user) 
           return;
         }
 
@@ -176,6 +184,25 @@ export default function LoginComponent(props) {
                 />
               </div>
 
+              <div className="my-5">
+                <Controller
+                  name="remember"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={onChange}
+                          checked={value}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      }
+                      label="Remember Me"
+                    />
+                  )}
+                />
+              </div>
+
               <Button disabled={loaded} className="w-100" type="submit">
                 Login
               </Button>
@@ -184,7 +211,7 @@ export default function LoginComponent(props) {
                 {errorMsg}
               </Typography>
             </form>
-            <Button className="w-100 my-4" size="small" variant="text">
+            <Button href="https://javvysauto.com/" className="w-100 my-4" size="small" variant="text">
               Back to Website
             </Button>
             {isAdmin ? (

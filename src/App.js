@@ -5,7 +5,7 @@ import {
     Routes
 } from "react-router-dom";
 import './styles/app.scss'
-import {httpClient} from './httpClient.js'
+import { post } from './httpClient.js'
 import { Button, Typography } from "@material-ui/core";
 
 const LoginComponent = React.lazy(() => import("./page/LoginComponent.jsx"))
@@ -49,7 +49,7 @@ function AdministrativePages(props) {
                                 path={REQUEST_MANAGEMENT_PATH}
                                 element={<RequestPage state={props.state} />}
                             />
-                            {props.state?.access?.includes('admin') ? (
+                            {props.state?.user?.customClaims?.access?.includes('admin') ? (
                                 <Route path={USER_MANAGEMENT_PATH} element={<UserPage state={props.state} />} />
                             ) : (
                                 <Route path={USER_MANAGEMENT_PATH} element={<div className="table-loading">
@@ -102,43 +102,59 @@ function ConnectionComponent() {
 
 
 export default function App() {
-    const [admin, setAdmin] = useState(null);
     const [loaded, setLoad] = useState(false);
     const [connection, setConnection] = useState(true)
+    const [user, setUser] = useState(null)
+
+
+    const setCookies = (data = null) => {
+        if (data) {
+            window.localStorage.setItem("user", JSON.stringify(data))
+        } else {
+            window.localStorage.removeItem("user")
+        }
+       
+        setUser(data)
+    }
+
 
 
     const authState = () => {
-        setConnection(true)
-        httpClient().get("/authState")
-            .then(res => {
-                const body = res.data
-                if (body.status) {
-                    const user = body.content
-                    if (user !== "NO_USER") {
-                        setAdmin(user)
-                    }
-                }
+        setLoad(false)
+        post('/authState', {})
+        .then( res => {
+            if (!res.data.status) {
+                setCookies()
+            } else {
+                setUser(JSON.parse(window.localStorage.getItem("user")))
+            }
 
-                setLoad(true)
-            })
-            .catch(err => { setLoad(true); setConnection(false) })
+            setLoad(true)
+        })
+        .catch( err => {
+            setLoad(true)
+            setConnection(false)
+        })
     }
 
-    useEffect(() => {
+    useEffect( () => {
         authState()
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [] )
 
     if (loaded) {
         return (
             <Router>
                 <Routes>
-                    {admin === null ? (
+                    {user ? (
+                        <Route path="/*" element={<AdministrativePages state={user} />} />
+                    ) : (
                         <>
                             {connection ? (
                                 <Route path="/*"
                                     element={
                                         <Suspense fallback={<></>}>
-                                            <LoginComponent setAdmin={setAdmin} />
+                                            <LoginComponent setCookies={setCookies} />
                                         </Suspense>
                                     }
                                 />
@@ -148,9 +164,6 @@ export default function App() {
                                 />
                             )}
                         </>
-
-                    ) : (
-                        <Route path="/*" element={<AdministrativePages state={admin} />} />
                     )}
                 </Routes>
             </Router>
