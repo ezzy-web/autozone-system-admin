@@ -11,6 +11,8 @@ import {
   Avatar,
 } from "@material-ui/core";
 
+import SidebarComponent from '../components/SidebarComponent.jsx'
+
 const drawerWidth = 40;
 const LogoComponent = () => (
   <>
