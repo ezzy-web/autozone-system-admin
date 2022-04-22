@@ -49,7 +49,8 @@ function Layout(props) {
               <i className="lni lni-menu"></i>
             </span>
           </Button>
-          <Box sx={{ display: "none" }}>
+
+          <Box sx={{ display: 'none' }}>
             <LogoComponent />
           </Box>
 
