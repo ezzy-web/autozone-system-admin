@@ -29,9 +29,9 @@ const confirmationMail = async ({ email, firstName, lastName }) => {
         .catch(err => console.log(err))
 }
 
-const requestAlert = async ({ emails, displayName }) => {
+const requestAlert = async ({ emails, clientName: displayName }) => {
     const msg = {
-        to: [...emails, COMPANY_EMAIL],
+        to: emails,
         from: FROM_EMAIL,
         templateId: REQUEST_ALERT_TEMPLATE_ID,
         dynamicTemplateData: { displayName },
@@ -43,7 +43,10 @@ const requestAlert = async ({ emails, displayName }) => {
             console.log(res[0].statusCode)
             console.log(res[0].headers)
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err)
+            console.log("Errors Caught: ", err?.response.body)
+        })
 }
 
 module.exports = {
