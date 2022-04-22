@@ -8,8 +8,7 @@ import {
   Card,
   Avatar,
   Button,
-  Snackbar,
-  Box
+  Snackbar
 } from "@material-ui/core";
 import { httpClient } from "../httpClient";
 import { TextField } from "@mui/material";
