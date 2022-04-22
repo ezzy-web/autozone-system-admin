@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   CircularProgress,
-  Toolbar,
+  Box,
   Typography,
   Container,
   Card,
@@ -14,25 +14,31 @@ import TableComponent from "../components/DatatableComponent/DataTable";
 function RequestExpansion({ data }) {
   return (
     <>
-      <div className="w-100 p-5">
+      <div className="w-100 px-3 py-2">
         <div>
           <>
-          <div className="d-flex justify-space-start my-3">
-              <Typography variant="button">
+            <div className="d-flex- justify-space-start">
+              <small className="fw-bold mb-2">
+                {new Date(
+                  parseInt(data?.timeStamp?.seconds) * 1000 +
+                    parseInt(data?.timeStamp?.nanoseconds) / 1000000
+                ).toLocaleString()}
+              </small>
+            </div>
+            <div className="d-flex justify-space-start">
+              <Typography variant="button" className="text-muted" >
                 <small>Reason</small>
               </Typography>
               <Typography>
-                <small className="px-4">
-                  {data.reason}
-                </small>
+                <small className="px-3">{data.reason}</small>
               </Typography>
             </div>
             <div className="d-flex justify-space-start">
-              <Typography variant="button">
+              <Typography variant="button" className="text-muted">
                 <small>Additional Details</small>
               </Typography>
               <Typography>
-                <small className="px-4">
+                <small className="px-3">
                   {data.comment && data.comment !== ""
                     ? data.comment
                     : "No Additional Detail"}
@@ -185,19 +191,19 @@ export default function RequestPage(props) {
   return (
     <>
       <Container>
-        <Toolbar className="my-2">
+        <Box className="my-2">
           <Typography variant="h5" component={"h1"}>
             Request Management{" "}
           </Typography>
           <TextField
             variant="standard"
-            className="mx-4 w-75"
+            className="mt-4 w-75"
             value={search}
             onChange={handleSearch}
             size="small"
             placeholder="Search Requests"
           />
-        </Toolbar>
+        </Box>
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <Card>

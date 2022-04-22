@@ -13,7 +13,6 @@ import {
 
 import SidebarComponent from "../components/SidebarComponent.jsx";
 
-
 const drawerWidth = 40;
 const LogoComponent = () => (
   <>
@@ -50,7 +49,9 @@ function Layout(props) {
               <i className="lni lni-menu"></i>
             </span>
           </Button>
-          <LogoComponent />
+          <Box sx={{ display: "none" }}>
+            <LogoComponent />
+          </Box>
 
           <Tooltip title="Account Profile">
             <Button size="medium" href={"/admin/profile"} variant="text">
@@ -104,11 +105,12 @@ function Layout(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          py: 3,
+          px: 0,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <main>{props.render()}</main>
+        {props.render()}
       </Box>
     </Box>
   );

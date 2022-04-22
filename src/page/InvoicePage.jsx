@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import {
   CircularProgress,
-  Toolbar,
+  Box,
   Typography,
   Container,
   Card,
@@ -147,19 +147,19 @@ export default function InvoicePage(props) {
   return (
     <>
       <Container>
-        <Toolbar className="my-2">
+        <Box className="my-2">
           <Typography variant="h5" component={"h1"}>
             Invoice Management{" "}
           </Typography>
           <TextField
           variant="standard"
-            className="mx-4 w-75"
+            className="mt-4 w-75"
             value={search}
             onChange={handleSearch}
             size="small"
             placeholder="Search Invoices"
           />
-        </Toolbar>
+        </Box>
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <Card>

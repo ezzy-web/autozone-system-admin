@@ -19,7 +19,7 @@ const config = {
 const app = firebase.initializeApp(config)
 
 
-
+// const serviceAccount = require('../../../config.json')
 const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG)
 const appAdmin = firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount)
