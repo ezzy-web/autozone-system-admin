@@ -57,9 +57,9 @@ export default function NavMenu({ page }) {
 
 
                 <Box my={8}>
-                    <Link passHref href='/requests'>
+                    <Link passHref href='/admin'>
                         <a>
-                            <HStack color={page === 'Manage Users' ? 'red.600' : 'unset'} fontSize={'sm'}>
+                            <HStack color={page === 'User Manager' ? 'red.600' : 'unset'} fontSize={'sm'}>
                                 <FeatherIcon size={18} icon={'users'} />
                                 <Text fontWeight={'medium'} >Manage Users</Text>
                             </HStack>

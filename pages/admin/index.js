@@ -4,9 +4,8 @@ import { Text, Box, InputAddon, InputGroup, Input, IconButton, Button, HStack, G
 import FeatherIcon from 'feather-icons-react'
 import Dashboard from '../../components/layouts/Dashboard'
 import NewVehicleForm from '../../components/Forms/NewVehicleForm'
-import useInventory from '../../controller/hooks/useInventory'
-
 import InfoTable from '../../components/datatable'
+import useUsers from '../../controller/hooks/useUsers'
 
 
 const cardStyle = {
@@ -22,17 +21,17 @@ const cardStyle = {
 export default function Inventory() {
     const [loaded, setLoaded] = React.useState(false)
     React.useEffect(() => setLoaded(true), [])
-    const { columns } = useInventory()
+    const { columns } = useUsers()
 
 
     if (!loaded) return <></>
     return (
 
         <>
-            <Dashboard page={'Inventory Manager'}>
+            <Dashboard page={'User Manager'}>
                 <Box my={10} p={8} bg={'white'} borderRadius={'full'}>
                     <InputGroup>
-                        <Input variant={'unstyled'} placeholder={'Search Inventory'} />
+                        <Input variant={'unstyled'} placeholder={'Search Users'} />
                         <InputAddon border={'none'} bg={'none'}>
                             <IconButton borderRadius={'full'} colorScheme={'red'} icon={<FeatherIcon icon={'search'} />} />
                         </InputAddon>
