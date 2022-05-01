@@ -5,6 +5,7 @@ import { Box, HStack, IconButton, useDisclosure, Button, Text, Menu, MenuButton,
 import FeatherIcon from 'feather-icons-react'
 import DrawerContainer from './DrawerContainer'
 import NavMenu from './NavMenu'
+import { useRouter } from 'next/router'
 
 
 function ProfileMenu() {
@@ -43,7 +44,9 @@ export default function Dashboard({ children, page }) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const drawerControl = React.useRef()
-    const [ loaded, setLoaded ] = React.useState(false)
+    const [loaded, setLoaded] = React.useState(false)
+
+    const { back } = useRouter()
 
 
     React.useEffect(() => setLoaded(true), [])
@@ -61,7 +64,7 @@ export default function Dashboard({ children, page }) {
                     <NavMenu page={page} />
                 </DrawerContainer>
 
-                <HStack justifyContent={'end'} p={3} bgColor={'white'} top={0} position={'sticky'}>
+                <HStack zIndex={'popover'} justifyContent={'end'} p={3} bgColor={'white'} top={0} position={'sticky'}>
                     <IconButton
                         display={{ base: 'flex', lg: 'none' }}
                         onClick={onOpen}
@@ -73,12 +76,13 @@ export default function Dashboard({ children, page }) {
                     />
 
                     <Box display={{ base: 'none', lg: 'unset' }}>
-                        { loaded ? <ProfileMenu />: <></> }
+                        {loaded ? <ProfileMenu /> : <></>}
                     </Box>
 
                 </HStack>
 
                 <Box
+                    zIndex={'popover'}
                     display={{ base: 'none', lg: 'unset' }}
                     bgColor={'white'}
                     position={'fixed'}
@@ -95,9 +99,14 @@ export default function Dashboard({ children, page }) {
 
                 <Box ml={{ base: 'unset', lg: 80 }} pt={5} pb={10} px={5}>
                     <HStack spacing={30} px={5}>
-                        <Tooltip label={'Go Back'}>
-                            <IconButton colorScheme={'red'} variant={'ghost'} borderRadius={'full'} size={'xl'} icon={<FeatherIcon icon={'chevron-left'} />} />
-                        </Tooltip>
+                        {
+                            page === 'Dashboard'
+                                ? <></>
+                                : <Tooltip label={'Go Back'}>
+                                    <IconButton onClick={back} colorScheme={'red'} variant={'ghost'} borderRadius={'full'} size={'xl'} icon={<FeatherIcon icon={'chevron-left'} />} />
+                                </Tooltip>
+                        }
+
 
                         <Text mx={10} color={'red.600'} fontWeight={'medium'} fontSize={'2xl'}>{page}</Text>
                     </HStack>

@@ -31,7 +31,7 @@ export default function Inventory() {
 
 
                 <Grid templateColumns={'repeat(12,1fr)'} >
-                    <GridItem pr={{ base: 0, md: 3 }} colSpan={{ base: 12, md: 10 }}>
+                    <GridItem pr={{ base: 0, md: 3 }} colSpan={{ base: 12, md: 12 }}>
                         <Box {...cardStyle} p={5} >
                             <Button mx={2} variant={'link'} fontSize={'xs'}>
                                 <HStack>

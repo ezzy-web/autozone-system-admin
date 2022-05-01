@@ -1,4 +1,9 @@
+import supabase from "../util/supabase.client"
+
 const useInventory = () => {
+
+
+
 
     const columns = [
         {
