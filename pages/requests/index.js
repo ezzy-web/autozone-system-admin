@@ -14,6 +14,7 @@ const cardStyle = {
 }
 
 export default function Inventory() {
+
     const { columns } = useRequests()
 
     return (

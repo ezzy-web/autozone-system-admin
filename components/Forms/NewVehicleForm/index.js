@@ -1,13 +1,17 @@
 import React from 'react'
 
-import { Box, Button, Divider, FormControl, FormLabel, Grid, GridItem, Heading, HStack, Input, Text } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Heading, HStack, Input, Text } from "@chakra-ui/react";
 import FeatherIcon from 'feather-icons-react'
 import { useDisclosure } from "@chakra-ui/react";
 import ModalContainer from '../../Modal';
 
 import Select from 'react-select'
 
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 import { useForm, Controller } from "react-hook-form";
+import useRequestHandler from '../../../controller/requestHandler';
+import useFeedback from '../../../controller/hooks/useFeedback';
 
 
 const styles = {
@@ -27,19 +31,55 @@ const styles = {
     }
 }
 
+const schema = yup.object().shape({
+    // make: yup.string().required("This field is required"),
+    // model: yup.string().required("This field is required"),
+    // submodel: yup.string(),
+    // year: yup.string().required("This field is required"),
+    // type: yup.string().required("This field is required"),
+    // colour: yup.string().required("This field is required"),
+    // location: yup.string().required("This field is required"),
+    // arrival: yup.string(),
+    // engine_no: yup.string().required("This field is required"),
+    // chassis: yup.string().required("This field is required"),
+    // history: yup.string().required("This field is required"),
+    // mileage: yup.string().required("This field is required"),
+    // engine_size: yup.string().required("This field is required"),
+    // trans: yup.string().required("This field is required"),
+    // price: yup.string().required("This field is required"),
+    // price_cond: yup.string().required("This field is required")
+})
+
+
+
+
 
 export default function NewVehicleForm() {
+    const { POST } = useRequestHandler()
     const { isOpen, onClose, onOpen } = useDisclosure()
     const modalToggle = React.useRef()
+    const { showError, showSuccess, render } = useFeedback()
 
 
 
-    const { handleSubmit, control } = useForm()
+    const { handleSubmit, control, formState: { errors } } = useForm({ reValidateMode: "onChange", resolver: yupResolver(schema) })
+
+
+    const handleSubmitVehicle = (data) => {
+        POST('/api/vehicle', {
+            data: { ...data }
+        })
+            .then(data => {
+                showSuccess({ message: `${data.year} ${data.make} ${data.model} Successfully Added to Inventory` })
+            })
+            .catch(err => showError({ message: err.message }))
+    }
 
 
 
     return (
         <>
+            {render()}
 
             <Button ref={modalToggle} onClick={onOpen} size={'sm'} borderRadius={'full'} colorScheme={'red'} variant={'ghost'}>
                 <HStack>
@@ -48,8 +88,8 @@ export default function NewVehicleForm() {
                 </HStack>
             </Button>
 
-            <ModalContainer size={'xl'} isOpen={isOpen} onClose={onClose} toggleRef={modalToggle} 
-                maxH={'80vh'} overflowY={'scroll'} wrapper={'form'}
+            <ModalContainer size={'xl'} isOpen={isOpen} onClose={onClose} toggleRef={modalToggle}
+                maxH={'65vh'} overflowY={'scroll'} wrapper={'form'}
                 onSubmit={(e) => { e.preventDefault(); alert('Vehicle') }}
                 header={() => (
                     <Heading mt={5} size={'lg'} color={'red.700'}>
@@ -64,8 +104,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Make</FormLabel>
-                                        <Input {...styles.input} placeholder={'Make'} />
+                                        <FormLabel {...styles.labels} color={errors.make ? 'red.400' : ''} >Make</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Make'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.make ? errors.make.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -75,8 +116,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Model</FormLabel>
-                                        <Input {...styles.input} placeholder={'Model'} />
+                                        <FormLabel {...styles.labels} color={errors.model ? 'red.400' : ''}>Model</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Model'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.model ? errors.model.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -88,8 +130,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Submodel</FormLabel>
-                                        <Input {...styles.input} placeholder={'Submodel'} />
+                                        <FormLabel {...styles.labels} color={errors.submodel ? 'red.400' : ''}>Submodel</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Submodel'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.submodel ? errors.submodel.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -100,8 +143,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Year</FormLabel>
-                                        <Select {...styles.input} placeholder={'Year'} />
+                                        <FormLabel {...styles.labels} color={errors.year ? 'red.400' : ''}>Year</FormLabel>
+                                        <Select onChange={(e) => onChange(e.value)} {...styles.input} placeholder={'Year'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.year ? errors.year.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -113,8 +157,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Body Type</FormLabel>
-                                        <Select {...styles.input} placeholder={'Body Type'} />
+                                        <FormLabel {...styles.labels} color={errors.type ? 'red.400' : ''}>Body Type</FormLabel>
+                                        <Select onChange={(e) => onChange(e.value)} {...styles.input} placeholder={'Body Type'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.type ? errors.type.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -123,8 +168,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Colour</FormLabel>
-                                        <Input {...styles.input} placeholder={'Colour'} />
+                                        <FormLabel {...styles.labels} color={errors.colour ? 'red.400' : ''}>Colour</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Colour'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.colour ? errors.colour.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -137,8 +183,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Current Location</FormLabel>
-                                        <Select {...styles.input} placeholder={'Current Location'} />
+                                        <FormLabel {...styles.labels} color={errors.location ? 'red.400' : ''}>Current Location</FormLabel>
+                                        <Select onChange={(e) => onChange(e.value)} {...styles.input} placeholder={'Current Location'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.location ? errors.locaiton?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -148,8 +195,8 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Arrival Date</FormLabel>
-                                        <Input {...styles.input} type={'date'} />
+                                        <FormLabel {...styles.labels} color={errors.arrival ? 'red.400' : ''}>Arrival Date</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} type={'date'} />
                                     </FormControl>
                                 )}
                             />
@@ -162,8 +209,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Engine No.</FormLabel>
-                                        <Input {...styles.input} placeholder={'Engine No.'} />
+                                        <FormLabel {...styles.labels} color={errors.engine_no ? 'red.400' : ''}>Engine No.</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Engine No.'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.engine_no ? errors.engine_no.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -172,8 +220,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Chassis No.</FormLabel>
-                                        <Input {...styles.input} placeholder={'Chassis No.'} />
+                                        <FormLabel {...styles.labels} color={errors.chassis ? 'red.400' : ''}>Chassis No.</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Chassis No.'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.chassis ? errors.chassis?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -185,8 +234,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>History</FormLabel>
-                                        <Select {...styles.input} placeholder={'History'} />
+                                        <FormLabel {...styles.labels} color={errors.history ? 'red.400' : ''}>History</FormLabel>
+                                        <Select onChange={(e) => onChange(e.value)} {...styles.input} placeholder={'History'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.history ? errors.history?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -199,8 +249,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Mileage</FormLabel>
-                                        <Input {...styles.input} placeholder={'Mileage (Optional)'} type={'number'} />
+                                        <FormLabel {...styles.labels} color={errors.mileage ? 'red.400' : ''}>Mileage</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Mileage (Optional)'} type={'number'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.price ? errors.price?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -209,8 +260,9 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Engine Size</FormLabel>
-                                        <Input {...styles.input} placeholder={'Engine Size'} type={'number'} />
+                                        <FormLabel {...styles.labels} color={errors.engine_size ? 'red.400' : ''}>Engine Size</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'Engine Size'} type={'number'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.engine_size ? errors.engine_size?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -223,18 +275,20 @@ export default function NewVehicleForm() {
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Asking Price</FormLabel>
-                                        <Input {...styles.input} placeholder={'$0,0.00'} type={'number'} />
+                                        <FormLabel {...styles.labels} color={errors.price ? 'red.400' : ''}>Asking Price</FormLabel>
+                                        <Input onChange={(e) => onChange(e.target.value)} {...styles.input} placeholder={'$0,0.00'} type={'number'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.price ? errors.price?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
                             <Controller
-                                name='price'
+                                name='price_cond'
                                 control={control}
                                 render={({ field: { onChange } }) => (
                                     <FormControl>
-                                        <FormLabel {...styles.labels}>Price Condition</FormLabel>
-                                        <Select {...styles.input} placeholder={'Price Condition'} />
+                                        <FormLabel {...styles.labels} color={errors.price_cond ? 'red.400' : ''}>Price Condition</FormLabel>
+                                        <Select onChange={(e) => onChange(e.value)} {...styles.input} placeholder={'Price Condition'} />
+                                        <Text color={'red.400'} fontSize={'x-small'}>{errors.price_cond ? errors.price_cond?.message : ''}</Text>
                                     </FormControl>
                                 )}
                             />
@@ -246,7 +300,7 @@ export default function NewVehicleForm() {
 
                     <HStack spacing={10} justifyContent={'end'}>
                         <Button onClick={onClose} size={'sm'} variant={'link'}>Cancel</Button>
-                        <Button type='submit' px={8} size={'md'} colorScheme={'red'} borderRadius={10} variant={'ghost'}>Submit Vehicle</Button>
+                        <Button onClick={handleSubmit((data) => handleSubmitVehicle(data))} px={8} size={'md'} colorScheme={'red'} borderRadius={10} variant={'ghost'}>Submit Vehicle</Button>
                     </HStack>
 
                 )}

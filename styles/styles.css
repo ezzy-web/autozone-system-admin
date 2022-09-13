@@ -1,0 +1,46 @@
+  
+.javvys-admin__control {
+  width: 250px;
+    background: #edf2f7 !important;
+    backdrop-filter: blur(10px);
+    border: none !important;
+    border-radius: 2px !important;
+    margin: 0 !important;
+    min-height: 30px !important;
+    transition: 0.2s ease;
+  }
+  
+  .javvys-admin__control.javvys-admin__control--menu-is-open,
+  .javvys-admin__control.javvys-admin__control--is-focused {
+    outline: none !important;
+    border: none !important;
+    background: #eff2f581 !important;
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+  }
+  
+  .javvys-admin__input-container {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .javvys-admin__input-container {
+    color: rgba(28, 28, 28, 0.651) !important;
+  }
+  
+  .javvys-admin__single-value {
+    color: rgba(22, 22, 22, 0.651) !important;
+  }
+  
+  .javvys-admin__placeholder {
+    color: rgba(16, 16, 16, 0.651) !important;
+  }
+  
+  .javvys-admin__indicators {
+    max-height: 40px !important;
+  }
+  
+  .javvys-admin__indicator,
+  .javvys-admin__dropdown-indicator {
+    padding: 4px 8px !important;
+  }

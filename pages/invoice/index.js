@@ -21,9 +21,8 @@ export default function Inventory() {
   const [ loaded, setLoaded ] = React.useState(false)
   React.useEffect(() => setLoaded(true), [])
 
-
-
   const { columns } = useInvoice()
+
 
 
     if (!loaded) return <></>

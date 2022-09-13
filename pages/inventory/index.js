@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { Text, Box, InputAddon, InputGroup, Input, IconButton, Button, HStack, Grid, GridItem, Divider, useInterval } from '@chakra-ui/react'
+import { Text, Box, InputAddon, InputGroup, Input, IconButton, Button, HStack, Grid, GridItem, Divider, Center, Spinner } from '@chakra-ui/react'
 import FeatherIcon from 'feather-icons-react'
 import Dashboard from '../../components/layouts/Dashboard'
 import NewVehicleForm from '../../components/Forms/NewVehicleForm'
 import useInventory from '../../controller/hooks/useInventory'
 
 import InfoTable from '../../components/datatable'
+import MakeModelModule from '../../components/Forms/MakeModelModule'
 
 
 const cardStyle = {
@@ -22,7 +23,7 @@ const cardStyle = {
 export default function Inventory() {
     const [loaded, setLoaded] = React.useState(false)
     React.useEffect(() => setLoaded(true), [])
-    const { columns } = useInventory()
+    const { columns, inventory, allowRefresh, handleRefresh } = useInventory()
 
 
     if (!loaded) return <></>
@@ -42,9 +43,14 @@ export default function Inventory() {
 
                 <Grid templateColumns={'repeat(12,1fr)'} >
                     <GridItem pr={{ base: 0, md: 3 }} colSpan={12}>
+
+
                         <Box {...cardStyle} p={5} >
+
+                           <Box mb={10}><MakeModelModule /></Box>
+
                             <HStack justifyContent={'space-between'}>
-                                <Button mx={2} variant={'link'} fontSize={'xs'}>
+                                <Button onClick={handleRefresh} disabled={!allowRefresh} mx={2} variant={'link'} fontSize={'xs'}>
                                     <HStack>
                                         <FeatherIcon size={10} icon={'refresh-cw'} />
                                         <Text>Refresh Results</Text>
@@ -55,7 +61,14 @@ export default function Inventory() {
 
                             <Divider my={2} />
                             <Box>
-                                <InfoTable columns={columns} data={[{ id: 1 }]} />
+                                {inventory ?
+                                    <InfoTable columns={columns} data={inventory} />
+                                    :
+                                    <Center p={30}>
+                                        <Spinner />
+                                    </Center>
+                                }
+
                             </Box>
                         </Box>
                     </GridItem>
