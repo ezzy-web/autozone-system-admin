@@ -17,7 +17,7 @@ const useUsers = () => {
         },
 
         {
-            name : 'Date Added',
+            name : 'Date Joined',
             selector : (row) => row.id
         },
 

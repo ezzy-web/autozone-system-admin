@@ -6,6 +6,7 @@ import Dashboard from '../../components/layouts/Dashboard'
 import NewVehicleForm from '../../components/Forms/NewVehicleForm'
 import InfoTable from '../../components/datatable'
 import useUsers from '../../controller/hooks/useUsers'
+import InviteUser from '../../components/Forms/InviteUser.js'
 
 
 const cardStyle = {
@@ -49,7 +50,7 @@ export default function Inventory() {
                                         <Text>Refresh Results</Text>
                                     </HStack>
                                 </Button>
-                                <NewVehicleForm />
+                                <InviteUser />
                             </HStack>
 
                             <Divider my={2} />

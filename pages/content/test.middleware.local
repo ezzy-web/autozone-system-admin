@@ -1,0 +1,8 @@
+import { withMiddlewareAuth } from "@supabase/auth-helpers-nextjs";
+export const middleware = withMiddlewareAuth({ 
+    redirectTo: '/',
+    authGuard: {
+        // isPermitted: async (user) => --- Condition to determine if user is authorized
+        // redirectTo: --- Page to redirect to if so
+    }
+ })

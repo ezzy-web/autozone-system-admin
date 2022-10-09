@@ -1,12 +1,19 @@
-import Head from 'next/head'
-import Dashboard from '../components/layouts/Dashboard'
+import Head from "next/head";
+import LoginComponent from "../components/LoginComponent";
 
-export default function Home() {
+
+export default function LoginPage() {
+
+
   return (
-
     <>
-      <Dashboard page={'Dashboard'}>
-      </Dashboard>
+      <Head>
+        <title>Autozone System Control | Login</title>
+        <meta name="description" content="Autozone System Control" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <LoginComponent />
     </>
   )
 }

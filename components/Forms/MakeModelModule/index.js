@@ -1,6 +1,6 @@
 import { Input, Button, HStack, Heading, Box, useDisclosure, Divider, Text, IconButton, Center, InputGroup, InputRightAddon, FormLabel, Collapse, Tooltip } from "@chakra-ui/react"
 
-import React from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 
 import useFeedback from "../../../controller/hooks/useFeedback"
@@ -8,11 +8,15 @@ import ModalContainer from "../../Modal"
 
 
 import FeatherIcon from 'feather-icons-react'
-import useMakeModels from "../../../controller/hooks/useMakeModels"
 
-
+import useMake from "../../../controller/hooks/useMake"
+import useModel from "../../../controller/hooks/useModel"
 
 function ModelContainer({ data }) {
+
+    
+
+    console.log("Model: ", data)
 
     return (
         <HStack my={2}>
@@ -26,23 +30,32 @@ function ModelContainer({ data }) {
 }
 
 
-function MakeContainer({ data, models, addModel }) {
-    const [isReadOnly, setIsReadOnly] = React.useState(true)
+function MakeContainer({ data, handleDeleteMake }) {
+    const [isReadOnly, setIsReadOnly] = useState(true)
     const { isOpen, onToggle } = useDisclosure()
+    const [modelValue, setModelValue] = useState('')
 
 
-    const [modelValue, setModelValue] = React.useState('')
+    const { models, handleAddModel, handleDeleteModel } = useModel(data.id)
 
-    const make = data.name
+    console.log(models)
 
     return (
         <Box my={2} borderWidth={'thin'} p={2} bg={'whiteAlpha.300'}>
             <HStack justifyContent={'space-between'}>
-                <Input onKeyDown={e => { e.keyCode === 13 ? console.log('Saved') : null }} size={'sm'} variant={isReadOnly ? 'unstyled' : 'filled'} isReadOnly={isReadOnly} value={make} onChange={() => console.log('Change')} />
+                <Input onKeyDown={e => { e.keyCode === 13 ? console.log('Saved') : null }} size={'sm'} variant={isReadOnly ? 'unstyled' : 'filled'} isReadOnly={isReadOnly} value={data?.name} onChange={() => console.log('Change')} />
 
                 <HStack>
                     <IconButton onClick={() => setIsReadOnly(!isReadOnly)} borderRadius={'full'} size={'sm'} icon={<FeatherIcon size={14} icon={isReadOnly ? "edit" : "x"} />} />
-                    <IconButton borderRadius={'full'} colorScheme={'red'} variant={'ghost'} size={'sm'} icon={<FeatherIcon size={14} icon={'minus'} />} />
+                    <IconButton
+                        borderRadius={'full'}
+                        colorScheme={'red'}
+                        variant={'ghost'}
+                        size={'sm'}
+                        icon={
+                            <FeatherIcon size={14} icon={'minus'} />
+                        }
+                        onClick={() => handleDeleteMake(data.id)} />
                 </HStack>
 
             </HStack>
@@ -59,10 +72,10 @@ function MakeContainer({ data, models, addModel }) {
 
             <Collapse in={isOpen} >
                 <Box>
-                    {models.length == 0 ?
+                    {models.length === 0 ?
                         <Center fontSize={'x-small'} p={5}>No Models</Center>
                         :
-                        models.map(model => (<ModelContainer key={model.id} data={model} />))}
+                        models.map(model => (<ModelContainer key={model.id} data={model} handleAddModel={handleAddModel} handleDeleteModel={handleDeleteModel} />))}
                 </Box>
 
 
@@ -70,7 +83,7 @@ function MakeContainer({ data, models, addModel }) {
 
                     <Input fontSize={'small'} size={'sm'} placeholder={"Add new model"} value={modelValue} onChange={e => setModelValue(e.target.value)} />
                     <Tooltip label={"Add Model"}>
-                        <IconButton variant={'ghost'} size={'xs'} icon={<FeatherIcon size={12} icon={'plus'} />} onClick={() => addModel(modelValue, data.ref)} />
+                        <IconButton variant={'ghost'} size={'xs'} icon={<FeatherIcon size={12} icon={'plus'} />} onClick={() => handleAddModel(modelValue)} />
                     </Tooltip>
 
                 </HStack>
@@ -80,15 +93,16 @@ function MakeContainer({ data, models, addModel }) {
     )
 }
 
+
 export default function MakeModelModule() {
     const { showError, showSuccess, render } = useFeedback()
-    const [makeValue, setMakeValue] = React.useState('')
-
-
-    const { makes, getModels, addMake, addModel } = useMakeModels()
-
     const { isOpen, onClose, onOpen } = useDisclosure()
-    const modalToggle = React.useRef()
+    const modalToggle = useRef()
+
+
+    const { makes, handleDeleteMake, handleAddMake } = useMake()
+    const [makeInput, setMakeInput] = useState('')
+
 
 
     return (
@@ -116,7 +130,7 @@ export default function MakeModelModule() {
 
 
                         {makes.map(make => (
-                            <MakeContainer key={make.id} data={make} models={getModels(make.id)} addModel={addModel} />
+                            <MakeContainer key={make.id} data={make} handleDeleteMake={handleDeleteMake} />
                         ))}
 
 
@@ -124,25 +138,23 @@ export default function MakeModelModule() {
                             <FormLabel textAlign={'center'} fontSize={'sm'} >Add Vehicle Make</FormLabel>
                             <HStack>
                                 <InputGroup size={'sm'}>
-                                    <Input value={makeValue} onChange={(e) => setMakeValue(e.target.value)} />
-                                    <InputRightAddon>
-                                        <IconButton size={'sm'} borderRadius={'full'} icon={<FeatherIcon size={'16'} icon={'plus'} />} onClick={() => addMake(makeValue)} />
+                                    <Input value={makeInput} onChange={(e) => setMakeInput(e.target.value)} />
+                                    <InputRightAddon bg={'transparent'} border={'none'}>
+                                        <IconButton
+                                            size={'sm'}
+                                            borderRadius={'full'}
+                                            icon={
+                                                <FeatherIcon size={'16'} icon={'plus'} />
+                                            }
+                                            onClick={async () => { await handleAddMake(makeInput); setMakeInput("") }} />
                                     </InputRightAddon>
                                 </InputGroup>
                             </HStack>
                         </Box>
 
-
-
-
-
-
-
                     </Box>
                 )}
-            >
-
-            </ModalContainer>
+            />
 
 
         </>

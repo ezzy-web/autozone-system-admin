@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, AlertIcon, Box, AlertTitle, AlertDescription } from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, AlertTitle, AlertDescription, HStack } from '@chakra-ui/react'
 
 const useFeedback = () => {
 
@@ -36,17 +36,18 @@ const useFeedback = () => {
 
 
     const render = () => (
-        <>
-            <Alert zIndex={'popover'} status={status} display={isOpen ? 'flex' : 'none'} borderRadius={2} position={'fixed'} width={'30vw'} bottom={{ base: 90, md: 10 }} right={{ base: 10, md: 90 }} >
-                <>
+        <Box zIndex={'popover'} position={'fixed'} bottom={90} left={90} width={'100%'}> 
+            <Alert position={'absolute'} status={status} display={isOpen ? 'unset' : 'none'} borderRadius={2} >
+                    <HStack>
                     <AlertIcon />
                     <Box>
                         {heading === '' ? <></> : <AlertTitle fontSize={'sm'}>{heading}</AlertTitle>}
                         {message === '' ? <></> : <AlertDescription fontSize={'sm'}>{message}</AlertDescription>}
                     </Box>
-                </>
+                    </HStack>
+                    
             </Alert>
-        </>
+        </Box>
     )
 
 

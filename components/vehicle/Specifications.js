@@ -1,36 +1,31 @@
 import React from 'react';
 
-import { Box, Text, InputGroup, Divider, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Text, InputGroup, Divider, Grid, GridItem, Menu, MenuButton, HStack, MenuList, Input, InputAddon, IconButton, MenuItem, MenuDivider, Button } from '@chakra-ui/react';
 
 import TextInput from '../assets/TextInput';
+import FeatherIcon from 'feather-icons-react'
 
 import numeral from 'numeral';
 import Select from 'react-select'
 
 import { options } from '../Forms/options'
+import MakeModelInput from '../assets/MakeModellnput';
 
 
 
-
+const models = []
 
 export default function Specifications({ vehicle, changeData }) {
 
+    const [val, setVal] = React.useState('')
 
     return (
         <Box mt={10}>
             <Text fontWeight={'medium'} textTransform={'uppercase'} >Vehicle Description</Text>
             <Divider mb={10} />
 
-            <Grid templateColumns={"repeat(2,1fr)"}>
-                <GridItem colSpan={{ base: 2, md: 1 }}>
+            <MakeModelInput selectedMake={vehicle.make} selectedModel={vehicle.model} />
 
-                    <TextInput label={"Make"} value={vehicle.make} onChange={(e) => changeData({ make: e.target.value })} />
-
-                </GridItem>
-                <GridItem colSpan={{ base: 2, md: 1 }}>
-                    <TextInput label={"Model"} value={vehicle.model} onChange={(e) => changeData({ model: e.target.value })} />
-                </GridItem>
-            </Grid>
             <Divider my={3} />
 
             <Grid templateColumns={"repeat(2,1fr)"}>
