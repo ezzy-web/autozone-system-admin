@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import LoginComponent from "../components/LoginPage";
 
 const LoginPage: NextPage = () => {
   return (
@@ -8,6 +9,8 @@ const LoginPage: NextPage = () => {
         <meta name="description" content="Autozone System Control" />
         <link rel="icon" href="/favicon.ico" />
       </head>
+
+      <LoginComponent />
     </>
   );
 };
