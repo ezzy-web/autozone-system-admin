@@ -1,11 +1,7 @@
-import type { NextPage } from "next";
-import LoginPageLayout from "../layouts/login-page/login-page.layout";
-const LoginPage: NextPage = () => {
+import type { NextPage } from "next"
+import RegisterPageLayout from "../layouts/register-page/register-page.layout";
 
-
-  
-
-
+const RegisterPage: NextPage = () => {
   return (
     <>
       {/* <head>
@@ -14,9 +10,9 @@ const LoginPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </head> */}
 
-      <LoginPageLayout />
+      <RegisterPageLayout />
     </>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default RegisterPage
